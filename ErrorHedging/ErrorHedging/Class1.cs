@@ -39,8 +39,5 @@ namespace ErrorHedging
             return 0;
             
         }
-
-
-
     }
 }
