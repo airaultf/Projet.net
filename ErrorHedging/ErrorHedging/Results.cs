@@ -23,7 +23,7 @@ namespace ErrorHedging
         private int testWindow;
 
 
-        /*** TEST RESULTS ***/
+        /*** TEST RESULTS ***/ 
 
         // option payoff
         private double payoff;
