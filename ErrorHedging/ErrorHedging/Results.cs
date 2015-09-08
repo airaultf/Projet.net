@@ -41,19 +41,14 @@ namespace ErrorHedging
 
         public Results(PricingLibrary.FinancialProducts.IOption option, System.DateTime startDate, System.DateTime maturityDate, int testWindow, bool simulated)
         {
-            double firstSpotPrice;
      
-            // On initialise le portefeuille à la première journée
-            if (simulated)
-            {
-                myHisto = new ShareHisto(startDate, maturityDate, option);
-                myHisto
-            }
-            else
-            {
-                //spotPrice = this.getSpotPriceFromFetchedData();
-            }
+            // On initialise le portefeuille à la première journée, gerer cas simu ou non
+            myHisto = new ShareHisto(startDate, maturityDate, option);
+            myHisto.loading();
+
             //Calculer initialVol
+            double firstSpotPrice = myHisto.Find();
+            double initialVol;
 
             if (myPortfolio is HedgingPortfolioVanillaCall) {
                 this.myPortfolio = new HedgingPortfolioVanillaCall(option, startDate, firstSpotPrice, initialVol); // spot a aller chercher, volatilité à calculer
@@ -66,7 +61,7 @@ namespace ErrorHedging
             this.payoff = 0;
             this.hedgingPortfolioValue = 0;
             this.simulated = simulated;
-            this.myHisto = new ShareHisto(startDate, maturityDate,myPortfolio.Product);
+            this.myHisto = new ShareHisto(startDate, maturityDate,myPortfolio.Product); // mettre getter a product
         }
 
         public void computeResults()

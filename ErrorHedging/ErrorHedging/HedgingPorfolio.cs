@@ -13,20 +13,27 @@ namespace ErrorHedging
         protected double portfolioValue;
         protected double hedgeRatio;
         protected PricingLibrary.Computations.Pricer pricer;
-        protected PricingLibrary.FinancialProducts.IOption Product;
-
+        protected PricingLibrary.FinancialProducts.IOption _Product;
 
         // On initialise le portefeuille de couverture
         public HedgingPortfolio(PricingLibrary.FinancialProducts.IOption Product, System.DateTime date)
         {
-            this.Product = Product;
+            this._Product = Product;
             this.portfolioValue = 0;
             this.hedgeRatio = 0;
             this.pricer = new PricingLibrary.Computations.Pricer();
         }
+
+
+        public PricingLibrary.FinancialProducts.IOption Product
+        {
+            get
+            {
+            return this.Product;
+            }
+        }
     }
 
-    
 
     class HedgingPortfolioVanillaCall : HedgingPortfolio
     {
