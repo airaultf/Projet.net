@@ -26,6 +26,8 @@ namespace ErrorHedging
         }
     }
 
+    
+
     class HedgingPortfolioVanillaCall : HedgingPortfolio
     {
 
