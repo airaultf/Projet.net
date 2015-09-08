@@ -30,17 +30,20 @@ namespace ErrorHedging
             StockDelta.Add(Call.UnderlyingShare, 0);
         }
 
-        public double updateHedgeRatioVanillaCall(System.DateTime date, double spot, PricingLibrary.FinancialProducts.VanillaCall Call, double vol)
+        public void updateValueVanillaCall(System.DateTime date, double spot, PricingLibrary.FinancialProducts.VanillaCall Call, double vol, double freeRate)
         {
             PricingLibrary.Computations.Pricer price = new PricingLibrary.Computations.Pricer();
             PricingLibrary.Computations.PricingResults result = price.PriceCall(Call, date, 365, spot, vol);
 
+            double delta = result.Deltas[0];
 
-            return 0;
+
+            portfolioValue = Math.Round(delta * 100) * spot + (result.Price - Math.Round(delta * 100)) ;
+            
+
+            
             
         }
-
-
 
     }
 }
