@@ -47,7 +47,12 @@ namespace ErrorHedging
             this.hedgeRatio = resultPricer.Deltas[0];
         }
 
-        // Methode qui met à jour la valeur du portefeuille de couverture
+        // Methode qui met à jour la valeur du portefeuille de couverture ainsi que le delta
+        //  @spot : Prix spot de l'action sous jacente
+        //  @date : date correspondante au prix spot
+        //  @volatility : vol correspondante à la date t, cette valeur est estimee en amont
+        //
+        //  @return : met à jour les attributs portfolioValue et hedgeRatio
         public void updatePortfolioValue(double spot, System.DateTime date, double volatility)
         {
             // On calcule le nouveau delta
