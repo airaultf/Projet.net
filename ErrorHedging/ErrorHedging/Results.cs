@@ -10,8 +10,9 @@ namespace ErrorHedging
     {
         /*** TEST PARAMETERS ***/
 
+
         // options to test
-        private ExtendedOption myOption;
+        private HedgingPortfolio myPortfolio;
 
         // beginning of test date
         private System.DateTime startDate;
@@ -21,6 +22,12 @@ namespace ErrorHedging
 
         // number (in days) for parameters estimation
         private int testWindow;
+
+        // simulated = true <=> simulated datas
+        private bool simulated;
+
+        // Histo for the data feeds of a stock price
+        private ShareHisto myHisto;
 
 
         /*** TEST RESULTS ***/
@@ -32,20 +39,40 @@ namespace ErrorHedging
         private double hedgingPortfolioValue;
 
 
-        public Results(ExtendedOption myOption, System.DateTime startDate, System.DateTime maturityDate, int testWindow)
+        public Results(System.DateTime startDate, System.DateTime maturityDate, int testWindow, bool simulated)
         {
-            this.myOption = myOption;
+
+            // CORRIGER CECI
+            if (myPortfolio.getType == HedgingPortfolioVanillaCall) {
+                this.myPortfolio = new HedgingPortfolioVanillaCall();
+            } else {
+                this.myPortfolio = new HedgingPortfolioVanillaCall();
+            }
             this.startDate = startDate;
             this.maturityDate = maturityDate;
             this.testWindow = testWindow;
             this.payoff = 0;
             this.hedgingPortfolioValue = 0;
+            this.simulated = simulated;
+            this.myHisto = new ShareHisto(startDate, maturityDate, myPortfolio);
         }
 
         public void computeResults()
         {
-
+            double spotPrice;
+            
+            if (simulated){
+                spotPrice = this.getSpotPriceFromSimulatedData();
+            } else {
+                spotPrice = this.getSpotPriceFromFetchedData();
+            }
+            this.myOption = new ExtendedOption(...);
+            this.myOption.HedgePortfolio.Update
         }
 
+        public double getSpotPriceFromSimulatedData()
+        {
+            this.
+        }
     }
 }
