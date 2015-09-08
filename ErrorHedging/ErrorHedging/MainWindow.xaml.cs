@@ -29,5 +29,25 @@ namespace ErrorHedging
         {
 
         }
+
+        private void txtColl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void txtColl_SelectionChanged_1(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void txtColl_SelectionChanged_2(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void txtColl_SelectionChanged_3(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

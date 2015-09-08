@@ -1,0 +1,11 @@
+<Page
+xmlns=
+"http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+>
+<StackPanel>
+<Label>
+Frame 1 Bakakakak
+</Label>
+</StackPanel>
+</Page>
