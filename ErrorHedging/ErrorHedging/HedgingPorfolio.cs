@@ -33,7 +33,7 @@ namespace ErrorHedging
 
         public HedgingPortfolioVanillaCall(PricingLibrary.FinancialProducts.VanillaCall Call, System.DateTime date, double initialSpot ,double initialVol) :  base(Call, date)
         {
-            // On calcule en plus la valeur p0 du portefeuille 
+            // On calcule en plus la valeur p0 du portefeuille  
             PricingLibrary.Computations.PricingResults resultPricer = this.pricer.PriceCall(Call, date, 365, initialSpot, initialVol);
 
             this.portfolioValue = resultPricer.Price;
