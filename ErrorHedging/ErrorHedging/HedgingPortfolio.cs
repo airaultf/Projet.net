@@ -12,7 +12,7 @@ namespace ErrorHedging
         // [DllImport('wre-ensimag-c-4.1.dll')]
 
 
-        // Contient un dictionnaire d'action avec les delta correspondant
+        // Contient un dictionnaire d'actions avec les deltas correspondants
         Dictionary<PricingLibrary.FinancialProducts.Share, double> StockDelta;
         double[] freeRate;
         int typeProduct;
