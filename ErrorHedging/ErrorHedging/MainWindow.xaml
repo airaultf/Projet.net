@@ -1,8 +1,19 @@
 ﻿<Window x:Class="ErrorHedging.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+xmlns=
+"http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+Title="Frame"
+>
+    <StackPanel>
+        <Label>
+            Une page avec mes 2 frames : Caractéristiques et résultats
+        </Label>
+        <WrapPanel>
+            <Frame Source="Page1.xaml" BorderBrush="Black"
+        		BorderThickness="1" Width="380" Height="450"/>
+            <Frame Source="Page2.xaml" BorderBrush="Black"
+        		BorderThickness="1" Width="380" Height="450"/>
+        </WrapPanel>
+    </StackPanel>
 </Window>
+

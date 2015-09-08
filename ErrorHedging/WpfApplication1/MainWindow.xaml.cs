@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ErrorHedging
+namespace WpfApplication1
 {
     /// <summary>
     /// Logique d'interaction pour MainWindow.xaml
@@ -23,11 +23,6 @@ namespace ErrorHedging
         public MainWindow()
         {
             InitializeComponent();
-        }
-
-        private void Frame_Navigated(object sender, NavigationEventArgs e)
-        {
-
         }
     }
 }
