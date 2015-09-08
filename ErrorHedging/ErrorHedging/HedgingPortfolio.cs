@@ -24,8 +24,8 @@ namespace ErrorHedging
         // On initialise le portefeuille de couverture avec un Vanilla Call
         public HedgingPortfolio(PricingLibrary.FinancialProducts.VanillaCall Call)
         {
-            int typeProduct = 0;
-            double[,] freeRate = new double[0, 0];
+            typeProduct = 0;
+            freeRate = [0, 0];
             Dictionary<PricingLibrary.FinancialProducts.Share, double> StockDelta = new Dictionary<PricingLibrary.FinancialProducts.Share, double>();
             StockDelta.Add(Call.UnderlyingShare, 0);
         }
