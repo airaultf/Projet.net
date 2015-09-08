@@ -15,21 +15,24 @@ namespace ErrorHedging
         private System.DateTime startDate;
         // end of test date = option maturity date
         private System.DateTime maturityDate;
+        // option
+        private HedgingPortfolio myPortfolio;
 
-        public ShareHisto(System.DateTime startDate, System.DateTime maturityDate)
+        public ShareHisto(System.DateTime startDate, System.DateTime maturityDate, HedgingPortfolio myPortfolio)
         {
             this._chargeData = new List<PricingLibrary.Utilities.MarketDataFeed.DataFeed>();
             this._simulData = new List<PricingLibrary.Utilities.MarketDataFeed.DataFeed>();
             this.startDate = startDate;
             this.maturityDate = maturityDate;
+            this.myPortfolio = myPortfolio;
         }
 
         public System.Collections.Generic.List<PricingLibrary.Utilities.MarketDataFeed.DataFeed> chargeData
         {
-            get{
+            get {
                 return this.chargeData;
             }
-            set{
+            set {
                 this.chargeData = value; 
             }
         }
@@ -41,12 +44,8 @@ namespace ErrorHedging
             }
             set
             {
-                for (System.DateTime date = this.startDate; date <= this.maturityDate; date.AddDays(1))
-                {
-                    //this.simulData.Add(  PricingLibrary.Utilities.MarketDataFeed.SimulatedDataFeedProvider.GetDataFeed(PricingLibrary.FinancialProducts.IOption, System.DateTime)
-                } 
+                this.simulData = PricingLibrary.Utilities.MarketDataFeed.SimulatedDataFeedProvider.GetDataFeed(this.myPortfolio.Option, this.startDate);
             }
         }
-
     }
 }
