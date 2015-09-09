@@ -114,13 +114,17 @@ namespace ErrorHedging
 
             //Contruction de myPortfolio, et calcul des valeurs initiales de hedgingPortfolioValue et payoff
             double firstSpotPrice = getSpotPrice(this.startDate);
-            double initialVol = getVolatility(this.startDate);
+            //double initialVol = getVolatility(this.startDate);
+            double initialVol = 0.4;
 
-            if (myPortfolio is HedgingPortfolioVanillaCall){
+            if (option is PricingLibrary.FinancialProducts.VanillaCall){
                 this.myPortfolio = new HedgingPortfolioVanillaCall((PricingLibrary.FinancialProducts.VanillaCall)option, this.startDate, firstSpotPrice, initialVol); // spot a aller chercher, volatilité à calculer
             }else{
                 System.Console.WriteLine("notImplementedExeption");
             }
+         
+
+            this.myPortfolio = new HedgingPortfolioVanillaCall((PricingLibrary.FinancialProducts.VanillaCall)option, this.startDate, firstSpotPrice, initialVol); // spot a aller chercher, volatilité à calculer
             //myPortfolio.updatePortfolioValue(firstSpotPrice, this.startDate, initialVol);
             this.hedgingPortfolioValue = myPortfolio.portfolioValue;
             this.payoff = myPortfolio.Product.GetPayoff(myHisto.Data.Find(data => data.Date == this.startDate).PriceList);
@@ -140,8 +144,8 @@ namespace ErrorHedging
             for (DateTime date = startDate; date <= maturityDate; date.AddDays(1)) // can be better done with foreach (faster) 
             {
                 spotPrice = getSpotPrice(date);
-                volatility = getVolatility(date);
-                myPortfolio.updatePortfolioValue(spotPrice, date, volatility);
+                //volatility = getVolatility(date);
+                myPortfolio.updatePortfolioValue(spotPrice, date, 0.4);
                 _hedgingPortfolioValue = myPortfolio.portfolioValue;
                 _payoff = myPortfolio.Product.GetPayoff(myHisto.Data.Find(data => data.Date == date).PriceList);
             }
