@@ -52,73 +52,7 @@ BorderBrush="Black" Background="PowderBlue">
                     </Grid.RowDefinitions>
 
 
-                    <Label Name="lblnom" Grid.Row="0"
-                    Grid.Column="0">
-                        Nom action
-                    </Label>
-                    <TextBox Name="txtnom" Grid.Row="0"
-                    Grid.Column="1" MaxLength="30"
-                    Height="23" Text=""
-                    VerticalAlignment="Top" Margin="2,2,0,0" TextChanged="txtnom_TextChanged"/>
-
                     
-                    <Label Name="lblmaturite" Grid.Row="1"
-                    Grid.Column="0">
-                        Maturité
-                    </Label>
-                    <TextBox Name="txtmaturite" Grid.Row="1"
-                    Grid.Column="1" MaxLength="30"
-                    Height="23" Text=""
-                    VerticalAlignment="Top" Margin="2,2,0,0" TextChanged="txtMaturite_TextChanged"/>
-
-                    
-                    <Label Name="lblstrikePrice" Grid.Row="2"
-                    Grid.Column="0">
-                        Strike price
-                    </Label>
-                    <TextBox Name="txtstrikePrice" Grid.Row="2"
-                    Grid.Column="1" MaxLength="30"
-                    Height="23" Text=""
-                    VerticalAlignment="Top" Margin="2,2,0,0" TextChanged="txtStrikePrice_TextChanged"/>
-
-
-                    <Label Name="lblDate" Grid.Row="3"
-                    Grid.Column="0">
-                        Date de début
-                    </Label>
-                    <TextBox Name="txtDate" Grid.Row="3"
-                    Grid.Column="1" MaxLength="30"
-                    CharacterCasing="Upper" Height="23"
-                    VerticalAlignment="Top" Margin="2,2,0,0" TextChanged="txtAuteur_TextChanged"/>
-                    
-                    
-                    <Label Name="lblColl" Grid.Row="4"
-                    Grid.Column="0" >
-                        Type données
-                    </Label>
-                    <ComboBox Name="txtColl" Grid.Row="4"
-                    Grid.Column="1" IsEditable= "True"
-                    VerticalAlignment="Top" Margin="2,0,0,0" HorizontalAlignment="Left" Width="395" >
-                        <ComboBoxItem>
-                            Simulées
-                        </ComboBoxItem>
-                        
-                        <ComboBoxItem>
-                            Historiques
-                        </ComboBoxItem>
-                    </ComboBox>
-                    
-                    
-                    <Label Name="estimation" Grid.Row="5"
-                    Grid.Column="0">
-                        Durée estimation
-                    </Label>
-                    <TextBox Name="txtISBN" Grid.Row="5"
-                    Grid.Column="1" MaxLength="15" Height="23"
-                    VerticalAlignment="Top" Margin="2,2,0,0" HorizontalAlignment="Left" Width="395" TextChanged="txtISBN_TextChanged"/>
-                                        <Label Name="lblGenre" Grid.Row="5"
-                    Grid.Column="0">
-                    </Label>
 
                     <Grid Grid.Row="6" Grid.Column="1" Margin="136,0,-235,0">
                         <Grid.ColumnDefinitions>

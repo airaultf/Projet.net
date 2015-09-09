@@ -25,6 +25,8 @@ namespace ErrorHedging
             this.pricer = new PricingLibrary.Computations.Pricer();
         }
 
+        abstract public void updatePortfolioValue(double spot, System.DateTime date, double volatility);
+
         // Getter pour le produit
         public PricingLibrary.FinancialProducts.IOption Product
         {
@@ -42,6 +44,8 @@ namespace ErrorHedging
                 return this._portfolioValue;
             }
         }
+
+        
 
         
     }
@@ -65,7 +69,7 @@ namespace ErrorHedging
         //  @volatility : vol correspondante à la date t, cette valeur est estimee en amont
         //
         //  @return : met à jour les attributs portfolioValue et hedgeRatio
-        public void updatePortfolioValue(double spot, System.DateTime date, double volatility)
+        public override void updatePortfolioValue(double spot, System.DateTime date, double volatility)
         {
             // On calcule le nouveau delta
             PricingLibrary.Computations.PricingResults resultPricer = this.pricer.PriceCall((PricingLibrary.FinancialProducts.VanillaCall)this.Product, date, 365, spot, volatility);
@@ -73,7 +77,7 @@ namespace ErrorHedging
             System.TimeSpan diff = this.Product.Maturity.Subtract(date) ;
             int nbDays = diff.Days;
 
-            double dateDouble = PricingLibrary.Utilities.DayToDoubleConverter.Convert(nbDays, 365);
+            double dateDouble = PricingLibrary.Utilities.DayToDoubleConverteer.Convert(nbDays, 365);
             double riskFree = PricingLibrary.Utilities.MarketDataFeed.RiskFreeRateProvider.GetRiskFreeRateAccruedValue(dateDouble);
 
             this._portfolioValue = this.hedgeRatio * spot + (this.portfolioValue - this.hedgeRatio * spot) * riskFree ;
