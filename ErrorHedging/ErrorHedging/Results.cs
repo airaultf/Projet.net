@@ -75,9 +75,6 @@ namespace ErrorHedging
             }
         }
 
-        public double getSpotPriceFromSimulatedData()
-        {
-            this.
-        }
+        
     }
 }
