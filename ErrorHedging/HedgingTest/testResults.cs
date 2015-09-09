@@ -26,10 +26,10 @@ namespace HedgingTest
 
             Results myResults = new Results(Call, date1, date, 10, true);
 
-            for (DateTime d = date1; d < date; d.AddDays(1))
+            for (DateTime d = date1.AddDays(12); d < date; d.AddDays(1))
             {
                 Console.WriteLine("Spot price: " + myResults.getSpotPrice(d));
-                Console.WriteLine("Volatility: " + myResults.getVolatility(d));
+                //Console.WriteLine("Volatility: " + myResults.getVolatility(d));
             }
         }
     }
