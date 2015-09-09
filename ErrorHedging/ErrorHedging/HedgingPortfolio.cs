@@ -102,6 +102,27 @@ namespace ErrorHedging
 
         protected double[,] CorrelationMatrix;
 
+        public double computeValuePortfolio(double lastValue, double[] tabSpot, double[] tabDelta, double riskFree)
+        {
+            if (tabSpot.Length != tabDelta.Length) {
+                throw new FormatException();
+            }
+
+            double deltaSpot = 0.0;
+            double sum1 = 0.0;
+            double sum2 = 0.0;
+
+            for (int i = 0; i < tabSpot.Length; i++)
+            {
+                deltaSpot = tabSpot[i] * tabDelta[i];
+
+
+
+            }
+
+                return 0.0;
+        }
+
         public HedgingPortfolioBasketOption(PricingLibrary.FinancialProducts.BasketOption Basket, System.DateTime date, double[] initialSpot, double[] initialVol,double[,] CorrelationMatrix) : base(Basket, date)
         {
             // On calcule en plus la valeur p0 du portefeuille  
@@ -129,6 +150,7 @@ namespace ErrorHedging
 
 
             //  Math.Exp((riskFree-1.0)*dateDouble)
+            
             this._portfolioValue = this.hedgeRatio[0] * spot + (this._portfolioValue - this.hedgeRatio[0] * this.formerSpot[0]) * riskFree;
 
             this.formerSpot[0] = spot;
