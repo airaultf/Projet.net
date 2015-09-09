@@ -74,6 +74,22 @@ namespace ErrorHedging
         // value of the hedging portfolio
         private double hedgingPortfolioValue;
 
+
+        public double Payoff
+        {
+            get
+            {
+                return this.payoff;
+            }
+        }
+        public double HedgingPortfolioValue
+        {
+            get
+            {
+                return this.hedgingPortfolioValue;
+            }
+        }
+
         // Constructeur de Results, initialise les TEST PARAMETERS et les TEST RESULTS (aux valeurs en date startDate)
         //  @option : option que l'on va tester
         //  @startDate : Date de départ du test (le test commence à startDate + testWindow)
@@ -105,10 +121,12 @@ namespace ErrorHedging
             }else{
                 System.Console.WriteLine("notImplementedExeption");
             }
-            myPortfolio.updatePortfolioValue(firstSpotPrice, this.startDate, initialVol);
+            //myPortfolio.updatePortfolioValue(firstSpotPrice, this.startDate, initialVol);
             this.hedgingPortfolioValue = myPortfolio.portfolioValue;
             this.payoff = myPortfolio.Product.GetPayoff(myHisto.Data.Find(data => data.Date == this.startDate).PriceList);
         }
+
+
 
         // A ETTENDRE POUR BASKET
         // Calcul le résultat. Itère jour par jour pour resortir à la fin le payoff et le hedgingPortfolioValue.
