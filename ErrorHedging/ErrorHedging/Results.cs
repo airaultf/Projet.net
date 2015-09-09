@@ -3,11 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 
 namespace ErrorHedging
 {
     class Results
     {
+        // Import the WRE dll for fetching volatility
+        // from datas
+        [DllImport("./wre-ensimag-c-4.1.dll", EntryPoint = "WREanalysisExpostVolatility")]
+        // declare external function
+        public static extern int WREanalysisExpostVolatility(
+            ref int nbValues,
+            ref double portfolioReturns,
+            ref double expostVolatility,
+            ref int info
+            );
         /*** TEST PARAMETERS ***/
 
 
