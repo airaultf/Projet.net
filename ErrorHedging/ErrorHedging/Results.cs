@@ -91,6 +91,7 @@ namespace ErrorHedging
         // Faire ensuite une version qui stocke ces résultats.
         public void computeResults()
         {
+            // Pour basket, spot price et volatilité = tableau
             double spotPrice = 0;
             double volatility = 0;
             double _hedgingPortfolioValue = 0; // Valeur intermediaire
@@ -115,6 +116,8 @@ namespace ErrorHedging
             spotPrice = (double) myHisto.Data.Find(data => data.Date == date).PriceList.First().Value;
             return spotPrice;
         }
+
+        public double[] getSpotPrice
 
         // A ETTENDRE POUR BASKET
         // Renvoie la volatilité d'une action
