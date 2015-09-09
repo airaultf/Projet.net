@@ -58,8 +58,8 @@ BorderBrush="Black" Background="PowderBlue">
                     </Label>
                     <TextBox Name="txtnom" Grid.Row="0"
                     Grid.Column="1" MaxLength="30"
-                    Height="23" Text=""
-                    VerticalAlignment="Top" Margin="2,2,0,0" TextChanged="txtnom_TextChanged"/>
+                    Height="23" Text="{Binding NomAction}"
+                    VerticalAlignment="Top" Margin="2,2,0,0" />
 
                     
                     <Label Name="lblmaturite" Grid.Row="1"
@@ -69,7 +69,7 @@ BorderBrush="Black" Background="PowderBlue">
                     <TextBox Name="txtmaturite" Grid.Row="1"
                     Grid.Column="1" MaxLength="30"
                     Height="23" Text=""
-                    VerticalAlignment="Top" Margin="2,2,0,0" TextChanged="txtMaturite_TextChanged"/>
+                    VerticalAlignment="Top" Margin="2,2,0,0" />
 
                     
                     <Label Name="lblstrikePrice" Grid.Row="2"
@@ -79,7 +79,7 @@ BorderBrush="Black" Background="PowderBlue">
                     <TextBox Name="txtstrikePrice" Grid.Row="2"
                     Grid.Column="1" MaxLength="30"
                     Height="23" Text=""
-                    VerticalAlignment="Top" Margin="2,2,0,0" TextChanged="txtStrikePrice_TextChanged"/>
+                    VerticalAlignment="Top" Margin="2,2,0,0"/>
 
 
                     <Label Name="lblDate" Grid.Row="3"
@@ -89,7 +89,7 @@ BorderBrush="Black" Background="PowderBlue">
                     <TextBox Name="txtDate" Grid.Row="3"
                     Grid.Column="1" MaxLength="30"
                     CharacterCasing="Upper" Height="23"
-                    VerticalAlignment="Top" Margin="2,2,0,0" TextChanged="txtAuteur_TextChanged"/>
+                    VerticalAlignment="Top" Margin="2,2,0,0" />
                     
                     
                     <Label Name="lblColl" Grid.Row="4"
@@ -115,7 +115,7 @@ BorderBrush="Black" Background="PowderBlue">
                     </Label>
                     <TextBox Name="txtISBN" Grid.Row="5"
                     Grid.Column="1" MaxLength="15" Height="23"
-                    VerticalAlignment="Top" Margin="2,2,0,0" HorizontalAlignment="Left" Width="395" TextChanged="txtISBN_TextChanged"/>
+                    VerticalAlignment="Top" Margin="2,2,0,0" HorizontalAlignment="Left" Width="395" />
                                         <Label Name="lblGenre" Grid.Row="5"
                     Grid.Column="0">
                     </Label>
@@ -126,12 +126,11 @@ BorderBrush="Black" Background="PowderBlue">
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
 
-                        
-                        
-                        
+                                                
+                     
                         <Button Grid.Row="0" Grid.Column="0"
                         Content="Run"
-                        Width="80" Height="30" Click="Button_Click" Margin="10,10,158,13" RenderTransformOrigin="0.369,0.55" />
+                        Width="80" Height="30" Click="Button_Click" Margin="10,10,158,13" />
 
                     </Grid>
                 </Grid>
