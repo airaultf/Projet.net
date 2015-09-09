@@ -96,7 +96,7 @@ namespace ErrorHedging
             this.hedgeRatio[0] = resultPricer.Deltas[0];
         }
     }
-
+    /*
     class HedgingPortfolioBasketOption : HedgingPortfolio
     {
 
@@ -137,6 +137,6 @@ namespace ErrorHedging
         }
 
     }
-  
+  */
 }
 

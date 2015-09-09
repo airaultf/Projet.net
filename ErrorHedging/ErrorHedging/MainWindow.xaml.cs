@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using ErrorHedging;
 
 namespace ComponentSelection
 {
@@ -25,6 +26,14 @@ namespace ComponentSelection
             InitializeComponent();
             this.DataContext = new MainWindowViewModel();
         }
+
+        private void InitializeComponent()
+        {
+            throw new NotImplementedException();
+        }
+
+
+ 
     }
 }
 

@@ -66,6 +66,8 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HedgingPortfolio.cs" />
+    <Compile Include="MainWindowViewModel_2.cs" />
     <Compile Include="Results.cs" />
     <Compile Include="ShareHisto.cs" />
     <Page Include="MainWindow.xaml">
