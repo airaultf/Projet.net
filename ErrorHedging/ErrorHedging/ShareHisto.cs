@@ -38,6 +38,7 @@ namespace ErrorHedging
             PricingLibrary.Utilities.MarketDataFeed.SimulatedDataFeedProvider import = new PricingLibrary.Utilities.MarketDataFeed.SimulatedDataFeedProvider();
             this._Data = import.GetDataFeed(this._product, this.startDate);
         }
+
         public void loadingcharge() // charger aussi dans bdd ? 
         {
             Console.WriteLine("NotImplementedException");
