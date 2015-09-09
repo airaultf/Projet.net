@@ -36,13 +36,17 @@ namespace HedgingTest
             DateTime date = DateTime.Now;
             PricingLibrary.FinancialProducts.Share Action = new PricingLibrary.FinancialProducts.Share("test","01");
             PricingLibrary.FinancialProducts.Share[] tabAction = {Action};
+
             PricingLibrary.FinancialProducts.VanillaCall Call = new PricingLibrary.FinancialProducts.VanillaCall("test",tabAction,date,8.0);
+
 
             DateTime dateStart = new DateTime(2015, 8, 9, 0, 0, 0);
 
-            ErrorHedging.Results result = new ErrorHedging.Results(Call, dateStart, date,30,true);
-            result.computeResults();
-            Console.WriteLine("on va au bout");
+
+            ErrorHedging.Results result = new ErrorHedging.Results(Call, dateStart, date, 30, true);
+           
+
+            Console.WriteLine("Valeur portefeuille : " + result.HedgingPortfolioValue);
 
         }
 
