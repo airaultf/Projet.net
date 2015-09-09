@@ -122,8 +122,8 @@ namespace ErrorHedging
             for (DateTime date = startDate; date <= maturityDate; date.AddDays(1)) // can be better done with foreach (faster) 
             {
                 spotPrice = getSpotPrice(date);
-                volatility = getVolatility(date);
-                myPortfolio.updatePortfolioValue(spotPrice, date, volatility);
+                //volatility = getVolatility(date);
+                myPortfolio.updatePortfolioValue(spotPrice, date, 0.4);
                 _hedgingPortfolioValue = myPortfolio.portfolioValue;
                 _payoff = myPortfolio.Product.GetPayoff(myHisto.Data.Find(data => data.Date == date).PriceList);
             }
