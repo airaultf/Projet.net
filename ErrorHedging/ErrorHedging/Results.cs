@@ -11,7 +11,8 @@ namespace ErrorHedging
     {
         // Import the WRE dll for fetching volatility
         // from datas
-        [DllImport("./wre-ensimag-c-4.1.dll", EntryPoint = "WREanalysisExpostVolatility")]
+        string path = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+        [DllImport("C:\Users\ensimag\Source\Repos\Projet.net2\ErrorHedging\ErrorHedging\wre-ensimag-c-4.1.dll", EntryPoint = "WREanalysisExpostVolatility")]
         // declare external function
         public static extern int WREanalysisExpostVolatility(
             ref int nbValues,
@@ -141,7 +142,7 @@ namespace ErrorHedging
             double volatility = 0;
             double _hedgingPortfolioValue = 0; // Valeur intermediaire
             double _payoff = 0;                // Valeur intermediaire
-            for (DateTime date = startDate; date <= maturityDate; date.AddDays(1)) // can be better done with foreach (faster) 
+            for (DateTime date = startDate; date <= maturityDate; date=date.AddDays(1)) // can be better done with foreach (faster) 
             {
                 spotPrice = getSpotPrice(date);
                 //volatility = getVolatility(date);
@@ -172,10 +173,13 @@ namespace ErrorHedging
         {
             double[] shareValuesForVolatilityEstimation = new double[testWindow+1];
             int cpt = 0;
-            for (DateTime estimationStartDate = date.AddDays(-testWindow); estimationStartDate <= date; estimationStartDate.AddDays(1))
+            for (DateTime d = date.AddDays(-testWindow); d <= date; d=d.AddDays(1))
             {
-                Console.WriteLine(estimationStartDate);
-                shareValuesForVolatilityEstimation[cpt] = getSpotPrice(estimationStartDate);
+
+                Console.WriteLine(cpt);
+                Console.WriteLine(date);
+                Console.WriteLine(d);
+                shareValuesForVolatilityEstimation[cpt] = getSpotPrice(d);
                 cpt++;
             }
             return computeVolatility(shareValuesForVolatilityEstimation);
