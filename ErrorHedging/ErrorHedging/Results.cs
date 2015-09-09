@@ -109,7 +109,7 @@ namespace ErrorHedging
             if (simulated){
                 myHisto.loadingSimulated();
             }else{
-                myHisto.loadingcharge();
+                myHisto.loadingcharge();  
             }
 
             //Contruction de myPortfolio, et calcul des valeurs initiales de hedgingPortfolioValue et payoff
