@@ -17,7 +17,7 @@ namespace ErrorHedging
         // option
         private PricingLibrary.FinancialProducts.IOption _product;
 
-
+        // On initialise la classe 
         public ShareHisto(System.DateTime startDate, System.DateTime maturityDate, PricingLibrary.FinancialProducts.IOption product)
         {
             this._Data = new List<PricingLibrary.Utilities.MarketDataFeed.DataFeed>();
@@ -33,13 +33,15 @@ namespace ErrorHedging
             }
         }
 
-        public void loadingSimulated() // charger aussi dans bdd ? 
+        // Remplie la structure Data avec des données simulées
+        public void loadingSimulated()
         {
             PricingLibrary.Utilities.MarketDataFeed.SimulatedDataFeedProvider import = new PricingLibrary.Utilities.MarketDataFeed.SimulatedDataFeedProvider();
             this._Data = import.GetDataFeed(this._product, this.startDate);
         }
 
-        public void loadingcharge() // charger aussi dans bdd ? 
+        // Remplie la structure Data avec des données chargées
+        public void loadingcharge()
         {
             Console.WriteLine("NotImplementedException");
         }
