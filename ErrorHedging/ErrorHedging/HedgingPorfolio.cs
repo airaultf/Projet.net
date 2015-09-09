@@ -46,7 +46,7 @@ namespace ErrorHedging
         
     }
 
-    // Classe qui hérite 
+    // Classe qui hérite de la classe HedgingPortfolio et qui l'implemente pour un produit de type Vanilla Call
     class HedgingPortfolioVanillaCall : HedgingPortfolio
     {
 
@@ -79,7 +79,5 @@ namespace ErrorHedging
             this._portfolioValue = this.hedgeRatio * spot + (this.portfolioValue - this.hedgeRatio * spot) * riskFree ;
             this.hedgeRatio = resultPricer.Deltas[0];
         }
-
     }
-
 }
