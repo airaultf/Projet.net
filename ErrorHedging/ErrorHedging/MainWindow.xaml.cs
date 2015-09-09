@@ -49,5 +49,10 @@ namespace ErrorHedging
         {
 
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("doit afficher le payoff de l'option et la valeur du portefeuille de couverture correspondant");
+        }
     }
-}
+}   

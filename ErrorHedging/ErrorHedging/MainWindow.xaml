@@ -54,7 +54,7 @@ BorderBrush="Black" Background="PowderBlue">
 
                     <Label Name="lblnom" Grid.Row="0"
                     Grid.Column="0">
-                        Nom Action
+                        Nom action
                     </Label>
                     <TextBox Name="txtnom" Grid.Row="0"
                     Grid.Column="1" MaxLength="30"
@@ -74,7 +74,7 @@ BorderBrush="Black" Background="PowderBlue">
                     
                     <Label Name="lblstrikePrice" Grid.Row="2"
                     Grid.Column="0">
-                        Strike Price
+                        Strike price
                     </Label>
                     <TextBox Name="txtstrikePrice" Grid.Row="2"
                     Grid.Column="1" MaxLength="30"
@@ -94,14 +94,15 @@ BorderBrush="Black" Background="PowderBlue">
                     
                     <Label Name="lblColl" Grid.Row="4"
                     Grid.Column="0" >
-                        Types données
+                        Type données
                     </Label>
                     <ComboBox Name="txtColl" Grid.Row="4"
-                    Grid.Column="1" IsEditable="True"
-                    VerticalAlignment="Top" Margin="2,0,0,0" HorizontalAlignment="Left" Width="395" SelectionChanged="txtColl_SelectionChanged_3">
+                    Grid.Column="1" IsEditable= "True"
+                    VerticalAlignment="Top" Margin="2,0,0,0" HorizontalAlignment="Left" Width="395" >
                         <ComboBoxItem>
                             Simulées
                         </ComboBoxItem>
+                        
                         <ComboBoxItem>
                             Historiques
                         </ComboBoxItem>
