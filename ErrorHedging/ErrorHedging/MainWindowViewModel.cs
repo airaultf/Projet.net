@@ -12,76 +12,24 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using ErrorHedging;
-
-namespace ComponentSelection
-{
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
-    {
-        public MainWindow()
-        {
-            InitializeComponent();
-            this.DataContext = new MainWindowViewModel();
-        }
-
-        private void InitializeComponent()
-        {
-            throw new NotImplementedException();
-        }
-
-
- 
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Threading;
 using Microsoft.Research.DynamicDataDisplay;
+using Microsoft.Practices.Prism.Commands;
+using Microsoft.Practices.Prism.Mvvm;
+using System.Collections.ObjectModel;
 
-namespace ErrorHedging
-{
+
+    namespace ErrorHedging
+    {
+
     /// <summary>
     /// Logique d'interaction pour MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+  
+    class MainWindowViewModel : BindableBase
     {
-        private string _nomAction;
+        private string _nomAction;  
         public string nomAction
         {
             get { return _nomAction; }
@@ -130,19 +78,15 @@ namespace ErrorHedging
 
 
 
-        public MainWindow()
-        {
-            InitializeComponent();
-            this.DataContext = Content;  
-        }
-
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("doit afficher le payoff de l'option et la valeur du portefeuille de couverture correspondant");
         }
 
     }
-}   
+}  
 
-*/
+
+
+
+
