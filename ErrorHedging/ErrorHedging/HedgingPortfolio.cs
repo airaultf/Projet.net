@@ -73,7 +73,7 @@ namespace ErrorHedging
             System.TimeSpan diff = this.Product.Maturity.Subtract(date) ;
             int nbDays = diff.Days;
 
-            double dateDouble = PricingLibrary.Utilities.DayToDoubleConverter.Convert(nbDays, 365);
+            double dateDouble = PricingLibrary.Utilities.DayToDoubleConverteer.Convert(nbDays, 365);
             double riskFree = PricingLibrary.Utilities.MarketDataFeed.RiskFreeRateProvider.GetRiskFreeRateAccruedValue(dateDouble);
 
             this._portfolioValue = this.hedgeRatio * spot + (this.portfolioValue - this.hedgeRatio * spot) * riskFree ;
