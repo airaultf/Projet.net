@@ -20,15 +20,30 @@ namespace ErrorHedging
             int[] info
         );
 
-        // function to compute volatility and encapsulate
-        // WRE Function
-        public static double[] computeVolatility(double[] expostVolatility)
+         /*** function to compute volatility and encapsulate ***/
+         /* WRE Function
+         * throw exception if WREanalysisExpostVolatility encountered a problem
+         * @portfolioReturns : share value at everydate used for
+         *                     parameter estimation
+         * @Return : computed volatility
+         */
+        public static double computeVolatility(double[] portfolioReturns)
         {
             double[] expostVolatility = new double[1];
+            int nbValues = portfolioReturns.GetLength(0);
             int[] info = new int[1];
             int res = 0;
-            res = 
+            res = WREanalysisExpostVolatility(ref nbValues, portfolioReturns, expostVolatility, info);
+            if (res != 0)
+            {
+                if (res < 0)
+                    throw new Exception("ERROR : WREanalysisExpostVolatility encountered a problem");
+                else
+                    throw new Exception("WARNING : WREanalysisExpostVolatility encountered a problem");
+            }
+            return expostVolatility[0];
         }
+
         /*** TEST PARAMETERS ***/
 
 
@@ -118,10 +133,24 @@ namespace ErrorHedging
             spotPrice = (double) myHisto.Data.Find(data => data.Date == date).PriceList.First().Value;
             return spotPrice;
         }
+
+        
+        /*** getVolatility ***/
+        /* Function that computes volatility for a given date
+         * with a fixed estimation window 
+        /* @date : date at which we want to get volatility
+         * @Return : volatility at this date
+         */ 
         public double getVolatility(DateTime date)
         {
-
-            return 0;
+            double[] shareValuesForVolatilityEstimation = new double[testWindow+1];
+            int cpt = 0;
+            for (DateTime estimationStartDate = date.AddDays((double)-this.testWindow); estimationStartDate <= date; estimationStartDate.AddDays(1))
+            {
+                shareValuesForVolatilityEstimation[cpt] = getSpotPrice(estimationStartDate);
+                cpt++;
+            }
+            return computeVolatility(shareValuesForVolatilityEstimation);
         }
     }
 }
