@@ -12,7 +12,7 @@ namespace ErrorHedging
         // Import the WRE dll for fetching volatility
         // from datas
         string path = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-        [DllImport("C:\Users\ensimag\Source\Repos\Projet.net2\ErrorHedging\ErrorHedging\wre-ensimag-c-4.1.dll", EntryPoint = "WREanalysisExpostVolatility")]
+        [DllImport(@"C:\Users\ensimag\Source\Repos\Projet.net\ErrorHedging\ErrorHedging\wre-ensimag-c-4.1.dll", EntryPoint = "WREanalysisExpostVolatility")]
         // declare external function
         public static extern int WREanalysisExpostVolatility(
             ref int nbValues,
@@ -124,8 +124,6 @@ namespace ErrorHedging
                 System.Console.WriteLine("notImplementedExeption");
             }
          
-
-            this.myPortfolio = new HedgingPortfolioVanillaCall((PricingLibrary.FinancialProducts.VanillaCall)option, this.startDate, firstSpotPrice, initialVol); // spot a aller chercher, volatilité à calculer
             //myPortfolio.updatePortfolioValue(firstSpotPrice, this.startDate, initialVol);
             this.hedgingPortfolioValue = myPortfolio.portfolioValue;
             this.payoff = myPortfolio.Product.GetPayoff(myHisto.Data.Find(data => data.Date == this.startDate).PriceList);
