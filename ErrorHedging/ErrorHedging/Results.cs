@@ -87,10 +87,9 @@ namespace ErrorHedging
             this.maturityDate = maturityDate;
             this.testWindow = testWindow;
             this.simulated = simulated;
-            this.myHisto = new ShareHisto(startDate, maturityDate,myPortfolio.Product); // mettre getter a product
-
+            
             // On initialise le portefeuille à la première journée
-            myHisto = new ShareHisto(this.startDate, this.maturityDate, option);
+            this.myHisto = new ShareHisto(this.startDate, this.maturityDate, option);
             if (simulated){
                 myHisto.loadingSimulated();
             }else{
