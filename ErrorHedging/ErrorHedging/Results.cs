@@ -86,16 +86,20 @@ namespace ErrorHedging
 
         public void computeResults()
         {
-            double spotPrice;
-            double volatility;
-            DateTime date = DateTime.Now;
-            for (date = startDate; date <= maturityDate; date.AddDays(1)) // can be better done with foreach (faster) 
+            double spotPrice = 0;
+            double volatility = 0;
+            double _hedgingPortfolioValue = 0; // Valeur intermediaire
+            double _payoff = 0;                // Valeur intermediaire
+            for (DateTime date = startDate; date <= maturityDate; date.AddDays(1)) // can be better done with foreach (faster) 
             {
                 spotPrice = getSpotPrice(date);
                 volatility = getVolatility(date);
                 myPortfolio.updatePortfolioValue(spotPrice, date, volatility);
-
+                _hedgingPortfolioValue = myPortfolio.portfolioValue;
+                _payoff = myPortfolio.Product.GetPayoff(myHisto.Data.Find(data => data.Date == date).PriceList);
             }
+            this.hedgingPortfolioValue = _hedgingPortfolioValue;
+            this.payoff = _payoff;
         }
 
         public double getSpotPrice(DateTime date) // pour un call simple
