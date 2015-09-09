@@ -9,42 +9,41 @@ namespace ErrorHedging
 {
     class ShareHisto
     {
-        private System.Collections.Generic.List<PricingLibrary.Utilities.MarketDataFeed.DataFeed> _chargeData;
-        private System.Collections.Generic.List<PricingLibrary.Utilities.MarketDataFeed.DataFeed> _simulData;
+        private System.Collections.Generic.List<PricingLibrary.Utilities.MarketDataFeed.DataFeed> _Data; // just one List that contains loaded or simulated data
         // beginning of test date
         private System.DateTime startDate;
         // end of test date = option maturity date
         private System.DateTime maturityDate;
         // option
-        private PricingLibrary.FinancialProducts.IOption product;
+        private PricingLibrary.FinancialProducts.IOption _product;
 
+        // On initialise la classe 
         public ShareHisto(System.DateTime startDate, System.DateTime maturityDate, PricingLibrary.FinancialProducts.IOption product)
         {
-            this._chargeData = new List<PricingLibrary.Utilities.MarketDataFeed.DataFeed>();
-            this._simulData = new List<PricingLibrary.Utilities.MarketDataFeed.DataFeed>();
-            this.startDate = startDate.AddDays(30); // Ajuster ici pour selon fenetre pour premiere volatilité
+            this._Data = new List<PricingLibrary.Utilities.MarketDataFeed.DataFeed>();
+            this.startDate = startDate;
             this.maturityDate = maturityDate;
-            this.product = product;
+            this._product = product;
         }
 
-        public System.Collections.Generic.List<PricingLibrary.Utilities.MarketDataFeed.DataFeed> chargeData
+        public System.Collections.Generic.List<PricingLibrary.Utilities.MarketDataFeed.DataFeed> Data
         {
             get {
-                return this.chargeData;
+                return this._Data;
             }
         }
 
-        public System.Collections.Generic.List<PricingLibrary.Utilities.MarketDataFeed.DataFeed> simulData
+        // Remplie la structure Data avec des données simulées
+        public void loadingSimulated()
         {
-            get
-            {
-                return this.simulData;
-            }
+            PricingLibrary.Utilities.MarketDataFeed.SimulatedDataFeedProvider import = new PricingLibrary.Utilities.MarketDataFeed.SimulatedDataFeedProvider();
+            this._Data = import.GetDataFeed(this._product, this.startDate);
         }
 
-        public void loading() // charger aussi dans bdd ? 
+        // Remplie la structure Data avec des données chargées
+        public void loadingcharge()
         {
-            this._simulData = PricingLibrary.Utilities.MarketDataFeed.SimulatedDataFeedProvider.GetDataFeed(this.product, this.startDate);
+            Console.WriteLine("NotImplementedException");
         }
     }
 }
