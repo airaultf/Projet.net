@@ -16,15 +16,15 @@ namespace ErrorHedging
         // end of test date = option maturity date
         private System.DateTime maturityDate;
         // option
-        private HedgingPortfolio myPortfolio;
+        private PricingLibrary.FinancialProducts.IOption product;
 
-        public ShareHisto(System.DateTime startDate, System.DateTime maturityDate, HedgingPortfolio myPortfolio)
+        public ShareHisto(System.DateTime startDate, System.DateTime maturityDate, PricingLibrary.FinancialProducts.IOption product)
         {
             this._chargeData = new List<PricingLibrary.Utilities.MarketDataFeed.DataFeed>();
             this._simulData = new List<PricingLibrary.Utilities.MarketDataFeed.DataFeed>();
-            this.startDate = startDate;
+            this.startDate = startDate.AddDays(30); // Ajuster ici pour selon fenetre pour premiere volatilité
             this.maturityDate = maturityDate;
-            this.myPortfolio = myPortfolio;
+            this.product = product;
         }
 
         public System.Collections.Generic.List<PricingLibrary.Utilities.MarketDataFeed.DataFeed> chargeData
@@ -32,20 +32,19 @@ namespace ErrorHedging
             get {
                 return this.chargeData;
             }
-            set {
-                this.chargeData = value; 
-            }
         }
+
         public System.Collections.Generic.List<PricingLibrary.Utilities.MarketDataFeed.DataFeed> simulData
         {
             get
             {
                 return this.simulData;
             }
-            set
-            {
-                this.simulData = PricingLibrary.Utilities.MarketDataFeed.SimulatedDataFeedProvider.GetDataFeed(this.myPortfolio.Option, this.startDate);
-            }
+        }
+
+        public void loading() // charger aussi dans bdd ? 
+        {
+            this._simulData = PricingLibrary.Utilities.MarketDataFeed.SimulatedDataFeedProvider.GetDataFeed(this.product, this.startDate);
         }
     }
 }

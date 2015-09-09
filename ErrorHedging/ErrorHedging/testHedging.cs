@@ -8,6 +8,11 @@ namespace ErrorHedging
 {
     class testHedging
     {
-        protected 
+        protected double fistTest;
+
+        public testHedging()
+        {
+            Console.WriteLine("Coucou");
+        }
     }
 }

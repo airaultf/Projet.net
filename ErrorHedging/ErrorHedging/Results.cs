@@ -30,7 +30,7 @@ namespace ErrorHedging
         private ShareHisto myHisto;
 
 
-        /*** TEST RESULTS ***/
+        /*** TEST RESULTS ***/ 
 
         // option payoff
         private double payoff;
@@ -39,14 +39,21 @@ namespace ErrorHedging
         private double hedgingPortfolioValue;
 
 
-        public Results(System.DateTime startDate, System.DateTime maturityDate, int testWindow, bool simulated)
+        public Results(PricingLibrary.FinancialProducts.IOption option, System.DateTime startDate, System.DateTime maturityDate, int testWindow, bool simulated)
         {
+     
+            // On initialise le portefeuille à la première journée, gerer cas simu ou non
+            myHisto = new ShareHisto(startDate, maturityDate, option);
+            myHisto.loading();
 
-            // CORRIGER CECI
-            if (myPortfolio.getType == HedgingPortfolioVanillaCall) {
-                this.myPortfolio = new HedgingPortfolioVanillaCall();
+            //Calculer initialVol
+            double firstSpotPrice = myHisto.Find();
+            double initialVol;
+
+            if (myPortfolio is HedgingPortfolioVanillaCall) {
+                this.myPortfolio = new HedgingPortfolioVanillaCall(option, startDate, firstSpotPrice, initialVol); // spot a aller chercher, volatilité à calculer
             } else {
-                this.myPortfolio = new HedgingPortfolioVanillaCall();
+                this.myPortfolio = null;
             }
             this.startDate = startDate;
             this.maturityDate = maturityDate;
@@ -54,7 +61,7 @@ namespace ErrorHedging
             this.payoff = 0;
             this.hedgingPortfolioValue = 0;
             this.simulated = simulated;
-            this.myHisto = new ShareHisto(startDate, maturityDate, myPortfolio);
+            this.myHisto = new ShareHisto(startDate, maturityDate,myPortfolio.Product); // mettre getter a product
         }
 
         public void computeResults()
@@ -64,15 +71,10 @@ namespace ErrorHedging
             if (simulated){
                 spotPrice = this.getSpotPriceFromSimulatedData();
             } else {
-                spotPrice = this.getSpotPriceFromFetchedData();
+                //spotPrice = this.getSpotPriceFromFetchedData();
             }
-            this.myOption = new ExtendedOption(...);
-            this.myOption.HedgePortfolio.Update
         }
 
-        public double getSpotPriceFromSimulatedData()
-        {
-            this.
-        }
+        
     }
 }
