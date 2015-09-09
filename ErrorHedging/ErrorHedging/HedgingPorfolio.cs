@@ -56,6 +56,14 @@ namespace ErrorHedging
             this.hedgeRatio = resultPricer.Deltas[0];
 
         }
+
+        public PricingLibrary.FinancialProducts.IOption Product
+        {
+            get
+            {
+                return this.Product;
+            }
+        }
     }
 
 }
