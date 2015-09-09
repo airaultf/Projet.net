@@ -89,7 +89,7 @@ namespace ErrorHedging
             this.simulated = simulated;
             
             // On initialise le portefeuille à la première journée
-            this.myHisto = new ShareHisto(this.startDate, this.maturityDate, option);
+            this.myHisto = new ShareHisto(this.startDate.AddDays(-testWindow-1), this.maturityDate, option);
             if (simulated){
                 myHisto.loadingSimulated();
             }else{
@@ -150,8 +150,9 @@ namespace ErrorHedging
         {
             double[] shareValuesForVolatilityEstimation = new double[testWindow+1];
             int cpt = 0;
-            for (DateTime estimationStartDate = date.AddDays((double)-this.testWindow); estimationStartDate <= date; estimationStartDate.AddDays(1))
+            for (DateTime estimationStartDate = date.AddDays(-testWindow); estimationStartDate <= date; estimationStartDate.AddDays(1))
             {
+                Console.WriteLine(estimationStartDate);
                 shareValuesForVolatilityEstimation[cpt] = getSpotPrice(estimationStartDate);
                 cpt++;
             }
