@@ -15,10 +15,35 @@ namespace ErrorHedging
         // declare external function
         public static extern int WREanalysisExpostVolatility(
             ref int nbValues,
-            ref double portfolioReturns,
-            ref double expostVolatility,
-            ref int info
+            double[] portfolioReturns,
+            double[] expostVolatility,
+            int[] info
             );
+
+         /*** function to compute volatility and encapsulate ***/
+         /* WRE Function
+         * throw exception if WREanalysisExpostVolatility encountered a problem
+         * @portfolioReturns : share value at everydate used for
+         *                     parameter estimation
+         * @Return : computed volatility
+         */
+        public static double computeVolatility(double[] portfolioReturns)
+        {
+            double[] expostVolatility = new double[1];
+            int nbValues = portfolioReturns.GetLength(0);
+            int[] info = new int[1];
+            int res = 0;
+            res = WREanalysisExpostVolatility(ref nbValues, portfolioReturns, expostVolatility, info);
+            if (res != 0)
+            {
+                if (res < 0)
+                    throw new Exception("ERROR : WREanalysisExpostVolatility encountered a problem");
+                else
+                    throw new Exception("WARNING : WREanalysisExpostVolatility encountered a problem");
+            }
+            return expostVolatility[0];
+        }
+
         /*** TEST PARAMETERS ***/
 
 
@@ -91,7 +116,6 @@ namespace ErrorHedging
         // Faire ensuite une version qui stocke ces résultats.
         public void computeResults()
         {
-            // Pour basket, spot price et volatilité = tableau
             double spotPrice = 0;
             double volatility = 0;
             double _hedgingPortfolioValue = 0; // Valeur intermediaire
@@ -117,14 +141,27 @@ namespace ErrorHedging
             return spotPrice;
         }
 
-        public double[] getSpotPrice
+
+
+        /*** getVolatility ***/
+        /* Function that computes volatility for a given date
+         * with a fixed estimation window 
+        /* @date : date at which we want to get volatility
+         * @Return : volatility at this date
+         */
 
         // A ETTENDRE POUR BASKET
         // Renvoie la volatilité d'une action
         public double getVolatility(DateTime date)
         {
-
-            return 0;
+            double[] shareValuesForVolatilityEstimation = new double[testWindow+1];
+            int cpt = 0;
+            for (DateTime estimationStartDate = date.AddDays((double)-this.testWindow); estimationStartDate <= date; estimationStartDate.AddDays(1))
+            {
+                shareValuesForVolatilityEstimation[cpt] = getSpotPrice(estimationStartDate);
+                cpt++;
+            }
+            return computeVolatility(shareValuesForVolatilityEstimation);
         }
     }
 }
