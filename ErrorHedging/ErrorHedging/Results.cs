@@ -76,16 +76,26 @@ namespace ErrorHedging
         public void computeResults()
         {
             double spotPrice;
+            double volatility;
             DateTime date = DateTime.Now;
-            spotPrice = getSpotPrice(date);
+            for (date = startDate; date <= maturityDate; date.AddDays(1)) // can be better done with foreach (faster) 
+            {
+                spotPrice = getSpotPrice(date);
+                volatility = getVolatility(date);
+                myPortfolio.updatePortfolioValue(spotPrice, date, volatility);
+
+            }
         }
 
-        public double getSpotPrice(DateTime date)
+        public double getSpotPrice(DateTime date) // pour un call simple
         {
-            return 0;
+            double spotPrice = 0;
+            spotPrice = (double) myHisto.Data.Find(data => data.Date == date).PriceList.First().Value;
+            return spotPrice;
         }
         public double getVolatility(DateTime date)
         {
+
             return 0;
         }
     }
