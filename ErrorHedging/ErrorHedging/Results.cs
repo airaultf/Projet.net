@@ -141,17 +141,12 @@ namespace ErrorHedging
             return spotPrice;
         }
 
-
-
         /*** getVolatility ***/
         /* Function that computes volatility for a given date
          * with a fixed estimation window 
         /* @date : date at which we want to get volatility
          * @Return : volatility at this date
          */
-
-        // A ETTENDRE POUR BASKET
-        // Renvoie la volatilité d'une action
         public double getVolatility(DateTime date)
         {
             double[] shareValuesForVolatilityEstimation = new double[testWindow+1];
