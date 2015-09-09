@@ -123,8 +123,6 @@ namespace ErrorHedging
                 System.Console.WriteLine("notImplementedExeption");
             }
          
-
-            this.myPortfolio = new HedgingPortfolioVanillaCall((PricingLibrary.FinancialProducts.VanillaCall)option, this.startDate, firstSpotPrice, initialVol); // spot a aller chercher, volatilité à calculer
             //myPortfolio.updatePortfolioValue(firstSpotPrice, this.startDate, initialVol);
             this.hedgingPortfolioValue = myPortfolio.portfolioValue;
             this.payoff = myPortfolio.Product.GetPayoff(myHisto.Data.Find(data => data.Date == this.startDate).PriceList);
