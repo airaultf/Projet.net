@@ -62,7 +62,7 @@ namespace ErrorHedging
         // simulated = true <=> simulated datas
         private bool simulated;
 
-        // Histo for the data feeds of a stock price
+        // Histo for the data feeds of a stock price 
         private ShareHisto myHisto;
 
 
