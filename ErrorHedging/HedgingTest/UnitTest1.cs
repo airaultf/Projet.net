@@ -33,20 +33,36 @@ namespace HedgingTest
         [TestMethod]
         public void TestRebalancement()
         {
-            DateTime date = DateTime.Now;
-            PricingLibrary.FinancialProducts.Share Action = new PricingLibrary.FinancialProducts.Share("test","01");
-            PricingLibrary.FinancialProducts.Share[] tabAction = {Action};
+            double ratio = 0;
+            double compteur = 0;
 
-            PricingLibrary.FinancialProducts.VanillaCall Call = new PricingLibrary.FinancialProducts.VanillaCall("test",tabAction,date,8.0);
+            for (int i = 0; i < 300; i++)
+            {
+                DateTime date = DateTime.Now;
+                PricingLibrary.FinancialProducts.Share Action = new PricingLibrary.FinancialProducts.Share("test", "01");
+                PricingLibrary.FinancialProducts.Share[] tabAction = { Action };
+
+                PricingLibrary.FinancialProducts.VanillaCall Call = new PricingLibrary.FinancialProducts.VanillaCall("test", tabAction, date, 8.0);
 
 
-            DateTime dateStart = new DateTime(2015, 8, 9, 0, 0, 0);
+                DateTime dateStart = new DateTime(2014, 9, 9, 0, 0, 0);
 
 
-            ErrorHedging.Results result = new ErrorHedging.Results(Call, dateStart, date, 30, true);
-           
+                ErrorHedging.Results result = new ErrorHedging.Results(Call, dateStart, date, 1, true);
+                double firstValue = result.HedgingPortfolioValue;
+                result.computeResults();
 
-            Console.WriteLine("Valeur portefeuille : " + result.HedgingPortfolioValue);
+                double payoff = result.Payoff;
+                double lastValue = result.HedgingPortfolioValue;
+                double ratioTmp = Math.Abs(payoff - lastValue) / firstValue;
+
+                ratio += ratioTmp;
+                compteur += 1;
+                
+            }
+
+            ratio = ratio / compteur;
+            Console.WriteLine(ratio);
 
         }
 
