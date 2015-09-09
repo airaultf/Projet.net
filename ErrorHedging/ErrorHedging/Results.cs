@@ -15,10 +15,20 @@ namespace ErrorHedging
         // declare external function
         public static extern int WREanalysisExpostVolatility(
             ref int nbValues,
-            ref double portfolioReturns,
-            ref double expostVolatility,
-            ref int info
-            );
+            double[] portfolioReturns,
+            double[] expostVolatility,
+            int[] info
+        );
+
+        // function to compute volatility and encapsulate
+        // WRE Function
+        public static double[] computeVolatility(double[] expostVolatility)
+        {
+            double[] expostVolatility = new double[1];
+            int[] info = new int[1];
+            int res = 0;
+            res = 
+        }
         /*** TEST PARAMETERS ***/
 
 
