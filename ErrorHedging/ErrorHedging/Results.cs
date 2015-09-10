@@ -143,8 +143,8 @@ namespace ErrorHedging
             }
 
             //Contruction de myPortfolio, et calcul des valeurs initiales de hedgingPortfolioValue et payoff
-            double[] firstSpotPrice = getSpotPrices(this.startDate);
-            double[] initialVol = getVolatilities(this.startDate);
+            double[] firstSpotPrice = getSpotPrices(this.startDate);             // !!!!!!!!!!!!!!!!!!!! implementé mais à tester
+            double[] initialVol = getVolatilities(this.startDate);               // !!!!!!!!!!!!!!!!!!!! pas implementé
             double[,] matriceCorrelation = null;
 
             if (option is PricingLibrary.FinancialProducts.VanillaCall){
@@ -172,15 +172,23 @@ namespace ErrorHedging
         // Faire ensuite une version qui stocke ces résultats.
         public void computeResults()
         {
-            double spotPrice = 0;
-            double volatility = 0;
+            double[] spotPrice;
+            double[] volatility;
+            double[,] matriceCorrelation;
             double _hedgingPortfolioValue = 0; // Valeur intermediaire
             double _payoff = 0;                // Valeur intermediaire
             for (DateTime date = startDate; date <= maturityDate; date=date.AddDays(1)) // can be better done with foreach (faster) 
             {
-                spotPrice = getSpotPrice(date);
-                volatility = getVolatility(date);
-                myPortfolio.updatePortfolioValue(spotPrice, date, 0.4);
+                spotPrice = getSpotPrices(date);                 // !!!!!!!!!!!!!!!!!!!! implementé mais à tester
+                volatility = getVolatilities(date);              // !!!!!!!!!!!!!!!!!!!! Pas implementé
+                if (myPortfolio.Product is PricingLibrary.FinancialProducts.VanillaCall){
+                    myPortfolio.updatePortfolioValue(spotPrice, date, volatility);
+                }else if (myPortfolio.Product is PricingLibrary.FinancialProducts.BasketOption){
+                    matriceCorrelation = getMatriceCorrelation(this.startDate);
+                    myPortfolio.updatePortfolioValue(spotPrice, date, volatility, matriceCorrelation);
+                }else{
+                    Console.WriteLine("Not implemented exeption");
+                }
                 _hedgingPortfolioValue = myPortfolio.portfolioValue;
                 _payoff = myPortfolio.Product.GetPayoff(myHisto.Data.Find(data => data.Date == date).PriceList);
             }
