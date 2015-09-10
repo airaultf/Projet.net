@@ -11,7 +11,7 @@ namespace ErrorHedging
     {
         // Import the WRE dll for fetching volatility
         // from datas
-        [DllImport("C:\Users\ensimag\Source\Repos\Projet.net2\ErrorHedging\ErrorHedging\wre-ensimag-c-4.1.dll", EntryPoint = "WREanalysisExpostVolatility")]
+        [DllImport(@"C:\Users\ensimag\Source\Repos\Projet.net2\ErrorHedging\ErrorHedging\wre-ensimag-c-4.1.dll", EntryPoint = "WREanalysisExpostVolatility")]
         // declare external function
         public static extern int WREanalysisExpostVolatility(
             ref int nbValues,
@@ -37,13 +37,17 @@ namespace ErrorHedging
          *                     parameter estimation
          * @Return : computed volatility
          */
-        public static double computeVolatility(double[] portfolioReturns)
+        public static double computeVolatility(double[,] portfolioReturns)
         {
+            double[] portfolioReturn1D = new double[portfolioReturns.GetLength(0)];
+            for (int i = 0; i<portfolioReturns.GetLength(0); i++){
+                portfolioReturn1D[i] = portfolioReturns[i,1];
+            }
             double expostVolatility = 0;
             int nbValues = portfolioReturns.GetLength(0);
             int info = 0;
             int res = 0;
-            res = WREanalysisExpostVolatility(ref nbValues, portfolioReturns, ref expostVolatility, ref info);
+            res = WREanalysisExpostVolatility(ref nbValues, portfolioReturn1D, ref expostVolatility, ref info);
             if (res != 0)
             {
                 if (res < 0)
@@ -194,7 +198,7 @@ namespace ErrorHedging
             
             foreach(KeyValuePair<string, decimal> data in myHisto.Data.Find(data => data.Date == date).PriceList)
             {
-                double[i] = data.Value;
+                spotPrices[i] = (double)data.Value;
                 i++;
             }
             return spotPrices;
@@ -217,7 +221,7 @@ namespace ErrorHedging
                 shareValuesForVolatilityEstimation[cpt,0] = getSpotPrice(d);
                 cpt++;
             }
-            return logReturn(shareValuesForVolatilityEstimation, (int)horizon);
+            return computeVolatility(logReturn(shareValuesForVolatilityEstimation, (int)horizon));
         }
     }
 }
