@@ -354,6 +354,7 @@ namespace ErrorHedging
 
         public double[,] getCorrelationMatrix(DateTime date)
         {
+            // correlation matrix not symetrical and defined positive
             if (nbShare < testWindow)
             {
                 throw new Exception("ERROR : getCorrelationMatrix encountered a problem: Estimation window too small");

@@ -28,7 +28,6 @@ namespace HedgingTest
                 Console.WriteLine("VOL:" + myResults.getVolatility(d));
             }
 
-
             //Console.WriteLine("Volatility: " + myResults.getVolatility(date1.AddDays(30)));
         }
     }
