@@ -14,14 +14,14 @@ using System.Windows.Shapes;
 using Microsoft.Research.DynamicDataDisplay;
 using Microsoft.Research.DynamicDataDisplay.DataSources;
 
-namespace TestWPF
+namespace ErrorHedging
 {
     /// <summary>
     /// Logique d'interaction pour MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class WindowPlot : Window
     {
-        public MainWindow()
+        public WindowPlot()
         {
             InitializeComponent();
             Random random = new Random();
