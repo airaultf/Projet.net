@@ -32,6 +32,7 @@ namespace ErrorHedging
             this._Product = Product;
         }
 
+
         // Getter pour le produit
         public PricingLibrary.FinancialProducts.IOption Product
         {
