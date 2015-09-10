@@ -13,7 +13,6 @@ namespace ErrorHedging
         protected double _portfolioValue;
         protected double[] hedgeRatio;
         protected double[] formerSpot;
-        protected double[,] correlationMatrix;
         protected PricingLibrary.FinancialProducts.IOption _Product;
         protected DateTime lastDay;
 
@@ -52,10 +51,10 @@ namespace ErrorHedging
         }
 
         // Methode qui met à jour la valeur du portefeuille
-        public void updatePortfolioValue(double[] tabSpot, System.DateTime date, double[] tabVolatility)
+        public void updatePortfolioValue(double[] tabSpot, System.DateTime date, double[] tabVolatility, double[,] correlationMatrix = null)
         {
             // On price notre call à la date et au prix spot donnés
-            PricingLibrary.Computations.PricingResults resultPricer = this.computeAttribut.priceProduct(this._Product, date, tabSpot, tabVolatility, this.correlationMatrix);
+            PricingLibrary.Computations.PricingResults resultPricer = this.computeAttribut.priceProduct(this._Product, date, tabSpot, tabVolatility, correlationMatrix);
 
             // On calcule le nombre de jour entre le dernier rebalancement et le rabalancement actuel, on convertit ce nombre en double
             System.TimeSpan diff = date.Subtract(this.lastDay);
