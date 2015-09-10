@@ -11,7 +11,7 @@ namespace ErrorHedging
     {
         // Import the WRE dll for fetching volatility
         // from datas
-        [DllImport(@"C:\Users\ensimag\Source\Repos\Projet.net2\ErrorHedging\ErrorHedging\wre-ensimag-c-4.1.dll", EntryPoint = "WREanalysisExpostVolatility", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(@"C:\Users\ensimag\Documents\GitHub\ProjetPointNet\Projet.net\ErrorHedging\ErrorHedging\wre-ensimag-c-4.1.dll", EntryPoint = "WREanalysisExpostVolatility", CallingConvention = CallingConvention.Cdecl)]
         // declare external function
         public static extern int WREanalysisExpostVolatility(
             ref int nbValues,
@@ -20,7 +20,7 @@ namespace ErrorHedging
             ref int info
             );
 
-        [DllImport(@"C:\Users\ensimag\Source\Repos\Projet.net2\ErrorHedging\ErrorHedging\wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingCorr", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(@"C:\Users\ensimag\Documents\GitHub\ProjetPointNet\Projet.net\ErrorHedging\ErrorHedging\wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingCorr", CallingConvention = CallingConvention.Cdecl)]
         public static extern int WREmodelingCorr(
             ref int nbValues,
             ref int nbAssets,
@@ -59,12 +59,15 @@ namespace ErrorHedging
 
         public static double[] computeVolatilities(double[,] portfolioReturns, bool simulated)
         {
-            double[] volatilities = new double[portfolioReturns.GetLength(1)];
+            //double[] volatilities = new double[portfolioReturns.GetLength(1)];
+            double[] volatilities = new double[10];
+
             // on boucle sur les actions
             for (int i = 0; i < portfolioReturns.GetLength(1); i++)
             {
                 double[] portfolioReturn1D = new double[portfolioReturns.GetLength(0)];
-                for (int j = 0; j < portfolioReturns.GetLength(0); i++)
+
+                for (int j = 0; j < portfolioReturns.GetLength(0); j++)
                 {
                     portfolioReturn1D[j] = portfolioReturns[j, i];
                 }
@@ -85,6 +88,7 @@ namespace ErrorHedging
                 else
                     volatilities[i] = Math.Sqrt(250) * expostVolatility;
             }
+
             return volatilities;
         }
 
@@ -218,7 +222,8 @@ namespace ErrorHedging
             double[,] matriceCorrelation = null;
 
             if (option is PricingLibrary.FinancialProducts.VanillaCall){
-                this.myPortfolio = new HedgingPortfolio((PricingLibrary.FinancialProducts.VanillaCall)option, this.startDate, firstSpotPrice, initialVol); // spot a aller chercher, volatilité à calculer
+                double[] vol = new double[] { 0.4 };
+                this.myPortfolio = new HedgingPortfolio((PricingLibrary.FinancialProducts.VanillaCall)option, this.startDate, firstSpotPrice, vol); // spot a aller chercher, volatilité à calculer
             }
             else if (option is PricingLibrary.FinancialProducts.BasketOption)
             {
@@ -251,16 +256,16 @@ namespace ErrorHedging
             for (DateTime date = startDate; date <= maturityDate; date=date.AddDays(1)) // can be better done with foreach (faster) 
             {
                 spotPricetab = getSpotPrice(date);                 // !!!!!!!!!!!!!!!!!!!! implementé mais à tester
-                //volatility = getVolatilities(date);              // !!!!!!!!!!!!!!!!!!!! Pas implementé
+                volatility = getVolatilities(date);              // !!!!!!!!!!!!!!!!!!!! Pas implementé
                 double[] spotPrice = new double[] {spotPricetab};
 
-                double[] volatility1 = new double[] {0.4};
 
                 if (myPortfolio.Product is PricingLibrary.FinancialProducts.VanillaCall){
-                    myPortfolio.updatePortfolioValue(spotPrice, date, volatility1);
+                    Console.WriteLine(volatility[0]);
+                    myPortfolio.updatePortfolioValue(spotPrice, date, volatility);
                 }else if (myPortfolio.Product is PricingLibrary.FinancialProducts.BasketOption){
                     matriceCorrelation = getCorrelationMatrix(this.startDate);
-                    myPortfolio.updatePortfolioValue(spotPrice, date, volatility1, matriceCorrelation);
+                    myPortfolio.updatePortfolioValue(spotPrice, date, volatility, matriceCorrelation);
                 }else{
                     Console.WriteLine("Not implemented exeption");
                 }

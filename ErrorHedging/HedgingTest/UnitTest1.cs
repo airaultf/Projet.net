@@ -37,7 +37,7 @@ namespace HedgingTest
             double ratio = 0;
             double compteur = 0;
 
-            for (int i = 0; i < 300; i++)
+            for (int i = 0; i < 1; i++)
             {
                 DateTime date = DateTime.Now;
                 PricingLibrary.FinancialProducts.Share Action = new PricingLibrary.FinancialProducts.Share("test", "01");
