@@ -58,6 +58,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="testBasketVolatilitiesAndSpotPricesAndCorrelationMatrix.cs" />
     <Compile Include="testResults.cs" />
     <Compile Include="testShareHisto.cs" />
     <Compile Include="UnitTest1.cs" />

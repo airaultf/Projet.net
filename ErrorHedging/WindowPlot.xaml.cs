@@ -16,26 +16,26 @@ using Microsoft.Research.DynamicDataDisplay.DataSources;
 
 namespace TestWPF
 {
-/// <summary>
-  /// Logique d'interaction pour MainWindow.xaml
+    /// <summary>
+    /// Logique d'interaction pour MainWindow.xaml
   ///
 </summary>
-public partial class MainWindow : Window
-{
-public MainWindow()
-{
-InitializeComponent();
-Random random = new Random();
+    public partial class MainWindow : Window
+    {
+        public MainWindow()
+        {
+            //InitializeComponent();
+            Random random = new Random();
 List<Point>
   points = new List<Point>
     ();
-    for (int i = 0; i < 30; i++)
+            for (int i = 0; i < 30; i++)
             {
                 Point point = new Point(i, random.Next(10));
                 points.Add(point);
             }
             RawDataSource rawDataSource = new RawDataSource(points);
-            chartPlotter.AddLineGraph(rawDataSource, Colors.Black, 2, "Portfolio Hist Positions");
+            //chartPlotter.AddLineGraph(rawDataSource, Colors.Black, 2, "Portfolio Hist Positions");
             //chartPlotter.DataContext = rawDataSource;
             //lineGraph.DataSource = rawDataSource;
         }
