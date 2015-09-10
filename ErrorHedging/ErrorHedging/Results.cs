@@ -139,14 +139,21 @@ namespace ErrorHedging
             }
 
             //Contruction de myPortfolio, et calcul des valeurs initiales de hedgingPortfolioValue et payoff
-            double firstSpotPrice = getSpotPrice(this.startDate);
-            double initialVol = getVolatility(this.startDate);
-            //double initialVol = 0.4;
+            double[] firstSpotPrice = getSpotPrices(this.startDate);
+            double[] initialVol = getVolatilities(this.startDate);
+            double[][] matriceCorrelation = null;
 
             if (option is PricingLibrary.FinancialProducts.VanillaCall){
                 this.myPortfolio = new HedgingPortfolioVanillaCall((PricingLibrary.FinancialProducts.VanillaCall)option, this.startDate, firstSpotPrice, initialVol); // spot a aller chercher, volatilité à calculer
-            }else{
-                System.Console.WriteLine("notImplementedExeption");
+            }
+            else if (option is PricingLibrary.FinancialProducts.BasketOption)
+            {
+                matriceCorrelation = getMatriceCorrelation();
+                this.myPortfolio = new HedgingPortfolioBasketOption((PricingLibrary.FinancialProducts.BasketOption)option, this.startDate, firstSpotPrice, initialVol, matriceCorrelation); // spot a aller chercher, volatilité à calculer
+            }
+            else
+            {
+                Console.WriteLine("Not implemented exeption");
             }
          
             //myPortfolio.updatePortfolioValue(firstSpotPrice, this.startDate, initialVol);
@@ -177,8 +184,12 @@ namespace ErrorHedging
             this.payoff = _payoff;
         }
 
-        // A ETTENDRE POUR BASKET
-        // Renvoie le prix spot d'une action
+        /*** getSpotPrice ***/
+        /* Function that return the Spot price for a given date
+         * with a fixed estimation window 
+        /* @date : date at which we want to get the spot prices
+         * @Return : spotPrice at this date
+         */
         public double getSpotPrice(DateTime date)
         {
             double spotPrice = 0;
@@ -186,6 +197,12 @@ namespace ErrorHedging
             return spotPrice;
         }
 
+        /*** getSpotPrices ***/
+        /* Function that return the Spot prices for a given date
+         * with a fixed estimation window 
+        /* @date : date at which we want to get the spot prices
+         * @Return : spotPrices at this date
+         */
         public double[] getSpotPrices(DateTime date)
         {
             int taille = this.myPortfolio.Product.UnderlyingShareIds.Length;
@@ -219,6 +236,17 @@ namespace ErrorHedging
             }
             //return logReturn(shareValuesForVolatilityEstimation, (int)horizon);
             return 0.0;
+        }
+
+
+        /*** getMatriceCorrelation ***/
+        /* Function that return the correlation matrice for a given date
+         * with a fixed estimation window 
+        /* @date : date at which we want to get the correlation matrice
+         * @Return : correlation matrice at this date
+         */
+        public double getMatriceCorrelation(DateTime date)
+        {
         }
     }
 }
