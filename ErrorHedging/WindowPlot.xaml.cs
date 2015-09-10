@@ -18,14 +18,17 @@ namespace TestWPF
 {
     /// <summary>
     /// Logique d'interaction pour MainWindow.xaml
-    /// </summary>
+  ///
+</summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             //InitializeComponent();
             Random random = new Random();
-            List<Point> points = new List<Point>();
+List<Point>
+  points = new List<Point>
+    ();
             for (int i = 0; i < 30; i++)
             {
                 Point point = new Point(i, random.Next(10));
@@ -38,4 +41,3 @@ namespace TestWPF
         }
     }
 }
-

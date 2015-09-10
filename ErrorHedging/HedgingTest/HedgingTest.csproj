@@ -39,7 +39,8 @@
     <OutputPath>bin\unitTest\</OutputPath>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="PricingLibrary">
+    <Reference Include="PricingLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\PricingLibrary.1.0.0.0\lib\net45\PricingLibrary.dll</HintPath>
     </Reference>
     <Reference Include="System" />

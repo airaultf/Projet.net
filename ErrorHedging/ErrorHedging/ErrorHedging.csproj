@@ -48,7 +48,8 @@
     <Reference Include="Microsoft.Practices.Prism.SharedInterfaces">
       <HintPath>..\packages\Prism.Mvvm.1.1.1\lib\net45\Microsoft.Practices.Prism.SharedInterfaces.dll</HintPath>
     </Reference>
-    <Reference Include="PricingLibrary">
+    <Reference Include="PricingLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\PricingLibrary.1.0.0.0\lib\net45\PricingLibrary.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -66,14 +67,14 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComponentInfo.cs" />
+    <Compile Include="computePortfolioValue.cs" />
     <Compile Include="HedgingPortfolio.cs" />
+    <Compile Include="HedgingPortfoliobis.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="Results.cs" />
     <Compile Include="ShareHisto.cs" />
     <Compile Include="testHedging.cs" />
-    <Compile Include="WindowPlot.xaml.cs">
-      <DependentUpon>WindowPlot.xaml</DependentUpon>
-    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

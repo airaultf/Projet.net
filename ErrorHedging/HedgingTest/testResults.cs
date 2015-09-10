@@ -5,12 +5,12 @@ using PricingLibrary;
 
 namespace HedgingTest
 {
+   
     /*** Test for Results Class ***/
+    /*
     [TestClass]
     public class testResults
     {
-        /*** Test for getVolatility and getSpotPrice Methods ***/
-        /* Should print out a list of Volatilities and SpotPrices for a result object */
         [TestMethod]
         public void TestVolatilityAndSpotPrice()
         {
@@ -33,4 +33,5 @@ namespace HedgingTest
             //Console.WriteLine("Volatility: " + myResults.getVolatility(date1.AddDays(30)));
         }
     }
+    */
 }

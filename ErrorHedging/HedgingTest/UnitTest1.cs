@@ -8,6 +8,7 @@ namespace HedgingTest
     [TestClass]
     public class UnitTest1
     {
+        /*
         [TestMethod]
         public void TestMethod1()
         {
@@ -17,7 +18,7 @@ namespace HedgingTest
             PricingLibrary.FinancialProducts.VanillaCall Call = new PricingLibrary.FinancialProducts.VanillaCall("test",tabAction,date,8.0);
 
             DateTime date1 = new DateTime(2013, 9, 9, 0, 0, 0);
-            ErrorHedging.HedgingPortfolioVanillaCall couvPort = new ErrorHedging.HedgingPortfolioVanillaCall(Call, date1, 10.0, 0.4);
+            ErrorHedging.HedgingPortfolio couvPort = new ErrorHedging.HedgingPortfolio(Call, date1, 10.0, 0.4);
             Console.WriteLine("Valeur portfolio " + couvPort.portfolioValue);
             // updatePortfolioValue(double spot, System.DateTime date, double volatility)
             
@@ -29,7 +30,7 @@ namespace HedgingTest
                 date1 = date1.AddDays(1.0);
             }
         }
-
+        */
         [TestMethod]
         public void TestRebalancement()
         {
@@ -45,10 +46,11 @@ namespace HedgingTest
                 PricingLibrary.FinancialProducts.VanillaCall Call = new PricingLibrary.FinancialProducts.VanillaCall("test", tabAction, date, 8.0);
 
 
-                DateTime dateStart = new DateTime(2014, 9, 9, 0, 0, 0);
+                DateTime dateStart = new DateTime(2014, 9, 10, 0, 0, 0);
 
 
                 ErrorHedging.Results result = new ErrorHedging.Results(Call, dateStart, date, 1, true);
+
                 double firstValue = result.HedgingPortfolioValue;
                 result.computeResults();
 
