@@ -68,7 +68,8 @@
   <ItemGroup>
     <Compile Include="ComponentInfo.cs" />
     <Compile Include="HedgingPortfolio.cs" />
-    <Compile Include="MainWindowViewModel.cs" />
+    <Compile Include="computePortfolioValue.cs" />
+    <Compile Include="HedgingPortfoliobis.cs" />
     <Compile Include="Results.cs" />
     <Compile Include="ShareHisto.cs" />
     <Compile Include="testHedging.cs" />
@@ -83,10 +84,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="WindowPlot.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

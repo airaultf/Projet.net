@@ -60,7 +60,7 @@ namespace ErrorHedging
         public static double[,] logReturn(double[,] assetsValues, int horizon)
         {
             int nbValues = assetsValues.GetLength(0);
-            int nbAssets = 1;
+            int nbAssets = assetsValues.GetLength(1);
             int info = 0;
             double[,] assetsReturns = new double[nbValues-horizon, nbAssets];
             int res = WREmodelingLogReturns(ref nbValues, ref nbAssets, assetsValues, ref horizon, assetsReturns, ref info);
@@ -139,18 +139,25 @@ namespace ErrorHedging
             if (simulated){
                 myHisto.loadingSimulated();
             }else{
-                myHisto.loadingcharge();  
+                myHisto.loadingSQL();  
             }
 
             //Contruction de myPortfolio, et calcul des valeurs initiales de hedgingPortfolioValue et payoff
-            double firstSpotPrice = getSpotPrice(this.startDate);
-            double initialVol = getVolatility(this.startDate);
-            //double initialVol = 0.4;
+            double[] firstSpotPrice = getSpotPrices(this.startDate);             // !!!!!!!!!!!!!!!!!!!! implementé mais à tester
+            double[] initialVol = getVolatilities(this.startDate);               // !!!!!!!!!!!!!!!!!!!! pas implementé
+            double[,] matriceCorrelation = null;
 
             if (option is PricingLibrary.FinancialProducts.VanillaCall){
-                this.myPortfolio = new HedgingPortfolioVanillaCall((PricingLibrary.FinancialProducts.VanillaCall)option, this.startDate, firstSpotPrice, initialVol); // spot a aller chercher, volatilité à calculer
-            }else{
-                System.Console.WriteLine("notImplementedExeption");
+                this.myPortfolio = new HedgingPortfolio((PricingLibrary.FinancialProducts.VanillaCall)option, this.startDate, firstSpotPrice, initialVol); // spot a aller chercher, volatilité à calculer
+            }
+            else if (option is PricingLibrary.FinancialProducts.BasketOption)
+            {
+                matriceCorrelation = getMatriceCorrelation(this.startDate);
+                this.myPortfolio = new HedgingPortfolio((PricingLibrary.FinancialProducts.BasketOption)option, this.startDate, firstSpotPrice, initialVol, matriceCorrelation); // spot a aller chercher, volatilité à calculer
+            }
+            else
+            {
+                Console.WriteLine("Not implemented exeption");
             }
          
             //myPortfolio.updatePortfolioValue(firstSpotPrice, this.startDate, initialVol);
@@ -165,15 +172,23 @@ namespace ErrorHedging
         // Faire ensuite une version qui stocke ces résultats.
         public void computeResults()
         {
-            double spotPrice = 0;
-            double volatility = 0;
+            double[] spotPrice;
+            double[] volatility;
+            double[,] matriceCorrelation;
             double _hedgingPortfolioValue = 0; // Valeur intermediaire
             double _payoff = 0;                // Valeur intermediaire
             for (DateTime date = startDate; date <= maturityDate; date=date.AddDays(1)) // can be better done with foreach (faster) 
             {
-                spotPrice = getSpotPrice(date);
-                //volatility = getVolatility(date);
-                myPortfolio.updatePortfolioValue(spotPrice, date, 0.4);
+                spotPrice = getSpotPrices(date);                 // !!!!!!!!!!!!!!!!!!!! implementé mais à tester
+                volatility = getVolatilities(date);              // !!!!!!!!!!!!!!!!!!!! Pas implementé
+                if (myPortfolio.Product is PricingLibrary.FinancialProducts.VanillaCall){
+                    myPortfolio.updatePortfolioValue(spotPrice, date, volatility);
+                }else if (myPortfolio.Product is PricingLibrary.FinancialProducts.BasketOption){
+                    matriceCorrelation = getMatriceCorrelation(this.startDate);
+                    myPortfolio.updatePortfolioValue(spotPrice, date, volatility, matriceCorrelation);
+                }else{
+                    Console.WriteLine("Not implemented exeption");
+                }
                 _hedgingPortfolioValue = myPortfolio.portfolioValue;
                 _payoff = myPortfolio.Product.GetPayoff(myHisto.Data.Find(data => data.Date == date).PriceList);
             }
@@ -181,8 +196,12 @@ namespace ErrorHedging
             this.payoff = _payoff;
         }
 
-        // A ETTENDRE POUR BASKET
-        // Renvoie le prix spot d'une action
+        /*** getSpotPrice ***/
+        /* Function that return the Spot price for a given date
+         * with a fixed estimation window 
+        /* @date : date at which we want to get the spot prices
+         * @Return : spotPrice at this date
+         */
         public double getSpotPrice(DateTime date)
         {
             double spotPrice = 0;
@@ -190,6 +209,12 @@ namespace ErrorHedging
             return spotPrice;
         }
 
+        /*** getSpotPrices ***/
+        /* Function that return the Spot prices for a given date
+         * with a fixed estimation window 
+        /* @date : date at which we want to get the spot prices
+         * @Return : spotPrices at this date
+         */
         public double[] getSpotPrices(DateTime date)
         {
             int taille = this.myPortfolio.Product.UnderlyingShareIds.Length;
@@ -222,6 +247,25 @@ namespace ErrorHedging
                 cpt++;
             }
             return computeVolatility(logReturn(shareValuesForVolatilityEstimation, (int)horizon));
+        }
+
+
+        public double[] getVolatilities(DateTime date)
+        {
+            double[] res = new double[1];
+            return res;
+        }
+
+        /*** getMatriceCorrelation ***/
+        /* Function that return the correlation matrice for a given date
+         * with a fixed estimation window 
+        /* @date : date at which we want to get the correlation matrice
+         * @Return : correlation matrice at this date
+         */
+        public double[,] getMatriceCorrelation(DateTime date)
+        {
+            double[,] res = new double[1,1];
+            return res;
         }
     }
 }
