@@ -88,7 +88,7 @@ namespace ErrorHedging
         // simulated = true <=> simulated datas
         private bool simulated;
 
-        // Histo for the data feeds of a stock price
+        // Histo for the data feeds of a stock price 
         private ShareHisto myHisto;
 
 
@@ -184,6 +184,20 @@ namespace ErrorHedging
             double spotPrice = 0;
             spotPrice = (double) myHisto.Data.Find(data => data.Date == date).PriceList.First().Value;
             return spotPrice;
+        }
+
+        public double[] getSpotPrices(DateTime date)
+        {
+            int taille = this.myPortfolio.Product.UnderlyingShareIds.Length;
+            double[] spotPrices = new double[taille];
+            int i = 0;
+            
+            foreach(KeyValuePair<string, decimal> data in myHisto.Data.Find(data => data.Date == date).PriceList)
+            {
+                double[i] = data.Value;
+                i++;
+            }
+            return spotPrices;
         }
 
         /*** getVolatility ***/
