@@ -23,7 +23,7 @@ namespace TestWPF
     {
         public MainWindow()
         {
-            InitializeComponent();
+            //InitializeComponent();
             Random random = new Random();
             List<Point> points = new List<Point>();
             for (int i = 0; i < 30; i++)
@@ -32,7 +32,7 @@ namespace TestWPF
                 points.Add(point);
             }
             RawDataSource rawDataSource = new RawDataSource(points);
-            chartPlotter.AddLineGraph(rawDataSource, Colors.Black, 2, "Portfolio Hist Positions");
+            //chartPlotter.AddLineGraph(rawDataSource, Colors.Black, 2, "Portfolio Hist Positions");
             //chartPlotter.DataContext = rawDataSource;
             //lineGraph.DataSource = rawDataSource;
         }

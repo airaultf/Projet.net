@@ -25,7 +25,7 @@ namespace ComponentSelection
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = new MainWindowViewModel();
+            //this.DataContext = new MainWindowViewModel();
         }
 
         private void InitializeComponent()
