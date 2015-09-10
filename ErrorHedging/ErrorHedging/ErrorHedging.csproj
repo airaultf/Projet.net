@@ -67,9 +67,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HedgingPortfolio.cs" />
-	<Compile Include="computePortfolioValue.cs" />
+    <Compile Include="computePortfolioValue.cs" />
     <Compile Include="HedgingPortfoliobis.cs" />
-    <Compile Include="MainWindowViewModel_2.cs" />
     <Compile Include="Results.cs" />
     <Compile Include="ShareHisto.cs" />
     <Compile Include="testHedging.cs" />
