@@ -58,7 +58,7 @@ BorderBrush="Black" Background="PowderBlue">
                     </Label>
                     <TextBox Name="txtnom" Grid.Row="0"
                     Grid.Column="1" MaxLength="30"
-                    Height="23" Text="{Binding NomAction}"
+                    Height="23"
                     VerticalAlignment="Top" Margin="2,2,0,0" />
 
                     
@@ -68,7 +68,7 @@ BorderBrush="Black" Background="PowderBlue">
                     </Label>
                     <TextBox Name="txtmaturite" Grid.Row="1"
                     Grid.Column="1" MaxLength="30"
-                    Height="23" Text=""
+                    Height="23"
                     VerticalAlignment="Top" Margin="2,2,0,0" />
 
                     
@@ -98,7 +98,7 @@ BorderBrush="Black" Background="PowderBlue">
                     </Label>
                     <ComboBox Name="txtColl" Grid.Row="4"
                     Grid.Column="1" IsEditable= "True"
-                    VerticalAlignment="Top" Margin="2,0,0,0" HorizontalAlignment="Left" Width="395" >
+                    VerticalAlignment="Top" Margin="2,0,0,0" >
                         <ComboBoxItem>
                             Simulées
                         </ComboBoxItem>
@@ -130,7 +130,7 @@ BorderBrush="Black" Background="PowderBlue">
                      
                         <Button Grid.Row="0" Grid.Column="0"
                         Content="Run"
-                        Width="80" Height="30" Click="Button_Click" Margin="10,10,158,13" />
+                        Width="80" Height="30" Command="{Binding ClickCommand}" Margin="10,10,158,13" />
 
                     </Grid>
                 </Grid>

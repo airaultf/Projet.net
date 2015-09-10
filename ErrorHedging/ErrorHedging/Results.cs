@@ -37,13 +37,17 @@ namespace ErrorHedging
          *                     parameter estimation
          * @Return : computed volatility
          */
-        public static double computeVolatility(double[] portfolioReturns)
+        public static double computeVolatility(double[,] portfolioReturns)
         {
+            double[] portfolioReturn1D = new double[portfolioReturns.GetLength(0)];
+            for (int i = 0; i<portfolioReturns.GetLength(0); i++){
+                portfolioReturn1D[i] = portfolioReturns[i,1];
+            }
             double expostVolatility = 0;
             int nbValues = portfolioReturns.GetLength(0);
             int info = 0;
             int res = 0;
-            res = WREanalysisExpostVolatility(ref nbValues, portfolioReturns, ref expostVolatility, ref info);
+            res = WREanalysisExpostVolatility(ref nbValues, portfolioReturn1D, ref expostVolatility, ref info);
             if (res != 0)
             {
                 if (res < 0)
@@ -56,7 +60,7 @@ namespace ErrorHedging
         public static double[,] logReturn(double[,] assetsValues, int horizon)
         {
             int nbValues = assetsValues.GetLength(0);
-            int nbAssets = 1;
+            int nbAssets = assetsValues.GetLength(1);
             int info = 0;
             double[,] assetsReturns = new double[nbValues-horizon, nbAssets];
             int res = WREmodelingLogReturns(ref nbValues, ref nbAssets, assetsValues, ref horizon, assetsReturns, ref info);
@@ -234,8 +238,7 @@ namespace ErrorHedging
                 shareValuesForVolatilityEstimation[cpt,0] = getSpotPrice(d);
                 cpt++;
             }
-            //return logReturn(shareValuesForVolatilityEstimation, (int)horizon);
-            return 0.0;
+            return computeVolatility(logReturn(shareValuesForVolatilityEstimation, (int)horizon));
         }
 
 
