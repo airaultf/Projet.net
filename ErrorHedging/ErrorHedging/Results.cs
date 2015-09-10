@@ -139,20 +139,20 @@ namespace ErrorHedging
             if (simulated){
                 myHisto.loadingSimulated();
             }else{
-                myHisto.loadingcharge();  
+                myHisto.loadingSQL();  
             }
 
             //Contruction de myPortfolio, et calcul des valeurs initiales de hedgingPortfolioValue et payoff
             double[] firstSpotPrice = getSpotPrices(this.startDate);
             double[] initialVol = getVolatilities(this.startDate);
-            double[][] matriceCorrelation = null;
+            double[,] matriceCorrelation = null;
 
             if (option is PricingLibrary.FinancialProducts.VanillaCall){
                 this.myPortfolio = new HedgingPortfolio((PricingLibrary.FinancialProducts.VanillaCall)option, this.startDate, firstSpotPrice, initialVol); // spot a aller chercher, volatilité à calculer
             }
             else if (option is PricingLibrary.FinancialProducts.BasketOption)
             {
-                matriceCorrelation = getMatriceCorrelation();
+                matriceCorrelation = getMatriceCorrelation(this.startDate);
                 this.myPortfolio = new HedgingPortfolio((PricingLibrary.FinancialProducts.BasketOption)option, this.startDate, firstSpotPrice, initialVol, matriceCorrelation); // spot a aller chercher, volatilité à calculer
             }
             else
@@ -179,7 +179,7 @@ namespace ErrorHedging
             for (DateTime date = startDate; date <= maturityDate; date=date.AddDays(1)) // can be better done with foreach (faster) 
             {
                 spotPrice = getSpotPrice(date);
-                //volatility = getVolatility(date);
+                volatility = getVolatility(date);
                 myPortfolio.updatePortfolioValue(spotPrice, date, 0.4);
                 _hedgingPortfolioValue = myPortfolio.portfolioValue;
                 _payoff = myPortfolio.Product.GetPayoff(myHisto.Data.Find(data => data.Date == date).PriceList);
@@ -242,14 +242,22 @@ namespace ErrorHedging
         }
 
 
+        public double[] getVolatilities(DateTime date)
+        {
+            double[] res = new double[1];
+            return res;
+        }
+
         /*** getMatriceCorrelation ***/
         /* Function that return the correlation matrice for a given date
          * with a fixed estimation window 
         /* @date : date at which we want to get the correlation matrice
          * @Return : correlation matrice at this date
          */
-        public double getMatriceCorrelation(DateTime date)
+        public double[,] getMatriceCorrelation(DateTime date)
         {
+            double[,] res = new double[1,1];
+            return res;
         }
     }
 }
