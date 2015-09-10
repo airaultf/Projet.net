@@ -48,7 +48,7 @@ namespace ErrorHedging
         /*** loadingSQL ***/
         /* Function that initialise data with simulated data
          */
-        public void loadingSQL()
+        public void loadingSQL() 
         {
             string connectionString = "Data Source=(local);Initial Catalog=Northwind;" + "Integrated Security=true";
             string queryString = "SELECT data "
