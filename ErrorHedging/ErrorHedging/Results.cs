@@ -147,16 +147,19 @@ namespace ErrorHedging
 
             //Contruction de myPortfolio, et calcul des valeurs initiales de hedgingPortfolioValue et payoff
             double[] firstSpotPrice = getSpotPrices(this.startDate);             // !!!!!!!!!!!!!!!!!!!! implementé mais à tester
-            double[] initialVol = getVolatilities(this.startDate);               // !!!!!!!!!!!!!!!!!!!! pas implementé
+            //double[] initialVol = getVolatilities(this.startDate);               // !!!!!!!!!!!!!!!!!!!! pas implementé
             double[,] matriceCorrelation = null;
 
+            
             if (option is PricingLibrary.FinancialProducts.VanillaCall){
-                this.myPortfolio = new HedgingPortfolio((PricingLibrary.FinancialProducts.VanillaCall)option, this.startDate, firstSpotPrice, initialVol); // spot a aller chercher, volatilité à calculer
+                double[] volatility1 = new double[] { 0.4 };
+                this.myPortfolio = new HedgingPortfolio((PricingLibrary.FinancialProducts.VanillaCall)option, this.startDate, firstSpotPrice, volatility1); // spot a aller chercher, volatilité à calculer
             }
             else if (option is PricingLibrary.FinancialProducts.BasketOption)
             {
+                double[] volatility1 = new double[] { 0.4,0.4 };
                 matriceCorrelation = getMatriceCorrelation(this.startDate);
-                this.myPortfolio = new HedgingPortfolio((PricingLibrary.FinancialProducts.BasketOption)option, this.startDate, firstSpotPrice, initialVol, matriceCorrelation); // spot a aller chercher, volatilité à calculer
+                this.myPortfolio = new HedgingPortfolio((PricingLibrary.FinancialProducts.BasketOption)option, this.startDate, firstSpotPrice, volatility1, matriceCorrelation); // spot a aller chercher, volatilité à calculer
             }
             else
             {
@@ -181,17 +184,18 @@ namespace ErrorHedging
             double _hedgingPortfolioValue = 0; // Valeur intermediaire
             double _payoff = 0;                // Valeur intermediaire
 
+
             for (DateTime date = startDate; date <= maturityDate; date=date.AddDays(1)) // can be better done with foreach (faster) 
             {
                 spotPricetab = getSpotPrice(date);                 // !!!!!!!!!!!!!!!!!!!! implementé mais à tester
                 //volatility = getVolatilities(date);              // !!!!!!!!!!!!!!!!!!!! Pas implementé
                 double[] spotPrice = new double[] {spotPricetab};
 
-                double[] volatility1 = new double[] {0.4};
-
                 if (myPortfolio.Product is PricingLibrary.FinancialProducts.VanillaCall){
+                    double[] volatility1 = new double[] { 0.4 };
                     myPortfolio.updatePortfolioValue(spotPrice, date, volatility1);
                 }else if (myPortfolio.Product is PricingLibrary.FinancialProducts.BasketOption){
+                    double[] volatility1 = new double[] { 0.4,0.4 };
                     matriceCorrelation = getMatriceCorrelation(this.startDate);
                     myPortfolio.updatePortfolioValue(spotPrice, date, volatility1, matriceCorrelation);
                 }else{
