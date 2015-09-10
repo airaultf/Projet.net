@@ -22,6 +22,7 @@ namespace ErrorHedging
         {
             if (Product is PricingLibrary.FinancialProducts.VanillaCall)
             {
+                //Console.WriteLine("spot " + spot[0] + " volatility " + volatility[0]);
                 return pricer.PriceCall((PricingLibrary.FinancialProducts.VanillaCall)Product, date, 365, spot[0], volatility[0]);
             }
             else 
@@ -45,6 +46,9 @@ namespace ErrorHedging
                 deltaSpot += tabSpot[i] * tabDelta[i];
                 deltaFormerSpot += formerSpot[i] * tabDelta[i];
             }
+           
+            double tmp2 = (lastValue - deltaFormerSpot) * riskFree;
+            //Console.WriteLine("quantite 2 " + tmp2);
 
             return deltaSpot + (lastValue - deltaFormerSpot) * riskFree;
         }

@@ -46,10 +46,11 @@ namespace HedgingTest
                 PricingLibrary.FinancialProducts.VanillaCall Call = new PricingLibrary.FinancialProducts.VanillaCall("test", tabAction, date, 8.0);
 
 
-                DateTime dateStart = new DateTime(2014, 9, 9, 0, 0, 0);
+                DateTime dateStart = new DateTime(2014, 9, 10, 0, 0, 0);
 
 
                 ErrorHedging.Results result = new ErrorHedging.Results(Call, dateStart, date, 1, true);
+
                 double firstValue = result.HedgingPortfolioValue;
                 result.computeResults();
 

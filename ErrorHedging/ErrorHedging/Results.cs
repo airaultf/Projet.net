@@ -80,6 +80,8 @@ namespace ErrorHedging
         // options to test
         private HedgingPortfolio myPortfolio;
 
+        protected int nbShare;
+
         // beginning of test date
         private System.DateTime startDate;
 
@@ -133,6 +135,7 @@ namespace ErrorHedging
             this.maturityDate = maturityDate;
             this.testWindow = testWindow;
             this.simulated = simulated;
+            this.nbShare = option.UnderlyingShareIds.Length;
             
             // On initialise le portefeuille à la première journée
             this.myHisto = new ShareHisto(this.startDate.AddDays(-testWindow-1), this.maturityDate, option);
@@ -172,26 +175,33 @@ namespace ErrorHedging
         // Faire ensuite une version qui stocke ces résultats.
         public void computeResults()
         {
-            double[] spotPrice;
+            double spotPricetab;
             double[] volatility;
             double[,] matriceCorrelation;
             double _hedgingPortfolioValue = 0; // Valeur intermediaire
             double _payoff = 0;                // Valeur intermediaire
+
             for (DateTime date = startDate; date <= maturityDate; date=date.AddDays(1)) // can be better done with foreach (faster) 
             {
-                spotPrice = getSpotPrices(date);                 // !!!!!!!!!!!!!!!!!!!! implementé mais à tester
-                volatility = getVolatilities(date);              // !!!!!!!!!!!!!!!!!!!! Pas implementé
+                spotPricetab = getSpotPrice(date);                 // !!!!!!!!!!!!!!!!!!!! implementé mais à tester
+                //volatility = getVolatilities(date);              // !!!!!!!!!!!!!!!!!!!! Pas implementé
+                double[] spotPrice = new double[] {spotPricetab};
+
+                double[] volatility1 = new double[] {0.4};
+
                 if (myPortfolio.Product is PricingLibrary.FinancialProducts.VanillaCall){
-                    myPortfolio.updatePortfolioValue(spotPrice, date, volatility);
+                    myPortfolio.updatePortfolioValue(spotPrice, date, volatility1);
                 }else if (myPortfolio.Product is PricingLibrary.FinancialProducts.BasketOption){
                     matriceCorrelation = getMatriceCorrelation(this.startDate);
-                    myPortfolio.updatePortfolioValue(spotPrice, date, volatility, matriceCorrelation);
+                    myPortfolio.updatePortfolioValue(spotPrice, date, volatility1, matriceCorrelation);
                 }else{
                     Console.WriteLine("Not implemented exeption");
                 }
+
                 _hedgingPortfolioValue = myPortfolio.portfolioValue;
                 _payoff = myPortfolio.Product.GetPayoff(myHisto.Data.Find(data => data.Date == date).PriceList);
             }
+
             this.hedgingPortfolioValue = _hedgingPortfolioValue;
             this.payoff = _payoff;
         }
@@ -217,7 +227,8 @@ namespace ErrorHedging
          */
         public double[] getSpotPrices(DateTime date)
         {
-            int taille = this.myPortfolio.Product.UnderlyingShareIds.Length;
+            
+            int taille = this.nbShare;
             double[] spotPrices = new double[taille];
             int i = 0;
             myHisto.Data.Find(data => data.Date == date).PriceList.OrderBy(dataFeed => dataFeed.Key);
