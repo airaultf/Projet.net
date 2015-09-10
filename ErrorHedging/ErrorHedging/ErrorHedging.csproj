@@ -70,6 +70,9 @@
     <Compile Include="MainWindowViewModel_2.cs" />
     <Compile Include="Results.cs" />
     <Compile Include="ShareHisto.cs" />
+    <Compile Include="WindowPlot.xaml.cs">
+      <DependentUpon>WindowPlot.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
