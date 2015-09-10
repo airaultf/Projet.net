@@ -14,19 +14,22 @@ using System.Windows.Shapes;
 using Microsoft.Research.DynamicDataDisplay;
 using Microsoft.Research.DynamicDataDisplay.DataSources;
 
-namespace ErrorHedging
+namespace TestWPF
 {
-    /// <summary>
-    /// Logique d'interaction pour MainWindow.xaml
-    /// </summary>
-    public partial class WindowPlot : Window
-    {
-        public WindowPlot()
-        {
-            InitializeComponent();
-            Random random = new Random();
-            List<Point> points = new List<Point>();
-            for (int i = 0; i < 30; i++)
+/// <summary>
+  /// Logique d'interaction pour MainWindow.xaml
+  ///
+</summary>
+public partial class MainWindow : Window
+{
+public MainWindow()
+{
+InitializeComponent();
+Random random = new Random();
+List<Point>
+  points = new List<Point>
+    ();
+    for (int i = 0; i < 30; i++)
             {
                 Point point = new Point(i, random.Next(10));
                 points.Add(point);
@@ -38,4 +41,3 @@ namespace ErrorHedging
         }
     }
 }
-
