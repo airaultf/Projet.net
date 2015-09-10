@@ -60,7 +60,7 @@ namespace ErrorHedging
         public static double[,] logReturn(double[,] assetsValues, int horizon)
         {
             int nbValues = assetsValues.GetLength(0);
-            int nbAssets = 1;
+            int nbAssets = assetsValues.GetLength(1);
             int info = 0;
             double[,] assetsReturns = new double[nbValues-horizon, nbAssets];
             int res = WREmodelingLogReturns(ref nbValues, ref nbAssets, assetsValues, ref horizon, assetsReturns, ref info);
