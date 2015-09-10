@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.Data.SqlClient;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,17 +34,50 @@ namespace ErrorHedging
             }
         }
 
-        // Remplie la structure Data avec des données simulées
+
+        /*** loadingSimulated ***/
+        /* Function that initialise data with simulated data
+         */
         public void loadingSimulated()
         {
             PricingLibrary.Utilities.MarketDataFeed.SimulatedDataFeedProvider import = new PricingLibrary.Utilities.MarketDataFeed.SimulatedDataFeedProvider();
             this._Data = import.GetDataFeed(this._product, this.startDate);
         }
 
-        // Remplie la structure Data avec des données chargées
-        public void loadingcharge()
+
+        /*** loadingSQL ***/
+        /* Function that initialise data with simulated data
+         */
+        public void loadingSQL()
         {
-            Console.WriteLine("NotImplementedException");
+            string connectionString = "Data Source=(local);Initial Catalog=Northwind;" + "Integrated Security=true";
+            string queryString = "SELECT data "
+                + "WHERE Action = @idAction ";
+            int idAction = 0;
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlCommand command = new SqlCommand(queryString, connection);
+                command.Parameters.AddWithValue("@pricePoint", idAction);
+
+                try
+                {
+                    connection.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Console.WriteLine("\t{0}\t{1}\t{2}",
+                            reader[0], reader[1], reader[2]);
+                    }
+                    reader.Close();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                Console.ReadLine();
+
+            }
         }
     }
 }
