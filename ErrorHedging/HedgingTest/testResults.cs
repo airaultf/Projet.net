@@ -7,7 +7,6 @@ namespace HedgingTest
 {
    
     /*** Test for Results Class ***/
-    /*
     [TestClass]
     public class testResults
     {
@@ -33,5 +32,4 @@ namespace HedgingTest
             //Console.WriteLine("Volatility: " + myResults.getVolatility(date1.AddDays(30)));
         }
     }
-    */
 }
