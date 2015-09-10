@@ -42,8 +42,6 @@ namespace ErrorHedging
         public ICommand ClickCommand { get; private set; }
 
         public ComponentInfo SelectedComponent
-
-
         {
             get { return selectedComponent; }
             set
@@ -52,7 +50,6 @@ namespace ErrorHedging
                 Console.WriteLine("Component " + selectedComponent.Name + " is selected");
             }
         }
-
 
 
         private string _nomAction;  
