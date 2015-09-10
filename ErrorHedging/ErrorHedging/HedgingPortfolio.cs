@@ -57,14 +57,14 @@ namespace ErrorHedging
         {
             // On price notre call à la date et au prix spot donnés
             PricingLibrary.Computations.PricingResults resultPricer = this.computeAttribut.priceProduct(this._Product, date, tabSpot, tabVolatility, correlationMatrix);
-
+            /*
             // On calcule le nombre de jour entre le dernier rebalancement et le rabalancement actuel, on convertit ce nombre en double
             System.TimeSpan diff = date.Subtract(this.lastDay);
             int nbDays = diff.Days;
-            double dateDouble = PricingLibrary.Utilities.DayCount.ConvertToDouble(1, 365);
+            //double dateDouble = PricingLibrary.Utilities.DayCount.ConvertToDouble(1, 365);
 
             // On calcule la part d'actif sans risque
-            double riskFree = PricingLibrary.Utilities.MarketDataFeed.RiskFreeRateProvider.GetRiskFreeRateAccruedValue(dateDouble);
+            //double riskFree = PricingLibrary.Utilities.MarketDataFeed.RiskFreeRateProvider.GetRiskFreeRateAccruedValue(dateDouble);
 
             // On calcule la valeur du portfolio grace à la methode computeValuePortfolio
             this._portfolioValue = this.computeAttribut.computeValuePortfolio(tabSpot, this.hedgeRatio, this.formerSpot ,riskFree,this._portfolioValue);
@@ -73,7 +73,7 @@ namespace ErrorHedging
             // Sauvegarde des differents paramètres pour le prochain rebalancement
             this.formerSpot = tabSpot;
             this.lastDay = date;
-            this.hedgeRatio = resultPricer.Deltas;
+            this.hedgeRatio = resultPricer.Deltas;*/
         }
 
 

@@ -4,9 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ErrorHedging;
+using PricingLibrary;
 
-namespace ErrorHedging
+namespace HedgingTest
 {
+    [TestClass]
     class testBasketVolatilitiesAndSpotPricesAndCorrelationMatrix
     {
 
@@ -25,11 +28,11 @@ namespace ErrorHedging
             double[] weight = { 0.1, 0.7, 0.2 };
             PricingLibrary.FinancialProducts.BasketOption myBasketOption = new PricingLibrary.FinancialProducts.BasketOption("test", mesActions, weight, date, 30.0);
             Results myResults = new Results(myBasketOption, date1, date, 100, true);
-            for (DateTime d = date1.AddDays(100); d < date; d = d.AddDays(1))
+            for (DateTime daa = date1.AddDays(100); daa < date; daa = daa.AddDays(1))
             {
                 //Console.WriteLine(myResults.getSpotPrice(d));
                 double[] mesVols = new double[3];
-                mesVols =  myResults.getVolatilities(d);
+                mesVols = myResults.getVolatilities(daa);
                 Console.WriteLine("VOL:" + mesVols[0] + mesVols[1] + mesVols[2]);
             };
         }
