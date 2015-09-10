@@ -11,7 +11,7 @@ namespace ErrorHedging
     {
         // Import the WRE dll for fetching volatility
         // from datas
-        [DllImport("C:\Users\ensimag\Source\Repos\Projet.net2\ErrorHedging\ErrorHedging\wre-ensimag-c-4.1.dll", EntryPoint = "WREanalysisExpostVolatility")]
+        [DllImport(@"C:\Users\ensimag\Source\Repos\Projet.net2\ErrorHedging\ErrorHedging\wre-ensimag-c-4.1.dll", EntryPoint = "WREanalysisExpostVolatility")]
         // declare external function
         public static extern int WREanalysisExpostVolatility(
             ref int nbValues,
@@ -203,7 +203,8 @@ namespace ErrorHedging
                 shareValuesForVolatilityEstimation[cpt,0] = getSpotPrice(d);
                 cpt++;
             }
-            return logReturn(shareValuesForVolatilityEstimation, (int)horizon);
+            //return logReturn(shareValuesForVolatilityEstimation, (int)horizon);
+            return 0.0;
         }
     }
 }
