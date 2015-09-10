@@ -8,6 +8,7 @@ namespace HedgingTest
     [TestClass]
     public class UnitTest1
     {
+        /*
         [TestMethod]
         public void TestMethod1()
         {
@@ -29,7 +30,7 @@ namespace HedgingTest
                 date1 = date1.AddDays(1.0);
             }
         }
-
+        */
         [TestMethod]
         public void TestRebalancement()
         {

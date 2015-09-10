@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HedgingPortfolio.cs" />
+    <Compile Include="computePortfolioValue.cs" />
     <Compile Include="HedgingPortfoliobis.cs" />
     <Compile Include="Results.cs" />
     <Compile Include="ShareHisto.cs" />
