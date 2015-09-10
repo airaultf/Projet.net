@@ -177,7 +177,7 @@ namespace ErrorHedging
             double[,] matriceCorrelation;
             double _hedgingPortfolioValue = 0; // Valeur intermediaire
             double _payoff = 0;                // Valeur intermediaire
-            for (DateTime date = startDate; date <= maturityDate; date=date.AddDays(1)) // can be better done with foreach (faster) 
+            for (DateTime date = startDate; date <= maturityDate; date=date.AddDays(1)) // can be better done with foreach (faster)
             {
                 spotPrice = getSpotPrices(date);                 // !!!!!!!!!!!!!!!!!!!! implementé mais à tester
                 volatility = getVolatilities(date);              // !!!!!!!!!!!!!!!!!!!! Pas implementé

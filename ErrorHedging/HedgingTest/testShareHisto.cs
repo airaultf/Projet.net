@@ -51,7 +51,7 @@ namespace HedgingTest
 
             ShareHisto myShareHisto = new ShareHisto(date1, date, Call);
 
-            myShareHisto.loadingcharge();
+            myShareHisto.loadingSQL();
             decimal value = 0;
 
 
