@@ -11,7 +11,7 @@ namespace ErrorHedging
     {
         // Import the WRE dll for fetching volatility
         // from datas
-        [DllImport(@"C:\Users\ensimag\Source\Repos\Projet.net2\ErrorHedging\ErrorHedging\wre-ensimag-c-4.1.dll", EntryPoint = "WREanalysisExpostVolatility")]
+        [DllImport(@"C:\Users\ensimag\Source\Repos\Projet.net2\ErrorHedging\ErrorHedging\wre-ensimag-c-4.1.dll", EntryPoint = "WREanalysisExpostVolatility", CallingConvention=CallingConvention.Cdecl)]
         // declare external function
         public static extern int WREanalysisExpostVolatility(
             ref int nbValues,
@@ -20,7 +20,7 @@ namespace ErrorHedging
             ref int info
             );
 
-        [DllImport(@"C:\Users\ensimag\Source\Repos\Projet.net2\ErrorHedging\ErrorHedging\wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingLogReturns")]
+        [DllImport(@"C:\Users\ensimag\Source\Repos\Projet.net2\ErrorHedging\ErrorHedging\wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingLogReturns", CallingConvention = CallingConvention.Cdecl)]
         public static extern int WREmodelingLogReturns(
             ref int nbValues,
             ref int nbAssets,
@@ -40,8 +40,8 @@ namespace ErrorHedging
         public static double computeVolatility(double[,] portfolioReturns)
         {
             double[] portfolioReturn1D = new double[portfolioReturns.GetLength(0)];
-            for (int i = 0; i<portfolioReturns.GetLength(0); i++){
-                portfolioReturn1D[i] = portfolioReturns[i,1];
+            for (int i=0; i<portfolioReturns.GetLength(0); i++){
+                portfolioReturn1D[i] = portfolioReturns[i,0];
             }
             double expostVolatility = 0;
             int nbValues = portfolioReturns.GetLength(0);
@@ -57,7 +57,49 @@ namespace ErrorHedging
             }
             return expostVolatility;
         }
+
+        public static double[] computeVolatilities(double[,] portfolioReturns)
+        {
+            double[] volatilities = new double[portfolioReturns.GetLength(1)];
+            // on boucle sur les actions
+            for (int i = 0; i < portfolioReturns.GetLength(1); i++)
+            {
+                double[] portfolioReturn1D = new double[portfolioReturns.GetLength(0)];
+                for (int j = 0; j < portfolioReturns.GetLength(0); i++)
+                {
+                    portfolioReturn1D[j] = portfolioReturns[j, i];
+                }
+                double expostVolatility = 0;
+                int nbValues = portfolioReturns.GetLength(0);
+                int info = 0;
+                int res = 0;
+                res = WREanalysisExpostVolatility(ref nbValues, portfolioReturn1D, ref expostVolatility, ref info);
+                if (res != 0)
+                {
+                    if (res < 0)
+                        throw new Exception("ERROR : WREanalysisExpostVolatility encountered a problem");
+                    else
+                        throw new Exception("WARNING : WREanalysisExpostVolatility encountered a problem");
+                }
+                volatilities[i] = expostVolatility;
+            }
+            return volatilities;
+        }
+
         public static double[,] logReturn(double[,] assetsValues, int horizon)
+        {
+            int nbValues = assetsValues.GetLength(0);
+            int nbAssets = assetsValues.GetLength(1);
+            double[,] assetReturns = new double[nbValues, nbAssets];
+            for (int i = 1; i < nbValues; i++)
+            {
+                for (int action=0; action<nbAssets; action++){
+                    assetReturns[i - 1, action] = Math.Log((assetsValues[i, action] / assetsValues[i - 1, action]));
+                }
+            }
+                return assetReturns;
+        }
+        /*public static double[,] logReturn(double[,] assetsValues, ref int horizon)
         {
             int nbValues = assetsValues.GetLength(0);
             int nbAssets = assetsValues.GetLength(1);
@@ -71,14 +113,21 @@ namespace ErrorHedging
                 else
                     throw new Exception("WARNING : WREmodelingLogReturns encountered a problem");
         }
-            return assetsReturns;
-        }
+            for (int i = 0; i < assetsReturns.Length; i++)
+            {
+                double j = assetsReturns[i,0];
+                Console.WriteLine(j);
+            }
+                return assetsReturns;
+        }*/
 
         /*** TEST PARAMETERS ***/
 
 
         // options to test
         private HedgingPortfolio myPortfolio;
+
+        protected int nbShare;
 
         // beginning of test date
         private System.DateTime startDate;
@@ -133,6 +182,7 @@ namespace ErrorHedging
             this.maturityDate = maturityDate;
             this.testWindow = testWindow;
             this.simulated = simulated;
+            this.nbShare = option.UnderlyingShareIds.Length;
             
             // On initialise le portefeuille à la première journée
             this.myHisto = new ShareHisto(this.startDate.AddDays(-testWindow-1), this.maturityDate, option);
@@ -144,7 +194,7 @@ namespace ErrorHedging
 
             //Contruction de myPortfolio, et calcul des valeurs initiales de hedgingPortfolioValue et payoff
             double firstSpotPrice = getSpotPrice(this.startDate);
-            double initialVol = getVolatility(this.startDate);
+            double initialVol = 0.4;
             //double initialVol = 0.4;
 
             if (option is PricingLibrary.FinancialProducts.VanillaCall){
@@ -212,16 +262,55 @@ namespace ErrorHedging
          */
         public double getVolatility(DateTime date)
         {
-            double dimTab = ((maturityDate.AddDays(testWindow)-startDate)).TotalDays;
+            double dimTab = testWindow +1;
             double[,] shareValuesForVolatilityEstimation = new double[(int)dimTab,1];
-            double horizon = (maturityDate-startDate).TotalDays;
+            int horizon = (int)((maturityDate-startDate).TotalDays);
             int cpt = 0;
-            for (DateTime d = date.AddDays(-testWindow); d <= maturityDate; d=d.AddDays(1))
+            for (DateTime d = date.AddDays(-testWindow); d <= date; d=d.AddDays(1))
             {
                 shareValuesForVolatilityEstimation[cpt,0] = getSpotPrice(d);
                 cpt++;
             }
-            return computeVolatility(logReturn(shareValuesForVolatilityEstimation, (int)horizon));
+            return Math.Sqrt(365)*computeVolatility(logReturn(shareValuesForVolatilityEstimation, horizon));
+        }
+
+        public double getVolatility(DateTime date)
+        {
+            double dimTab = testWindow + 1;
+            double[,] shareValuesForVolatilityEstimation = new double[(int)dimTab, 1];
+            int horizon = (int)((maturityDate - startDate).TotalDays);
+            int cpt = 0;
+            for (DateTime d = date.AddDays(-testWindow); d <= date; d = d.AddDays(1))
+            {
+                shareValuesForVolatilityEstimation[cpt, 0] = getSpotPrice(d);
+                cpt++;
+            }
+            if (simulated)
+                return Math.Sqrt(365) * computeVolatility(logReturn(shareValuesForVolatilityEstimation, horizon));
+            else
+                return Math.Sqrt(250) * computeVolatility(logReturn(shareValuesForVolatilityEstimation, horizon));
+        }
+
+        public double getVolatilities(DateTime date)
+        {
+            int assetNumber = this.nbShare;
+            double dimTab = testWindow + 1;
+            double[,] shareValuesForVolatilityEstimation = new double[(int)dimTab, nbShare];
+            double[] spotPricesAtDate = new double[nbShare];
+            int horizon = (int)((maturityDate - startDate).TotalDays);
+            int cpt = 0;
+            for (DateTime d = date.AddDays(-testWindow); d <= date; d = d.AddDays(1))
+            {
+                spotPricesAtDate = getSpotPrices(d);
+                for (int i=0; i<shareValuesForVolatilityEstimation.GetLength(1); i++){
+                    shareValuesForVolatilityEstimation[cpt, i] = spotPricesAtDate[i];
+                    cpt++;
+                }
+            }
+            if (simulated)
+                return Math.Sqrt(365) * computeVolatility(logReturn(shareValuesForVolatilityEstimation, horizon));
+            else
+                return Math.Sqrt(250) * computeVolatility(logReturn(shareValuesForVolatilityEstimation, horizon));
         }
     }
 }
