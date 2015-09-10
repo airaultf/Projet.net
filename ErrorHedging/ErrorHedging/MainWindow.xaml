@@ -130,7 +130,7 @@ BorderBrush="Black" Background="PowderBlue">
                      
                         <Button Grid.Row="0" Grid.Column="0"
                         Content="Run"
-                        Width="80" Height="30" Click="Button_Click" Margin="10,10,158,13" />
+                        Width="80" Height="30" Command="{Binding ClickCommand}" Margin="10,10,158,13" />
 
                     </Grid>
                 </Grid>

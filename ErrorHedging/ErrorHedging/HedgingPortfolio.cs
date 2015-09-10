@@ -9,13 +9,15 @@ namespace ErrorHedging
 {
     class HedgingPortfolio
     {
-        // Valeur du portefeuille
+        // Attributs du portefeuille
         protected double _portfolioValue;
         protected double[] hedgeRatio;
         protected double[] formerSpot;
         protected double[,] correlationMatrix;
         protected PricingLibrary.FinancialProducts.IOption _Product;
         protected DateTime lastDay;
+
+        // Attribut qui permet de faire les calculs
         protected computePortfolioValue computeAttribut;
 
         public HedgingPortfolio(PricingLibrary.FinancialProducts.IOption Product, System.DateTime date, double[] initialSpot, double[] initialVol, double[,] correlationMatrix = null)
@@ -31,6 +33,7 @@ namespace ErrorHedging
             this._Product = Product;
         }
 
+        // Getter pour le produit
         public PricingLibrary.FinancialProducts.IOption Product
         {
             get
@@ -48,6 +51,7 @@ namespace ErrorHedging
             }
         }
 
+        // Methode qui met à jour la valeur du portefeuille
         public void updatePortfolioValue(double[] tabSpot, System.DateTime date, double[] tabVolatility)
         {
             // On price notre call à la date et au prix spot donnés
