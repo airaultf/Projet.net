@@ -191,10 +191,10 @@ namespace ErrorHedging
             int taille = this.myPortfolio.Product.UnderlyingShareIds.Length;
             double[] spotPrices = new double[taille];
             int i = 0;
-            
+            myHisto.Data.Find(data => data.Date == date).PriceList.OrderBy(dataFeed => dataFeed.Key);
             foreach(KeyValuePair<string, decimal> data in myHisto.Data.Find(data => data.Date == date).PriceList)
             {
-                double[i] = data.Value;
+                spotPrices[i] = (double)data.Value;
                 i++;
             }
             return spotPrices;
