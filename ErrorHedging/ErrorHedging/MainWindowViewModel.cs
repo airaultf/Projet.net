@@ -27,15 +27,19 @@ using System.Collections.ObjectModel;
     /// Logique d'interaction pour MainWindow.xaml
     /// </summary>
   
+
+    
+
     class MainWindowViewModel : BindableBase
     {
         private string _nomAction;  
         public string nomAction
         {
             get { return _nomAction; }
-            set { SetProperty(ref _nomAction, value); ;  }
+            set { SetProperty(ref _nomAction, value);   }
         }
 
+        public ICommand ClickCommand { get; private set; }
 
         private string _maturite;
         public string maturite
@@ -76,11 +80,14 @@ using System.Collections.ObjectModel;
             set { SetProperty(ref _dureeEstimation, value); }
         }
 
-
-
-        private void Button_Click(object sender, RoutedEventArgs e)
+        public MainWindowViewModel()
         {
-            MessageBox.Show("doit afficher le payoff de l'option et la valeur du portefeuille de couverture correspondant");
+            Console.WriteLine("kjkkkk");
+        }
+
+        private static void Main()
+        {
+            Console.WriteLine("a faire");
         }
 
     }
