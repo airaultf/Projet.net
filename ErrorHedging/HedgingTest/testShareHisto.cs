@@ -15,11 +15,11 @@ namespace HedgingTest
     /*** Test for data simulation & loaded datas ***/
     public class testShareHisto
     {
-        [TestMethod]
+        //[TestMethod]
         /*** Test for data simulation ***/
         /* Print all simulated values 
          * for one share between two dates */
-        public void TestDataSimulation()
+        /*public void TestDataSimulation()
         {
             DateTime date = DateTime.Now;
             PricingLibrary.FinancialProducts.Share Action = new PricingLibrary.FinancialProducts.Share("test", "01");
@@ -39,8 +39,8 @@ namespace HedgingTest
                 data.PriceList.TryGetValue("01", out value);
                 Console.WriteLine(data.Date + "       " + value.ToString());
             }
-            );
-        }
+           );
+        }*/
 
         [TestMethod]
         /*** Test for data simulation ***/
@@ -53,7 +53,7 @@ namespace HedgingTest
             PricingLibrary.FinancialProducts.Share[] tabAction = { Action };
             PricingLibrary.FinancialProducts.VanillaCall Call = new PricingLibrary.FinancialProducts.VanillaCall("ALO FP", tabAction, date, 30.0);
 
-            DateTime date1 = new DateTime(2013, 6, 1, 0, 0, 0);
+            DateTime date1 = new DateTime(2015, 6, 1, 0, 0, 0);
 
             ShareHisto myShareHisto = new ShareHisto(date1, date, Call);
 

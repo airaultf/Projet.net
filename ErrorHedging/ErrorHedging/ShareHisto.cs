@@ -52,17 +52,23 @@ namespace ErrorHedging
 
             for (DateTime date = startDate; date <= maturityDate; date = date.AddDays(1))
             {
-                using (MyLocalDBDataContext mdc = new MyLocalDBDataContext())
+                using (MyLocalDBDataContext mdc = new MyLocalDBDataContext()) 
                 {
-                    var res1 = mdc.HistoricalShareValues.Where(x => x.date == date).Select(el => el.id.Trim()).Distinct().ToList();
+                    List<String> res1 = mdc.HistoricalShareValues.Where(x => (x.date == date)).Select(el => el.id).Distinct().ToList();
                     System.Collections.Generic.Dictionary<string, decimal> res2 = new Dictionary<string,decimal>();
-                    foreach(var c in res1){
-                        var temp = mdc.HistoricalShareValues.Where(x => (x.date == date && x.id == c)).Select(x => x.value).First();
-                        res2.Add((string)c, (decimal)temp);
+                    foreach (var c in res1)//in this._product.UnderlyingShareIds.ToList())
+                    {
+                        if(res1.Contains(c)){
+                            decimal temp = mdc.HistoricalShareValues.Where(x => (x.date == date && x.id == c)).Select(x => x.value).Distinct().First();
+                            res2.Add((string)c, (decimal)temp);
+                        }
                     }
-                    _Data.Add(new PricingLibrary.Utilities.MarketDataFeed.DataFeed(date, res2));
+                    this._Data.Add(new PricingLibrary.Utilities.MarketDataFeed.DataFeed(date, res2));
                 }
+                Console.WriteLine("on est bon");
+
             }
+            Console.WriteLine("on est bon");
         }
 
         public void loading()
