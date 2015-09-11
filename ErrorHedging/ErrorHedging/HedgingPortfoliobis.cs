@@ -53,6 +53,8 @@ namespace ErrorHedging
         }
 
     }
+	
+	@"C:\Users\ensimag\Documents\GitHub\ProjetPointNet\Projet.net\ErrorHedging\ErrorHedging\wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingCorr"
 
     // Classe qui hérite de la classe HedgingPortfolio et qui l'implemente pour un produit de type Vanilla Call
     class HedgingPortfolioVanillaCall : HedgingPortfolio
