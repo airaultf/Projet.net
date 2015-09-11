@@ -2,6 +2,12 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ErrorHedging;
 using PricingLibrary;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+
 
 namespace HedgingTest
 {
@@ -9,11 +15,11 @@ namespace HedgingTest
     /*** Test for data simulation & loaded datas ***/
     public class testShareHisto
     {
-        [TestMethod]
+        //[TestMethod]
         /*** Test for data simulation ***/
         /* Print all simulated values 
          * for one share between two dates */
-        public void TestDataSimulation()
+        /*public void TestDataSimulation()
         {
             DateTime date = DateTime.Now;
             PricingLibrary.FinancialProducts.Share Action = new PricingLibrary.FinancialProducts.Share("test", "01");
@@ -33,8 +39,8 @@ namespace HedgingTest
                 data.PriceList.TryGetValue("01", out value);
                 Console.WriteLine(data.Date + "       " + value.ToString());
             }
-            );
-        }
+           );
+        }*/
 
         [TestMethod]
         /*** Test for data simulation ***/
@@ -43,24 +49,26 @@ namespace HedgingTest
         public void TestLoadedData()
         {
             DateTime date = DateTime.Now;
-            PricingLibrary.FinancialProducts.Share Action = new PricingLibrary.FinancialProducts.Share("test", "01");
+            PricingLibrary.FinancialProducts.Share Action = new PricingLibrary.FinancialProducts.Share("ALO FP", "0");
             PricingLibrary.FinancialProducts.Share[] tabAction = { Action };
-            PricingLibrary.FinancialProducts.VanillaCall Call = new PricingLibrary.FinancialProducts.VanillaCall("test", tabAction, date, 30.0);
+            PricingLibrary.FinancialProducts.VanillaCall Call = new PricingLibrary.FinancialProducts.VanillaCall("ALO FP", tabAction, date, 30.0);
 
             DateTime date1 = new DateTime(2014, 6, 1, 0, 0, 0);
 
             ShareHisto myShareHisto = new ShareHisto(date1, date, Call);
 
-            //myShareHisto.loadingcharge();
-            decimal value = 0;
+            myShareHisto.loading();
+            myShareHisto.loadingSQL();
 
+            decimal value = 0;
 
             myShareHisto.Data.ForEach(delegate(PricingLibrary.Utilities.MarketDataFeed.DataFeed data)
             {
-                data.PriceList.TryGetValue("01", out value);
+                data.PriceList.TryGetValue("0", out value);
                 Console.WriteLine(data.Date + "       " + value.ToString());
             }
             );
         }
+
     }
 }

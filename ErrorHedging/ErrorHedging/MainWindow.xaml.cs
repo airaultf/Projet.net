@@ -27,6 +27,7 @@ namespace ErrorHedging
             InitializeComponent();
             this.DataContext = new ErrorHedging.MainWindowViewModel();
 
+
             ///   WindowPlot wp = new WindowPlot();
             ///   wp.Show();
            
