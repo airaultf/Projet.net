@@ -62,7 +62,7 @@ namespace ErrorHedging
             System.TimeSpan diff = date.Subtract(this.lastDay);
 
             int nbDays = diff.Days;
-            double dateDouble = PricingLibrary.Utilities.DayCount.ConvertToDouble(1, 365);
+            double dateDouble = PricingLibrary.Utilities.DayCount.ConvertToDouble(nbDays, 365);
             
 
             // On calcule la part d'actif sans risque

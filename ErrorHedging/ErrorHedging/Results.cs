@@ -59,9 +59,8 @@ namespace ErrorHedging
 
         public static double[] computeVolatilities(double[,] portfolioReturns, bool simulated)
         {
-            //double[] volatilities = new double[portfolioReturns.GetLength(1)];
-            double[] volatilities = new double[10];
-
+            double[] volatilities = new double[portfolioReturns.GetLength(1)];
+            
             // on boucle sur les actions
             for (int i = 0; i < portfolioReturns.GetLength(1); i++)
             {
@@ -227,8 +226,9 @@ namespace ErrorHedging
             }
             else if (option is PricingLibrary.FinancialProducts.BasketOption)
             {
+                double[] vol = new double[] {0.4, 0.4, 0.4, 0.4, 0.4};
                 matriceCorrelation = getCorrelationMatrix(this.startDate);
-                this.myPortfolio = new HedgingPortfolio((PricingLibrary.FinancialProducts.BasketOption)option, this.startDate, firstSpotPrice, initialVol, matriceCorrelation); // spot a aller chercher, volatilité à calculer
+                this.myPortfolio = new HedgingPortfolio((PricingLibrary.FinancialProducts.BasketOption)option, this.startDate, firstSpotPrice, vol, matriceCorrelation); // spot a aller chercher, volatilité à calculer
             }
             else
             {
@@ -256,16 +256,18 @@ namespace ErrorHedging
             for (DateTime date = startDate; date <= maturityDate; date=date.AddDays(1)) // can be better done with foreach (faster) 
             {
                 spotPricetab = getSpotPrice(date);                 // !!!!!!!!!!!!!!!!!!!! implementé mais à tester
-                volatility = getVolatilities(date);              // !!!!!!!!!!!!!!!!!!!! Pas implementé
+                volatility = getVolatilities(date);             // !!!!!!!!!!!!!!!!!!!! Pas implementé
                 double[] spotPrice = new double[] {spotPricetab};
 
-
                 if (myPortfolio.Product is PricingLibrary.FinancialProducts.VanillaCall){
-                    Console.WriteLine(volatility[0]);
-                    myPortfolio.updatePortfolioValue(spotPrice, date, volatility);
+                    double[] vol = new double[] { 0.4 };
+                    myPortfolio.updatePortfolioValue(spotPrice, date, vol);
                 }else if (myPortfolio.Product is PricingLibrary.FinancialProducts.BasketOption){
+                    double[] spotPrice1 = getSpotPrices(date);
                     matriceCorrelation = getCorrelationMatrix(this.startDate);
-                    myPortfolio.updatePortfolioValue(spotPrice, date, volatility, matriceCorrelation);
+                    double[] vol = new double[] { 0.4, 0.4, 0.4, 0.4, 0.4 };
+                    //Console.WriteLine("vol " + volatility[0] + "matrice corre " + matriceCorrelation[0,0]);
+                    myPortfolio.updatePortfolioValue(spotPrice1, date, vol, matriceCorrelation);
                 }else{
                     Console.WriteLine("Not implemented exeption");
                 }
@@ -344,14 +346,19 @@ namespace ErrorHedging
             double[] spotPricesAtDate = new double[nbShare];
             int horizon = (int)((maturityDate - startDate).TotalDays);
             int cpt = 0;
+
+
             for (DateTime d = date.AddDays(-testWindow); d <= date; d = d.AddDays(1))
             {
                 spotPricesAtDate = getSpotPrices(d);
+
                 for (int i = 0; i < shareValuesForVolatilityEstimation.GetLength(1); i++)
                 {
                     shareValuesForVolatilityEstimation[cpt, i] = spotPricesAtDate[i];
-                    cpt++;
+                    
                 }
+                cpt++;
+               
             }
             return computeVolatilities(logReturn(shareValuesForVolatilityEstimation, horizon), simulated);
         }
@@ -360,7 +367,7 @@ namespace ErrorHedging
         public double[,] getCorrelationMatrix(DateTime date)
         {
             // correlation matrix not symetrical and defined positive
-            if (nbShare < testWindow)
+            if ( testWindow < nbShare )
             {
                 throw new Exception("ERROR : getCorrelationMatrix encountered a problem: Estimation window too small");
             }
@@ -375,8 +382,9 @@ namespace ErrorHedging
                 for (int i = 0; i < shareValuesForVolatilityEstimation.GetLength(1); i++)
                 {
                     shareValuesForVolatilityEstimation[cpt, i] = spotPricesAtDate[i];
-                    cpt++;
+                    
                 }
+                cpt++;
             }
             return computeCorrelationMatrix(shareValuesForVolatilityEstimation);
         }
