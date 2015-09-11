@@ -34,6 +34,7 @@ namespace HedgingTest
                 double[] mesVols = new double[3];
                 mesVols = myResults.getVolatilities(daa);
                 Console.WriteLine("VOL:" + mesVols[0] + mesVols[1] + mesVols[2]);
+                Console.WriteLine("************");
             };
         }
 

@@ -21,8 +21,8 @@ namespace HedgingTest
             // updatePortfolioValue(double spot, System.DateTime date, double volatility)
             DateTime date1 = new DateTime(2012, 6, 1, 0, 0, 0);
 
-            Results myResults = new Results(Call, date1, date, 100, true);
-            for (DateTime d = date1.AddDays(100); d<date; d=d.AddDays(1))
+            Results myResults = new Results(Call, date1, date, 20, true);
+            for (DateTime d = date1.AddDays(20); d<date; d=d.AddDays(1))
             {
                 //Console.WriteLine(myResults.getSpotPrice(d));
                 Console.WriteLine("VOL:" + myResults.getVolatility(d));
