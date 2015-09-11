@@ -257,7 +257,7 @@ namespace ErrorHedging
             return res;
         }
 
-        /*** getMatriceCorrelation ***/
+        /*** getMatriceCorrelation ***/  
         /* Function that return the correlation matrice for a given date
          * with a fixed estimation window 
         /* @date : date at which we want to get the correlation matrice
