@@ -16,34 +16,20 @@ using Microsoft.Research.DynamicDataDisplay.DataSources;
 
 namespace TestWPF
 {
-<<<<<<< HEAD:ErrorHedging/ErrorHedging/WindowPlot.xaml.cs
     /// <summary>
     /// Logique d'interaction pour MainWindow.xaml
-    /// </summary>
+  ///
+</summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             //InitializeComponent();
             Random random = new Random();
-            List<Point> points = new List<Point>();
-            for (int i = 0; i < 30; i++)
-=======
-/// <summary>
-  /// Logique d'interaction pour MainWindow.xaml
-  ///
-</summary>
-public partial class MainWindow : Window
-{
-public MainWindow()
-{
-InitializeComponent();
-Random random = new Random();
 List<Point>
   points = new List<Point>
     ();
-    for (int i = 0; i < 30; i++)
->>>>>>> 882b469f4990b839e10e6b13bd741663c3dea170:ErrorHedging/WindowPlot.xaml.cs
+            for (int i = 0; i < 30; i++)
             {
                 Point point = new Point(i, random.Next(10));
                 points.Add(point);

@@ -20,13 +20,15 @@ namespace ErrorHedging
 
         public PricingLibrary.Computations.PricingResults priceProduct(PricingLibrary.FinancialProducts.IOption Product, DateTime date, double[] spot, double[] volatility, double[,] correlationMatrix = null)
         {
+
             if (Product is PricingLibrary.FinancialProducts.VanillaCall)
             {
-                return pricer.PriceCall((PricingLibrary.FinancialProducts.VanillaCall)Product, date, 365, spot[0], volatility[0]);
+            
+                return this.pricer.PriceCall((PricingLibrary.FinancialProducts.VanillaCall)Product, date, 365, spot[0], volatility[0]);
             }
             else 
             {
-                return pricer.PriceBasket((PricingLibrary.FinancialProducts.BasketOption)Product, date, 365, spot, volatility, correlationMatrix);
+                return this.pricer.PriceBasket((PricingLibrary.FinancialProducts.BasketOption)Product, date, 365, spot, volatility, correlationMatrix);
             }
         }
 
@@ -39,13 +41,15 @@ namespace ErrorHedging
 
             double deltaSpot = 0.0;
             double deltaFormerSpot = 0.0;
-
+            
             for (int i = 0; i < tabSpot.Length; i++)
             {
                 deltaSpot += tabSpot[i] * tabDelta[i];
                 deltaFormerSpot += formerSpot[i] * tabDelta[i];
             }
-
+           
+            double tmp2 = (lastValue - deltaFormerSpot) * riskFree;
+             
             return deltaSpot + (lastValue - deltaFormerSpot) * riskFree;
         }
     }
