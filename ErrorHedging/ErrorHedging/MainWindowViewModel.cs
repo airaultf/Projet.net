@@ -20,8 +20,9 @@ using Microsoft.Practices.Prism.Mvvm;
 using System.Collections.ObjectModel;
 
 
-    namespace ErrorHedging
-    {
+namespace ErrorHedging
+
+{
 
     /// <summary>
     /// Logique d'interaction pour MainWindow.xaml
@@ -31,7 +32,26 @@ using System.Collections.ObjectModel;
     
 
     class MainWindowViewModel : BindableBase
+
     {
+
+        private ComponentInfo selectedComponent;
+
+        public ObservableCollection<ComponentInfo> ComponentInfoList { get; private set; }
+
+        public ICommand ClickCommand { get; private set; }
+
+        public ComponentInfo SelectedComponent
+        {
+            get { return selectedComponent; }
+            set
+            {
+                SetProperty(ref selectedComponent, value);
+                Console.WriteLine("Component " + selectedComponent.Name + " is selected");
+            }
+        }
+
+
         private string _nomAction;  
         public string nomAction
         {
@@ -39,7 +59,6 @@ using System.Collections.ObjectModel;
             set { SetProperty(ref _nomAction, value);   }
         }
 
-        public ICommand ClickCommand { get; private set; }
 
         private string _maturite;
         public string maturite
@@ -80,16 +99,22 @@ using System.Collections.ObjectModel;
             set { SetProperty(ref _dureeEstimation, value); }
         }
 
+
         public MainWindowViewModel()
         {
-            Console.WriteLine("kjkkkk");
+            Console.WriteLine("TO DO");
+            ClickCommand = new DelegateCommand(test);
         }
 
         private static void Main()
         {
             Console.WriteLine("a faire");
         }
-
+        
+        private void test()
+        {
+            Console.WriteLine(nomAction);
+        }
     }
 }  
 

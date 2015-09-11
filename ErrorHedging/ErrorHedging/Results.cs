@@ -253,6 +253,7 @@ namespace ErrorHedging
         public double[] getVolatilities(DateTime date)
         {
             double[] res = new double[1];
+            Console.WriteLine("notImplementedExeption");
             return res;
         }
 
@@ -261,7 +262,7 @@ namespace ErrorHedging
          * with a fixed estimation window 
         /* @date : date at which we want to get the correlation matrice
          * @Return : correlation matrice at this date
-         */
+         */ 
         public double[,] getMatriceCorrelation(DateTime date)
         {
             double[,] res = new double[1,1];

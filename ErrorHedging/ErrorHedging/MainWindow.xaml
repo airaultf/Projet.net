@@ -52,11 +52,12 @@ BorderBrush="Black" Background="PowderBlue">
                     </Grid.RowDefinitions>
 
 
+                    
                     <Label Name="lblnom" Grid.Row="0"
                     Grid.Column="0">
                         Nom action
                     </Label>
-                    <TextBox Name="txtnom" Grid.Row="0"
+                    <TextBox Text="{Binding nomAction}" Name="txtnom" Grid.Row="0"
                     Grid.Column="1" MaxLength="30"
                     Height="23"
                     VerticalAlignment="Top" Margin="2,2,0,0" />

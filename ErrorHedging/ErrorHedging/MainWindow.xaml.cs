@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 using ErrorHedging;
 
 
-namespace ComponentSelection
+namespace ErrorHedging
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -25,12 +25,12 @@ namespace ComponentSelection
         public MainWindow()
         {
             InitializeComponent();
-            //this.DataContext = new MainWindowViewModel();
-        }
+            this.DataContext = new ErrorHedging.MainWindowViewModel();
 
-        private void InitializeComponent()
-        {
-            throw new NotImplementedException();
+
+            ///   WindowPlot wp = new WindowPlot();
+            ///   wp.Show();
+           
         }
 
 

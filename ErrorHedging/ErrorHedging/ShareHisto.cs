@@ -48,36 +48,34 @@ namespace ErrorHedging
         /*** loadingSQL ***/
         /* Function that initialise data with simulated data
          */
-        public void loadingSQL() 
-        {
-            string connectionString = "Data Source=(local);Initial Catalog=Northwind;" + "Integrated Security=true";
-            string queryString = "SELECT data "
-                + "WHERE Action = @idAction ";
-            int idAction = 0;
+        public void loadingSQL(){
 
-            using (SqlConnection connection = new SqlConnection(connectionString))
+            for (DateTime date = startDate; date <= maturityDate; date = date.AddDays(1))
             {
-                SqlCommand command = new SqlCommand(queryString, connection);
-                command.Parameters.AddWithValue("@pricePoint", idAction);
-
-                try
+                using (MyLocalDBDataContext mdc = new MyLocalDBDataContext())
                 {
-                    connection.Open();
-                    SqlDataReader reader = command.ExecuteReader();
-                    while (reader.Read())
-                    {
-                        Console.WriteLine("\t{0}\t{1}\t{2}",
-                            reader[0], reader[1], reader[2]);
+                    var res1 = mdc.HistoricalShareValues.Where(x => x.date == date).Select(el => el.id.Trim()).Distinct().ToList();
+                    System.Collections.Generic.Dictionary<string, decimal> res2 = new Dictionary<string,decimal>();
+                    foreach(var c in res1){
+                        var temp = mdc.HistoricalShareValues.Where(x => (x.date == date && x.id == c)).Select(x => x.value).First();
+                        res2.Add((string)c, (decimal)temp);
                     }
-                    reader.Close();
+                    _Data.Add(new PricingLibrary.Utilities.MarketDataFeed.DataFeed(date, res2));
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-                Console.ReadLine();
-
             }
+        }
+
+        public void loading()
+        {
+            using (MyLocalDBDataContext mdc = new MyLocalDBDataContext())
+            {
+                var res1 = mdc.HistoricalShareValues.Select(el => el.id.Trim()).Distinct().ToList();
+                foreach (var c in res1)
+                {
+                    Console.WriteLine("Action : " + c);
+                }
+            }
+
         }
     }
 }
