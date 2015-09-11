@@ -63,7 +63,7 @@ namespace ErrorHedging
                     _Data.Add(new PricingLibrary.Utilities.MarketDataFeed.DataFeed(date, res2));
                 }
             }
-
+            Console.WriteLine("coucou");
         }
 
         public void loading()

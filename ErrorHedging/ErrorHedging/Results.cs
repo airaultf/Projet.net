@@ -221,7 +221,9 @@ namespace ErrorHedging
             double[,] matriceCorrelation = null;
 
             if (option is PricingLibrary.FinancialProducts.VanillaCall){
-                this.myPortfolio = new HedgingPortfolio((PricingLibrary.FinancialProducts.VanillaCall)option, this.startDate, firstSpotPrice, initialVol); // spot a aller chercher, volatilité à calculer
+                double volTmp = getVolatility(this.startDate);
+                double[] vol = new double[] { 0.4 };
+                this.myPortfolio = new HedgingPortfolio((PricingLibrary.FinancialProducts.VanillaCall)option, this.startDate, firstSpotPrice, vol); // spot a aller chercher, volatilité à calculer
             }
             else if (option is PricingLibrary.FinancialProducts.BasketOption)
             {
@@ -258,6 +260,8 @@ namespace ErrorHedging
                 double[] spotPrice = new double[] {spotPricetab};
 
                 if (myPortfolio.Product is PricingLibrary.FinancialProducts.VanillaCall){
+                    double volTmp = getVolatility(date);
+                    double[] vol = new double[] { 0.4 };
                     myPortfolio.updatePortfolioValue(spotPrice, date, volatility);
                 }else if (myPortfolio.Product is PricingLibrary.FinancialProducts.BasketOption){
                     double[] spotPrice1 = getSpotPrices(date);
