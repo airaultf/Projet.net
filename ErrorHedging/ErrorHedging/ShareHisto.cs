@@ -52,7 +52,7 @@ namespace ErrorHedging
 
             for (DateTime date = startDate; date <= maturityDate; date = date.AddDays(1))
             {
-                using (MyLocalDBDataContext mdc = new MyLocalDBDataContext())
+                using (MyLocalDBDataContext mdc = new MyLocalDBDataContext()) 
                 {
                     List<String> res1 = mdc.HistoricalShareValues.Where(x => (x.date == date)).Select(el => el.id).Distinct().ToList();
                     System.Collections.Generic.Dictionary<string, decimal> res2 = new Dictionary<string,decimal>();
