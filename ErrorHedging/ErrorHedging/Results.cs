@@ -108,13 +108,13 @@ namespace ErrorHedging
 
         public static double[,] logReturn(double[,] assetsValues, int horizon)
         {
-            /*for (int i = 0; i < assetsValues.GetLength(0); i++)
+            for (int i = 0; i < assetsValues.GetLength(0); i++)
             {
                 for (int j = 0; j < assetsValues.GetLength(1); j++)
                 {
-                    Console.WriteLine(assetsValues[j, i]);
+                    Console.WriteLine(assetsValues[i, j]);
                 }
-            }*/
+            }
             int nbValues = assetsValues.GetLength(0);
             int nbAssets = assetsValues.GetLength(1);
             double[,] assetReturns = new double[nbValues, nbAssets];
@@ -122,6 +122,13 @@ namespace ErrorHedging
             {
                 for (int action=0; action<nbAssets; action++){
                     assetReturns[i - 1, action] = Math.Log((assetsValues[i, action] / assetsValues[i - 1, action]));
+                }
+            }
+            for (int i = 0; i < assetReturns.GetLength(0); i++)
+            {
+                for (int j = 0; j < assetReturns.GetLength(1); j++)
+                {
+                    Console.WriteLine(assetReturns[i, j]);
                 }
             }
                 return assetReturns;
