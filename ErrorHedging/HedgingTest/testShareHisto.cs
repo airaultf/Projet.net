@@ -53,7 +53,7 @@ namespace HedgingTest
             PricingLibrary.FinancialProducts.Share[] tabAction = { Action };
             PricingLibrary.FinancialProducts.VanillaCall Call = new PricingLibrary.FinancialProducts.VanillaCall("ALO FP", tabAction, date, 30.0);
 
-            DateTime date1 = new DateTime(2014, 6, 1, 0, 0, 0);
+            DateTime date1 = new DateTime(2015, 6, 1, 0, 0, 0);
 
             ShareHisto myShareHisto = new ShareHisto(date1, date, Call);
 
