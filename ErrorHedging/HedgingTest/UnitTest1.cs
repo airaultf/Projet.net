@@ -48,8 +48,7 @@ namespace HedgingTest
 
                 DateTime dateStart = new DateTime(2014, 9, 9, 0, 0, 0);
 
-
-                ErrorHedging.Results result = new ErrorHedging.Results(Call, dateStart, date, 20, true);
+                ErrorHedging.Results result = new ErrorHedging.Results(Call, dateStart, date, 30, true);
 
                 double firstValue = result.HedgingPortfolioValue;
 

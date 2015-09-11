@@ -24,14 +24,21 @@ namespace HedgingTest
             mesActions[2] = Action3;
             double[] weight = { 0.1, 0.7, 0.2 };
             PricingLibrary.FinancialProducts.BasketOption myBasketOption = new PricingLibrary.FinancialProducts.BasketOption("test", mesActions, weight, date, 30.0);
-            Results myResults = new Results(myBasketOption, date1, date, 100, true);
-            for (DateTime daa = date1.AddDays(100); daa < date; daa = daa.AddDays(1))
+            Results myResults = new Results(myBasketOption, date1, date, 20, true);
+            for (DateTime daa = date1.AddDays(20); daa < date; daa = daa.AddDays(1))
             {
                 //Console.WriteLine(myResults.getSpotPrice(d));
 
                 double[] mesVols = new double[3];
                 mesVols = myResults.getVolatilities(daa);
-                Console.WriteLine("VOL:" + mesVols[0] + mesVols[1] + mesVols[2]);
+                Console.WriteLine(mesVols[0]);
+                Console.WriteLine(mesVols[1]);
+                Console.WriteLine(mesVols[2]);
+                double[,] matriceCov = new double[3, 3];
+                matriceCov = myResults.getCovarianceMatrix(daa);
+                Console.WriteLine(Math.Sqrt(matriceCov[0, 0]) * Math.Sqrt(365));
+                Console.WriteLine(Math.Sqrt(matriceCov[1, 1]) * Math.Sqrt(365));
+                Console.WriteLine(Math.Sqrt(matriceCov[2, 2]) * Math.Sqrt(365));
             }
         }
     }
