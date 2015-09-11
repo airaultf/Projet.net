@@ -35,7 +35,7 @@ namespace HedgingTest
                 Console.WriteLine(mesVols[1]);
                 Console.WriteLine(mesVols[2]);
                 double[,] matriceCov = new double[3, 3];
-                matriceCov = myResults.getCovarianceMatrix(daa);
+                matriceCov = myResults.getCorrelationMatrix(daa);
                 Console.WriteLine(Math.Sqrt(matriceCov[0, 0]) * Math.Sqrt(365));
                 Console.WriteLine(Math.Sqrt(matriceCov[1, 1]) * Math.Sqrt(365));
                 Console.WriteLine(Math.Sqrt(matriceCov[2, 2]) * Math.Sqrt(365));

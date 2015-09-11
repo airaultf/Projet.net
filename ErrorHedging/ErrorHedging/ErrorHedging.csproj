@@ -78,7 +78,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MyLocalDB.dbml</DependentUpon>
     </Compile>
-    <Compile Include="OptionManager.cs" />
     <Compile Include="Results.cs" />
     <Compile Include="ShareHisto.cs" />
     <Compile Include="testHedging.cs" />
