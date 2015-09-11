@@ -54,9 +54,9 @@ namespace ErrorHedging
             {
                 using (MyLocalDBDataContext mdc = new MyLocalDBDataContext()) 
                 {
-                    List<String> res1 = mdc.HistoricalShareValues.Where(x => (x.date == date)).Select(el => el.id).Distinct().ToList();
+                    List<String> res1 = mdc.HistoricalShareValues.Where(x => (x.date == date)).Select(el => el.id.Trim()).Distinct().ToList();
                     System.Collections.Generic.Dictionary<string, decimal> res2 = new Dictionary<string,decimal>();
-                    foreach (var c in res1)//in this._product.UnderlyingShareIds.ToList())
+                    foreach (var c in this._product.UnderlyingShareIds.ToList())
                     {
                         if(res1.Contains(c)){
                             decimal temp = mdc.HistoricalShareValues.Where(x => (x.date == date && x.id == c)).Select(x => x.value).Distinct().First();
@@ -65,23 +65,8 @@ namespace ErrorHedging
                     }
                     this._Data.Add(new PricingLibrary.Utilities.MarketDataFeed.DataFeed(date, res2));
                 }
-                Console.WriteLine("on est bon");
-
             }
-            Console.WriteLine("on est bon");
         }
 
-        public void loading()
-        {
-            using (MyLocalDBDataContext mdc = new MyLocalDBDataContext())
-            {
-                var res1 = mdc.HistoricalShareValues.Select(el => el.id.Trim()).Distinct().ToList();
-                foreach (var c in res1)
-                {
-                    Console.WriteLine("Action : " + c);
-                }
-            }
-
-        }
     }
 }

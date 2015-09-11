@@ -73,10 +73,10 @@ namespace HedgingTest
             double ratio = 0;
             double compteur = 0;
 
-            for (int i = 0; i < 300; i++)
+            for (int i = 0; i < 1; i++)
             {
                 DateTime date = DateTime.Now;
-                PricingLibrary.FinancialProducts.Share Action = new PricingLibrary.FinancialProducts.Share("test", "01");
+                PricingLibrary.FinancialProducts.Share Action = new PricingLibrary.FinancialProducts.Share("ALO FP", "ALO FP");
 
                 //PricingLibrary.FinancialProducts.Share Action1 = new PricingLibrary.FinancialProducts.Share("test1", "02");
 
@@ -84,12 +84,12 @@ namespace HedgingTest
                 PricingLibrary.FinancialProducts.Share[] tabAction = { Action };
                 double[] weightTab = new double[] {1.0};
 
-                PricingLibrary.FinancialProducts.BasketOption Basket = new PricingLibrary.FinancialProducts.BasketOption("basket", tabAction, weightTab, date, 9.0);
+                PricingLibrary.FinancialProducts.BasketOption Basket = new PricingLibrary.FinancialProducts.BasketOption("BASKET", tabAction, weightTab, date, 9.0);
 
                 DateTime dateStart = new DateTime(2014, 10, 9, 0, 0, 0);
 
 
-                ErrorHedging.Results result = new ErrorHedging.Results(Basket, dateStart, date, 30, true);
+                ErrorHedging.Results result = new ErrorHedging.Results(Basket, dateStart, date, 30, false);
 
                 double firstValue = result.HedgingPortfolioValue;
 
