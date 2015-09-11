@@ -221,14 +221,12 @@ namespace ErrorHedging
             double[,] matriceCorrelation = null;
 
             if (option is PricingLibrary.FinancialProducts.VanillaCall){
-                double[] vol = new double[] { 0.4 };
-                this.myPortfolio = new HedgingPortfolio((PricingLibrary.FinancialProducts.VanillaCall)option, this.startDate, firstSpotPrice, vol); // spot a aller chercher, volatilité à calculer
+                this.myPortfolio = new HedgingPortfolio((PricingLibrary.FinancialProducts.VanillaCall)option, this.startDate, firstSpotPrice, initialVol); // spot a aller chercher, volatilité à calculer
             }
             else if (option is PricingLibrary.FinancialProducts.BasketOption)
             {
-                double[] vol = new double[] {0.4, 0.4, 0.4, 0.4, 0.4};
                 matriceCorrelation = getCorrelationMatrix(this.startDate);
-                this.myPortfolio = new HedgingPortfolio((PricingLibrary.FinancialProducts.BasketOption)option, this.startDate, firstSpotPrice, vol, matriceCorrelation); // spot a aller chercher, volatilité à calculer
+                this.myPortfolio = new HedgingPortfolio((PricingLibrary.FinancialProducts.BasketOption)option, this.startDate, firstSpotPrice, initialVol, matriceCorrelation); // spot a aller chercher, volatilité à calculer
             }
             else
             {
@@ -260,14 +258,13 @@ namespace ErrorHedging
                 double[] spotPrice = new double[] {spotPricetab};
 
                 if (myPortfolio.Product is PricingLibrary.FinancialProducts.VanillaCall){
-                    double[] vol = new double[] { 0.4 };
-                    myPortfolio.updatePortfolioValue(spotPrice, date, vol);
+                    myPortfolio.updatePortfolioValue(spotPrice, date, volatility);
                 }else if (myPortfolio.Product is PricingLibrary.FinancialProducts.BasketOption){
                     double[] spotPrice1 = getSpotPrices(date);
                     matriceCorrelation = getCorrelationMatrix(this.startDate);
-                    double[] vol = new double[] { 0.4, 0.4, 0.4, 0.4, 0.4 };
+                    
                     //Console.WriteLine("vol " + volatility[0] + "matrice corre " + matriceCorrelation[0,0]);
-                    myPortfolio.updatePortfolioValue(spotPrice1, date, vol, matriceCorrelation);
+                    myPortfolio.updatePortfolioValue(spotPrice1, date, volatility, matriceCorrelation);
                 }else{
                     Console.WriteLine("Not implemented exeption");
                 }

@@ -84,7 +84,7 @@ namespace HedgingTest
                 PricingLibrary.FinancialProducts.Share[] tabAction = { Action };
                 double[] weightTab = new double[] {1.0};
 
-                PricingLibrary.FinancialProducts.BasketOption Basket = new PricingLibrary.FinancialProducts.BasketOption("basket", tabAction, weightTab, date, 8.0);
+                PricingLibrary.FinancialProducts.BasketOption Basket = new PricingLibrary.FinancialProducts.BasketOption("basket", tabAction, weightTab, date, 9.0);
 
                 DateTime dateStart = new DateTime(2014, 10, 9, 0, 0, 0);
 
@@ -108,8 +108,52 @@ namespace HedgingTest
 
         }
 
+
         [TestMethod]
         public void RebalancementBasket3Sj()
+        {
+            double ratio = 0;
+            double compteur = 0;
+
+            for (int i = 0; i < 1; i++)
+            {
+                DateTime date = DateTime.Now;
+                PricingLibrary.FinancialProducts.Share Action = new PricingLibrary.FinancialProducts.Share("test", "01");
+
+                PricingLibrary.FinancialProducts.Share Action1 = new PricingLibrary.FinancialProducts.Share("test1", "02");
+
+                //PricingLibrary.FinancialProducts.Share Action2 = new PricingLibrary.FinancialProducts.Share("test1", "03");
+
+                PricingLibrary.FinancialProducts.Share[] tabAction = { Action, Action1};
+                double[] weightTab = new double[] { 0.4, 0.6};
+
+                PricingLibrary.FinancialProducts.BasketOption Basket = new PricingLibrary.FinancialProducts.BasketOption("basket", tabAction, weightTab, date, 1);
+
+
+                DateTime dateStart = new DateTime(2015, 2, 10, 0, 0, 0);
+
+
+                ErrorHedging.Results result = new ErrorHedging.Results(Basket, dateStart, date, 20, true);
+
+                double firstValue = result.HedgingPortfolioValue;
+
+                result.computeResults();
+
+                double payoff = result.Payoff;
+                double lastValue = result.HedgingPortfolioValue;
+                double ratioTmp = Math.Abs(payoff - lastValue) / firstValue;
+
+                Console.WriteLine("payoff " + payoff +" lastvalue "+lastValue+" firstValue "+ firstValue);
+                ratio += ratioTmp;
+                compteur += 1;
+            }
+
+            ratio = ratio / compteur;
+            Console.WriteLine(ratio);
+        }
+
+        [TestMethod]
+        public void RebalancementBasket5Sj()
         {
             double ratio = 0;
             double compteur = 0;
@@ -152,10 +196,7 @@ namespace HedgingTest
 
             ratio = ratio / compteur;
             Console.WriteLine(ratio);
-
         }
-
-
 
     }
 }
