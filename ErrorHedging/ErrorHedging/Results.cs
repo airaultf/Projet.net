@@ -11,7 +11,7 @@ namespace ErrorHedging
     {
         // Import the WRE dll for fetching volatility
         // from datas
-        [DllImport(@"C:\Users\ensimag\Source\Repos\Projet.net2\ErrorHedging\ErrorHedging\wre-ensimag-c-4.1.dll", EntryPoint = "WREanalysisExpostVolatility", CallingConvention=CallingConvention.Cdecl)]
+        [DllImport(@"C:\Users\Pierre\Source\Repos\Projet.net\ErrorHedging\ErrorHedging\wre-ensimag-c-4.1.dll", EntryPoint = "WREanalysisExpostVolatility", CallingConvention = CallingConvention.Cdecl)]
         // declare external function
         public static extern int WREanalysisExpostVolatility(
             ref int nbValues,
@@ -20,7 +20,7 @@ namespace ErrorHedging
             ref int info
             );
 
-        [DllImport(@"C:\Users\ensimag\Source\Repos\Projet.net2\ErrorHedging\ErrorHedging\wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingCorr", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(@"C:\Users\Pierre\Source\Repos\Projet.net\ErrorHedging\ErrorHedging\wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingCorr", CallingConvention = CallingConvention.Cdecl)]
         public static extern int WREmodelingCorr(
             ref int nbValues,
             ref int nbAssets,
@@ -64,7 +64,7 @@ namespace ErrorHedging
             for (int i = 0; i < portfolioReturns.GetLength(1); i++)
             {
                 double[] portfolioReturn1D = new double[portfolioReturns.GetLength(0)];
-                for (int j = 0; j < portfolioReturns.GetLength(0); i++)
+                for (int j = 0; j < portfolioReturns.GetLength(0); j++)
                 {
                     portfolioReturn1D[j] = portfolioReturns[j, i];
                 }
@@ -108,6 +108,13 @@ namespace ErrorHedging
 
         public static double[,] logReturn(double[,] assetsValues, int horizon)
         {
+            /*for (int i = 0; i < assetsValues.GetLength(0); i++)
+            {
+                for (int j = 0; j < assetsValues.GetLength(1); j++)
+                {
+                    Console.WriteLine(assetsValues[j, i]);
+                }
+            }*/
             int nbValues = assetsValues.GetLength(0);
             int nbAssets = assetsValues.GetLength(1);
             double[,] assetReturns = new double[nbValues, nbAssets];
@@ -345,10 +352,17 @@ namespace ErrorHedging
                 for (int i = 0; i < shareValuesForVolatilityEstimation.GetLength(1); i++)
                 {
                     shareValuesForVolatilityEstimation[cpt, i] = spotPricesAtDate[i];
-                    cpt++;
                 }
+                cpt++;
             }
-            return computeVolatilities(logReturn(shareValuesForVolatilityEstimation, horizon), simulated);
+            /*for (int i = 0; i < shareValuesForVolatilityEstimation.GetLength(0); i++)
+            {
+                for (int j = 0; j < shareValuesForVolatilityEstimation.GetLength(1); j++)
+                {
+                    Console.WriteLine(shareValuesForVolatilityEstimation[i, j]);
+                }
+            }*/
+                return computeVolatilities(logReturn(shareValuesForVolatilityEstimation, horizon), simulated);
         }
 
 
