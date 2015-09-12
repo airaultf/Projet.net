@@ -36,7 +36,8 @@ namespace HedgingTest
             myResults.HedgingPortfolioValue.ForEach(data => Console.WriteLine(data));
             Console.WriteLine(" \n ");
             myResults.Payoff.ForEach(data => Console.WriteLine(data));
-
+            Console.WriteLine(" \n ");
+            myResults.dateTime.ForEach(data => Console.WriteLine(data));
         }
     }
 }

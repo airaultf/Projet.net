@@ -203,6 +203,7 @@ namespace ErrorHedging
         private ShareHisto myHisto;
 
 
+
         /*** TEST RESULTS ***/ 
 
         // option payoff
@@ -210,6 +211,9 @@ namespace ErrorHedging
 
         // value of the hedging portfolio
         protected List<double> hedgingPortfolioValue;
+
+        // value of the dates
+        protected List<DateTime> _dateTime;
 
 
         public List<double> Payoff
@@ -224,6 +228,13 @@ namespace ErrorHedging
             get
             {
                 return this.hedgingPortfolioValue;
+            }
+        }
+        public List<DateTime> dateTime
+        {
+            get
+            {
+                return this._dateTime;
             }
         }
 
@@ -243,6 +254,7 @@ namespace ErrorHedging
             this.nbShare = option.UnderlyingShareIds.Length;
             this.hedgingPortfolioValue = new List<double>();
             this.payoff = new List<double>();
+            this._dateTime = new List<DateTime>();
             
             // Les données sont chargées
             this.myHisto = new ShareHisto(this.startDate.AddDays(-testWindow), this.maturityDate, option);
@@ -291,6 +303,7 @@ namespace ErrorHedging
 
             this.hedgingPortfolioValue.Add(myPortfolio.portfolioValue); 
             this.payoff.Add(myPortfolio.Product.GetPayoff(myHisto.Data.Find(data => data.Date == this.startDate).PriceList));
+            this._dateTime.Add(this.startDate);
         }
 
 
@@ -306,6 +319,7 @@ namespace ErrorHedging
             System.Collections.Generic.List<PricingLibrary.Utilities.MarketDataFeed.DataFeed> histo = myHisto.Data.Where(data => (data.Date >= this.startDate && data.Date <= this.maturityDate)).ToList();
             this.hedgingPortfolioValue.Clear();
             this.payoff.Clear();
+            this._dateTime.Clear();
 
             foreach (PricingLibrary.Utilities.MarketDataFeed.DataFeed data in histo)
             {
@@ -328,6 +342,7 @@ namespace ErrorHedging
 
                 this.hedgingPortfolioValue.Add(myPortfolio.portfolioValue);
                 this.payoff.Add(myPortfolio.Product.GetPayoff(data.PriceList));
+                this._dateTime.Add(data.Date);
             }
         }
 
