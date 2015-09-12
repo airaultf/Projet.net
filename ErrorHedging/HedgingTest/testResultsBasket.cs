@@ -23,8 +23,19 @@ namespace HedgingTest
             double[] weight = { 0.1, 0.9 };
             PricingLibrary.FinancialProducts.BasketOption myBasketOption = new PricingLibrary.FinancialProducts.BasketOption("test", mesActions, weight, date, 30.0);
             Results myResults = new Results(myBasketOption, date1, date, 20, false);
+
+            Console.WriteLine(" Premiers resultats : ");
+            myResults.HedgingPortfolioValue.ForEach(data => Console.WriteLine(data));
+            Console.WriteLine(" \n ");
+            myResults.Payoff.ForEach(data => Console.WriteLine(data));
+            Console.WriteLine(" \n ");
+
             myResults.computeResults();
 
+            Console.WriteLine(" Fin : \n");
+            myResults.HedgingPortfolioValue.ForEach(data => Console.WriteLine(data));
+            Console.WriteLine(" \n ");
+            myResults.Payoff.ForEach(data => Console.WriteLine(data));
 
         }
     }

@@ -30,7 +30,7 @@ namespace HedgingTest
                 date1 = date1.AddDays(1.0);
             }
         }
-        */
+        
         [TestMethod]
         public void TestRebalancementVanillaCall()
         {
@@ -196,6 +196,7 @@ namespace HedgingTest
             ratio = ratio / compteur;
             Console.WriteLine(ratio);
         }
+         */
 
     }
 }

@@ -206,20 +206,20 @@ namespace ErrorHedging
         /*** TEST RESULTS ***/ 
 
         // option payoff
-        private double payoff;
+        protected List<double> payoff;
 
         // value of the hedging portfolio
-        private double hedgingPortfolioValue;
+        protected List<double> hedgingPortfolioValue;
 
 
-        public double Payoff
+        public List<double> Payoff
         {
             get
             {
                 return this.payoff;
             }
         }
-        public double HedgingPortfolioValue
+        public List<double> HedgingPortfolioValue
         {
             get
             {
@@ -241,6 +241,8 @@ namespace ErrorHedging
             this.testWindow = testWindow;
             this.simulated = simulated;
             this.nbShare = option.UnderlyingShareIds.Length;
+            this.hedgingPortfolioValue = new List<double>();
+            this.payoff = new List<double>();
             
             // Les données sont chargées
             this.myHisto = new ShareHisto(this.startDate.AddDays(-testWindow), this.maturityDate, option);
@@ -287,8 +289,8 @@ namespace ErrorHedging
                 throw new NotSupportedException();
             }
 
-            this.hedgingPortfolioValue = myPortfolio.portfolioValue;
-            this.payoff = myPortfolio.Product.GetPayoff(myHisto.Data.Find(data => data.Date == this.startDate).PriceList);
+            this.hedgingPortfolioValue.Add(myPortfolio.portfolioValue); 
+            this.payoff.Add(myPortfolio.Product.GetPayoff(myHisto.Data.Find(data => data.Date == this.startDate).PriceList));
         }
 
 
@@ -301,9 +303,9 @@ namespace ErrorHedging
             double[] spotPrice;
             double[] volatility;
             double[,] matriceCorrelation;
-            double _hedgingPortfolioValue = 0; // Valeur intermediaire
-            double _payoff = 0;                // Valeur intermediaire
             System.Collections.Generic.List<PricingLibrary.Utilities.MarketDataFeed.DataFeed> histo = myHisto.Data.Where(data => (data.Date >= this.startDate && data.Date <= this.maturityDate)).ToList();
+            this.hedgingPortfolioValue.Clear();
+            this.payoff.Clear();
 
             foreach (PricingLibrary.Utilities.MarketDataFeed.DataFeed data in histo)
             {
@@ -324,10 +326,8 @@ namespace ErrorHedging
                     throw new NotImplementedException();
                 }
 
-                _hedgingPortfolioValue = myPortfolio.portfolioValue;
-                _payoff = myPortfolio.Product.GetPayoff(data.PriceList);
-                this.hedgingPortfolioValue = _hedgingPortfolioValue;
-                this.payoff = _payoff;
+                this.hedgingPortfolioValue.Add(myPortfolio.portfolioValue);
+                this.payoff.Add(myPortfolio.Product.GetPayoff(data.PriceList));
             }
         }
 
@@ -386,14 +386,8 @@ namespace ErrorHedging
                 }
                 temps++;
             }
-            /*Console.WriteLine("\n Volatilité : \n");
-            foreach (double d in shareValuesForVolatilityEstimation)       // debug !!!!!!!!!!!!!!!!
-            {
-                Console.WriteLine(d + " ");
-            }
-            Console.WriteLine("\n");
-             */
-            return computeVolatilities(logReturn(shareValuesForVolatilityEstimation), simulated);
+            // $$$$$$$$$$$$$$$$$$ Debug  $$$$$$$$$$$$$$$$$$$$$$$$$
+            return new double[nbShare];// computeVolatilities(logReturn(shareValuesForVolatilityEstimation), simulated);
         }
 
 
@@ -422,15 +416,8 @@ namespace ErrorHedging
                 }
                 temps++;
             }
-            /*
-            Console.WriteLine("\n Matrice Correlation : \n");
-            foreach (double d in shareValuesForVolatilityEstimation)       // debug !!!!!!!!!!!!!!!!
-            {
-                Console.WriteLine(d + " ");
-            } 
-            Console.WriteLine("\n");
-            */
-            return computeCorrelationMatrix(shareValuesForVolatilityEstimation);
+            //$$$$$$$$$$$$$$$$$$$$  Debug $$$$$$$$$$$$$$$$$$$$$$$$$
+            return new double[nbShare, nbShare]; //computeCorrelationMatrix(shareValuesForVolatilityEstimation);
         }
                     
     }
