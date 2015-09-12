@@ -68,17 +68,19 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComputeEstimators.cs" />
+    <Compile Include="ComputeResults.cs" />
+    <Compile Include="Estimators.cs" />
     <Compile Include="ComponentInfo.cs" />
     <Compile Include="computePortfolioValue.cs" />
     <Compile Include="HedgingPortfolio.cs" />
-    <Compile Include="HedgingPortfoliobis.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="MyLocalDB.designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>MyLocalDB.dbml</DependentUpon>
     </Compile>
-    <Compile Include="Results.cs" />
+    <Compile Include="OptionManager.cs" />
     <Compile Include="ShareHisto.cs" />
     <Compile Include="testHedging.cs" />
     <Page Include="MainWindow.xaml">

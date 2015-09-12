@@ -401,8 +401,8 @@ namespace ErrorHedging
                     asset++;
                 }
                 temps++;
-            }
-            /*for (DateTime d = date.AddDays(-testWindow); d <= date; d = d.AddDays(1))
+            }/*
+            for (DateTime d = date.AddDays(-testWindow); d <= date; d = d.AddDays(1))
             {
                 spotPricesAtDate = getSpotPrices(d);
                 if (spotPricesAtDate.Length != 0)
