@@ -247,15 +247,20 @@ namespace ErrorHedging
             if (simulated){
                 myHisto.loadingSimulated();
             }else{
-                myHisto.loadingSQL();  
+                myHisto.loadingSQL();
+                if (myHisto.Data.First().PriceList.Count != this.nbShare)
+                {
+                    Console.WriteLine("Mauvais nom donné au action");
+                    throw new ArgumentException();
+                }
             }
             myHisto.Data.OrderBy(x => x.Date); // on classe les données
 
             //Contruction de myPortfolio, et calcul des valeurs initiales de hedgingPortfolioValue et payoff
-            double[] firstSpotPrice = null;
+             double[] firstSpotPrice = null;
             double[] initialVol = null;
             double[,] matriceCorrelation = null;
-         
+
             // La startDate utilisée est la première date avant la startDate pour laquelle ne sont pas vides
             DateTime date = this.startDate;
             while(!myHisto.Data.Where(data => data.Date == date).Any() && date >= this.startDate.AddDays(testWindow)){
@@ -275,7 +280,7 @@ namespace ErrorHedging
             }
             else if (option is PricingLibrary.FinancialProducts.BasketOption)
             {
-                matriceCorrelation = getCorrelationMatrix(date);
+                matriceCorrelation = getCorrelationMatrix(this.startDate);
                 this.myPortfolio = new HedgingPortfolio((PricingLibrary.FinancialProducts.BasketOption)option, this.startDate, firstSpotPrice, initialVol, matriceCorrelation); // spot a aller chercher, volatilité à calculer
             }
             else
@@ -299,10 +304,10 @@ namespace ErrorHedging
             double[,] matriceCorrelation;
             double _hedgingPortfolioValue = 0; // Valeur intermediaire
             double _payoff = 0;                // Valeur intermediaire
+            System.Collections.Generic.List<PricingLibrary.Utilities.MarketDataFeed.DataFeed> histo = myHisto.Data.Where(data => (data.Date >= this.startDate && data.Date <= this.maturityDate)).ToList();
 
-            foreach (PricingLibrary.Utilities.MarketDataFeed.DataFeed data in myHisto.Data)
+            foreach (PricingLibrary.Utilities.MarketDataFeed.DataFeed data in histo)
             {
-                //for (DateTime date = this.startDate; date <= maturityDate; date=date.AddDays(1)) // can be better done with foreach (faster) 
                 spotPrice = getSpotPrices(data.Date);
                 volatility = getVolatilities(data.Date);
 
@@ -312,7 +317,7 @@ namespace ErrorHedging
                 }
                 else if (myPortfolio.Product is PricingLibrary.FinancialProducts.BasketOption)
                 {
-                    matriceCorrelation = getCorrelationMatrix(data.Date); /////!!!!!!!!!!!!!!! data.date
+                    matriceCorrelation = getCorrelationMatrix(data.Date);
                     myPortfolio.updatePortfolioValue(spotPrice, data.Date, volatility, matriceCorrelation);
                 }
                 else
@@ -327,18 +332,6 @@ namespace ErrorHedging
             }
         }
 
-        /*** getSpotPrice ***/
-        /* Function that return the Spot price for a given date
-         * with a fixed estimation window 
-        /* @date : date at which we want to get the spot prices
-         * @Return : spotPrice at this date
-         */
-        public double getSpotPrice(DateTime date)
-        {
-            double spotPrice = 0;
-            spotPrice = (double) myHisto.Data.Find(data => data.Date == date).PriceList.First().Value;
-            return spotPrice;
-        }
 
         /*** getSpotPrices ***/
         /* Function that return the Spot prices for a given date
@@ -350,6 +343,11 @@ namespace ErrorHedging
         {
             int taille = this.nbShare;
             double[] spotPrices = new double[taille];
+            if(!myHisto.Data.Where(data => data.Date == date).Any())
+            {
+                return new double[taille];   //!!!!!!!!!!!!!!debug!!!!!!!!!!!!!!!!
+                throw new Exception("Erreur dans l'appel de GetSpotPrice avec une date a laquelle il n'y a pas de spotPrice");
+            }
             myHisto.Data.Find(data => data.Date == date).PriceList.OrderBy(dataFeed => dataFeed.Key);
 
             int i = 0; 
@@ -361,29 +359,14 @@ namespace ErrorHedging
             return spotPrices;
         }
 
+
+
         /*** getVolatility ***/
         /* Function that computes volatility for a given date
          * with a fixed estimation window 
         /* @date : date at which we want to get volatility
          * @Return : volatility at this date
          */
-
-        public double getVolatility(DateTime date)
-        {
-            double dimTab = testWindow + 1;
-            double[,] shareValuesForVolatilityEstimation = new double[(int)dimTab, 1];
-            int cpt = 0;
-            for (DateTime d = date.AddDays(-testWindow); d <= date; d = d.AddDays(1))
-            {
-                shareValuesForVolatilityEstimation[cpt, 0] = getSpotPrice(d);
-                cpt++;
-            }
-            if (simulated)
-                return Math.Sqrt(365) * computeVolatility(logReturn(shareValuesForVolatilityEstimation));
-            else
-                return Math.Sqrt(250) * computeVolatility(logReturn(shareValuesForVolatilityEstimation));
-        }
-
         public double[] getVolatilities(DateTime date)
         {
             System.Collections.Generic.List<PricingLibrary.Utilities.MarketDataFeed.DataFeed> histo  = myHisto.Data.Where(data => (data.Date >= date.AddDays(-this.testWindow) && data.Date <= date)).ToList();
@@ -395,6 +378,7 @@ namespace ErrorHedging
 
             foreach (PricingLibrary.Utilities.MarketDataFeed.DataFeed data in histo)
             {
+                asset = 0;
                 foreach (KeyValuePair<string, decimal> keyValue in data.PriceList)
                 {
                     shareValuesForVolatilityEstimation[temps, asset] = (double)keyValue.Value;
@@ -402,46 +386,35 @@ namespace ErrorHedging
                 }
                 temps++;
             }
-            /*for (DateTime d = date.AddDays(-testWindow); d <= date; d = d.AddDays(1))
+            /*Console.WriteLine("\n Volatilité : \n");
+            foreach (double d in shareValuesForVolatilityEstimation)       // debug !!!!!!!!!!!!!!!!
             {
-                spotPricesAtDate = getSpotPrices(d);
-                if (spotPricesAtDate.Length != 0)
-                {
-                    temp.Add(getSpotPrices(d));
-                }
+                Console.WriteLine(d + " ");
             }
-
-            shareValuesForVolatilityEstimation = new double[temp.Count, nbShare];
-
-            foreach(double[] t in temp){
-                for (int i = 0; i < nbShare; i++)
-                {
-                    shareValuesForVolatilityEstimation[cpt, i] = t[i];
-                    cpt++;
-                }
-            }*/
+            Console.WriteLine("\n");
+             */
             return computeVolatilities(logReturn(shareValuesForVolatilityEstimation), simulated);
         }
 
 
-
         public double[,] getCorrelationMatrix(DateTime date)
         {
-            // correlation matrix not symetrical and defined positive   
-            if ( testWindow < nbShare )
-            {
-                throw new Exception("ERROR : getCorrelationMatrix encountered a problem: Estimation window too small");
-            }
-
             System.Collections.Generic.List<PricingLibrary.Utilities.MarketDataFeed.DataFeed> histo = myHisto.Data.Where(data => (data.Date >= date.AddDays(-this.testWindow) && data.Date <= date)).ToList();
             histo.OrderBy(data => data.Date);
             int dimTemps = histo.Count;
+
+            // correlation matrix not symetrical and defined positive 
+            if (dimTemps < nbShare)
+            {
+                throw new Exception("ERROR : getCorrelationMatrix encountered a problem: Estimation window too small");
+            }
             double[,] shareValuesForVolatilityEstimation = new double[dimTemps, this.nbShare];
             int temps = 0;
             int asset = 0;
 
             foreach (PricingLibrary.Utilities.MarketDataFeed.DataFeed data in histo)
             {
+                asset = 0;
                 foreach (KeyValuePair<string, decimal> keyValue in data.PriceList)
                 {
                     shareValuesForVolatilityEstimation[temps, asset] = (double)keyValue.Value;
@@ -449,21 +422,14 @@ namespace ErrorHedging
                 }
                 temps++;
             }
-            /*int assetNumber = this.nbShare;
-            double dimTab = testWindow + 1;
-            double[,] shareValuesForVolatilityEstimation = new double[(int)dimTab, nbShare];
-            double[] spotPricesAtDate = new double[nbShare];
-            int cpt = 0;
-
-            for (DateTime d = date.AddDays(-testWindow); d <= date; d = d.AddDays(1))
+            /*
+            Console.WriteLine("\n Matrice Correlation : \n");
+            foreach (double d in shareValuesForVolatilityEstimation)       // debug !!!!!!!!!!!!!!!!
             {
-                spotPricesAtDate = getSpotPrices(d);
-                for (int i = 0; i < shareValuesForVolatilityEstimation.GetLength(1); i++)
-                {
-                    shareValuesForVolatilityEstimation[cpt, i] = spotPricesAtDate[i];
-                }
-                cpt++;
-            }*/
+                Console.WriteLine(d + " ");
+            } 
+            Console.WriteLine("\n");
+            */
             return computeCorrelationMatrix(shareValuesForVolatilityEstimation);
         }
                     

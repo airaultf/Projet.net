@@ -52,18 +52,19 @@ namespace ErrorHedging
 
             for (DateTime date = startDate; date <= maturityDate; date = date.AddDays(1))
             {
-                using (MyLocalDBDataContext mdc = new MyLocalDBDataContext()) 
+                using (MyLocalDBDataContext mdc = new MyLocalDBDataContext())
                 {
                     List<String> res1 = mdc.HistoricalShareValues.Where(x => (x.date == date)).Select(el => el.id.Trim()).Distinct().ToList();
-                    System.Collections.Generic.Dictionary<string, decimal> res2 = new Dictionary<string,decimal>();
-                    foreach (var c in this._product.UnderlyingShareIds.ToList())
+                    System.Collections.Generic.Dictionary<string, decimal> res2 = new Dictionary<string, decimal>();
+                    if (res1.Any())
                     {
-                        if(res1.Contains(c)){
+                        foreach (var c in this._product.UnderlyingShareIds.ToList())
+                        {
                             decimal temp = mdc.HistoricalShareValues.Where(x => (x.date == date && x.id == c)).Select(x => x.value).Distinct().First();
                             res2.Add((string)c, (decimal)temp);
                         }
+                        this._Data.Add(new PricingLibrary.Utilities.MarketDataFeed.DataFeed(date, res2));
                     }
-                    this._Data.Add(new PricingLibrary.Utilities.MarketDataFeed.DataFeed(date, res2));
                 }
             }
         }

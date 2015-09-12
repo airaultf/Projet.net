@@ -10,6 +10,7 @@ namespace HedgingTest
     [TestClass]
     public class testResults
     {
+        /*
         [TestMethod]
         public void TestVolatilityAndSpotPrice()
         {
@@ -27,8 +28,9 @@ namespace HedgingTest
                 //Console.WriteLine(myResults.getSpotPrice(d));
                 Console.WriteLine("VOL:" + myResults.getVolatility(d));
             }
-
+            myResults.computeResults();
             //Console.WriteLine("Volatility: " + myResults.getVolatility(date1.AddDays(30)));
         }
+        */
     }
 }
