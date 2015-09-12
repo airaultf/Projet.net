@@ -250,8 +250,7 @@ namespace ErrorHedging
                 myHisto.loadingSQL();
                 if (myHisto.Data.First().PriceList.Count != this.nbShare)
                 {
-                    Console.WriteLine("Mauvais nom donné au action");
-                    throw new ArgumentException();
+                    throw new Exception("Mauvais nom donné à une action");
                 }
             }
             myHisto.Data.OrderBy(x => x.Date); // on classe les données
@@ -341,14 +340,15 @@ namespace ErrorHedging
          */
         public double[] getSpotPrices(DateTime date)
         {
-            int taille = this.nbShare;
-            double[] spotPrices = new double[taille];
-            if(!myHisto.Data.Where(data => data.Date == date).Any())
+            // Verification du correct appel de la methode
+            if (!myHisto.Data.Where(data => data.Date == date).Any())
             {
-                return new double[taille];   //!!!!!!!!!!!!!!debug!!!!!!!!!!!!!!!!
                 throw new Exception("Erreur dans l'appel de GetSpotPrice avec une date a laquelle il n'y a pas de spotPrice");
             }
+
             myHisto.Data.Find(data => data.Date == date).PriceList.OrderBy(dataFeed => dataFeed.Key);
+            int taille = this.nbShare;
+            double[] spotPrices = new double[taille];
 
             int i = 0; 
             foreach (KeyValuePair<string, decimal> data in myHisto.Data.Find(data => data.Date == date).PriceList)
