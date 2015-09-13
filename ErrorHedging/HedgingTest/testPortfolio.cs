@@ -6,7 +6,7 @@ using PricingLibrary;
 namespace HedgingTest
 {
     [TestClass]
-    public class UnitTest1
+    public class testPortfolio
     {
         /*
         [TestMethod]
@@ -48,14 +48,14 @@ namespace HedgingTest
 
                 DateTime dateStart = new DateTime(2014, 9, 9, 0, 0, 0);
 
-                ErrorHedging.Results result = new ErrorHedging.Results(Call, dateStart, date, 30, true);
+                ErrorHedging.OptionManager option = new ErrorHedging.OptionManager(Call, dateStart, date, 30, true);
 
-                double firstValue = result.HedgingPortfolioValue;
+                double firstValue = option.HedgingPortfolioValue;
 
-                result.computeResults();
+                ErrorHedging.ComputeResults.computeResults(option);
 
-                double payoff = result.Payoff;
-                double lastValue = result.HedgingPortfolioValue;
+                double payoff = option.Payoff;
+                double lastValue = option.HedgingPortfolioValue;
                 double ratioTmp = Math.Abs(payoff - lastValue) / firstValue;
 
                 ratio += ratioTmp;
@@ -88,14 +88,14 @@ namespace HedgingTest
                 DateTime dateStart = new DateTime(2014, 10, 9, 0, 0, 0);
 
 
-                ErrorHedging.Results result = new ErrorHedging.Results(Basket, dateStart, date, 30, false);
+                ErrorHedging.OptionManager option = new ErrorHedging.OptionManager(Basket, dateStart, date, 30, false);
 
-                double firstValue = result.HedgingPortfolioValue;
+                double firstValue = option.HedgingPortfolioValue;
 
-                result.computeResults();
+                ErrorHedging.ComputeResults.computeResults(option);
 
-                double payoff = result.Payoff;
-                double lastValue = result.HedgingPortfolioValue;
+                double payoff = option.Payoff;
+                double lastValue = option.HedgingPortfolioValue;
                 double ratioTmp = Math.Abs(payoff - lastValue) / firstValue;
 
                 ratio += ratioTmp;
@@ -132,14 +132,14 @@ namespace HedgingTest
                 DateTime dateStart = new DateTime(2015, 2, 10, 0, 0, 0);
 
 
-                ErrorHedging.Results result = new ErrorHedging.Results(Basket, dateStart, date, 20, true);
+                ErrorHedging.OptionManager option = new ErrorHedging.OptionManager(Basket, dateStart, date, 20, true);
 
-                double firstValue = result.HedgingPortfolioValue;
+                double firstValue = option.HedgingPortfolioValue;
 
-                result.computeResults();
+                ErrorHedging.ComputeResults.computeResults(option);
 
-                double payoff = result.Payoff;
-                double lastValue = result.HedgingPortfolioValue;
+                double payoff = option.Payoff;
+                double lastValue = option.HedgingPortfolioValue;
                 double ratioTmp = Math.Abs(payoff - lastValue) / firstValue;
 
                 Console.WriteLine("payoff " + payoff +" lastvalue "+lastValue+" firstValue "+ firstValue);
@@ -179,14 +179,14 @@ namespace HedgingTest
                 DateTime dateStart = new DateTime(2015, 2, 10, 0, 0, 0);
 
 
-                ErrorHedging.Results result = new ErrorHedging.Results(Basket, dateStart, date, 30, false);
+                ErrorHedging.OptionManager option = new ErrorHedging.OptionManager(Basket, dateStart, date, 30, false);
 
-                double firstValue = result.HedgingPortfolioValue;
+                double firstValue = option.HedgingPortfolioValue;
 
-                result.computeResults();
+                ErrorHedging.ComputeResults.computeResults(option);
 
-                double payoff = result.Payoff;
-                double lastValue = result.HedgingPortfolioValue;
+                double payoff = option.Payoff;
+                double lastValue = option.HedgingPortfolioValue;
                 double ratioTmp = Math.Abs(payoff - lastValue) / firstValue;
 
                 ratio += ratioTmp;

@@ -39,6 +39,7 @@ namespace ErrorHedging
 
             foreach (PricingLibrary.Utilities.MarketDataFeed.DataFeed data in histo)
             {
+                asset = 0;
                 foreach (KeyValuePair<string, decimal> keyValue in data.PriceList)
                 {
                     shareValuesForVolatilityEstimation[temps, asset] = (double)keyValue.Value;
