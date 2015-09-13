@@ -42,7 +42,7 @@ namespace ErrorHedging
                 option.HedgingPortfolioValue.Add(option.MyPortfolio.portfolioValue);
                 option.Payoff.Add(option.MyPortfolio.Product.GetPayoff(data.PriceList));
                 option.dateTime.Add(data.Date);
-                option.OptionPrice.Add(option.MyPortfolio.ComputeAttribut.priceProduct(option.MyPortfolio.Product, data.Date, spotPrice, volatility, matriceCorrelation).Price);
+                option.OptionPrice.Add(option.MyPortfolio.ComputeAttribut.priceProduct(option.MyPortfolio.Product, data.Date, spotPrice, volatility, option.Simulated, matriceCorrelation).Price);
             }
         }
     }

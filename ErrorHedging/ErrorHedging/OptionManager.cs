@@ -168,12 +168,12 @@ namespace ErrorHedging
 
             if (option is PricingLibrary.FinancialProducts.VanillaCall)
             {
-                this.myPortfolio = new HedgingPortfolio((PricingLibrary.FinancialProducts.VanillaCall)option, this.startDate, firstSpotPrice, initialVol); // spot a aller chercher, volatilité à calculer
+                this.myPortfolio = new HedgingPortfolio((PricingLibrary.FinancialProducts.VanillaCall)option, this.startDate, firstSpotPrice, initialVol,simulated); // spot a aller chercher, volatilité à calculer
             }
             else if (option is PricingLibrary.FinancialProducts.BasketOption)
             {
                 matriceCorrelation = Estimators.getCorrelationMatrix(this.startDate, this);
-                this.myPortfolio = new HedgingPortfolio((PricingLibrary.FinancialProducts.BasketOption)option, this.startDate, firstSpotPrice, initialVol, matriceCorrelation); // spot a aller chercher, volatilité à calculer
+                this.myPortfolio = new HedgingPortfolio((PricingLibrary.FinancialProducts.BasketOption)option, this.startDate, firstSpotPrice, initialVol,simulated, matriceCorrelation); // spot a aller chercher, volatilité à calculer
             }
             else
             {
@@ -183,7 +183,7 @@ namespace ErrorHedging
             this.hedgingPortfolioValue.Add(myPortfolio.portfolioValue);
             this.payoff.Add(myPortfolio.Product.GetPayoff(myHisto.Data.Find(data => data.Date == this.startDate).PriceList));
             this._dateTime.Add(this.startDate);
-            this.optionPrice.Add(myPortfolio.ComputeAttribut.priceProduct(this.myPortfolio.Product, this.startDate, firstSpotPrice, initialVol, matriceCorrelation).Price);
+            this.optionPrice.Add(myPortfolio.ComputeAttribut.priceProduct(this.myPortfolio.Product, this.startDate, firstSpotPrice, initialVol,simulated, matriceCorrelation).Price);
         }     
     }
 }
