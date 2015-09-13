@@ -17,6 +17,7 @@ namespace ErrorHedging
             option.HedgingPortfolioValue.Clear();
             option.Payoff.Clear();
             option.dateTime.Clear();
+            option.OptionPrice.Clear();
 
             foreach (PricingLibrary.Utilities.MarketDataFeed.DataFeed data in histo)
             {
@@ -25,12 +26,12 @@ namespace ErrorHedging
 
                 if (option.MyPortfolio.Product is PricingLibrary.FinancialProducts.VanillaCall)
                 {
-                    option.MyPortfolio.updatePortfolioValue(spotPrice, data.Date, volatility);
+                    option.MyPortfolio.updatePortfolioValue(spotPrice, data.Date, volatility,option.Simulated);
                 }
                 else if (option.MyPortfolio.Product is PricingLibrary.FinancialProducts.BasketOption)
                 {
                     matriceCorrelation = Estimators.getCorrelationMatrix(data.Date, option);
-                    option.MyPortfolio.updatePortfolioValue(spotPrice, data.Date, volatility, matriceCorrelation);
+                    option.MyPortfolio.updatePortfolioValue(spotPrice, data.Date, volatility,option.Simulated, matriceCorrelation);
                 }
                 else
                 {
