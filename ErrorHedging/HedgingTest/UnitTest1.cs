@@ -47,20 +47,18 @@ namespace HedgingTest
                 PricingLibrary.FinancialProducts.Share[] tabAction = { Action };
 
                 PricingLibrary.FinancialProducts.VanillaCall Call = new PricingLibrary.FinancialProducts.VanillaCall("test", tabAction, date, 8.0);
-
-
                 DateTime dateStart = new DateTime(2014, 9, 9, 0, 0, 0);
 
-                ErrorHedging.Results result = new ErrorHedging.Results(Call, dateStart, date, 30, true);
+                OptionManager optionCompute = new OptionManager(Call,dateStart, date, 30, true);
+                ComputeResults.computeResults(optionCompute);
 
-                List<double> firstValue = result.HedgingPortfolioValue;
+              
 
-                result.computeResults();
-
-                List<double> payoff = result.Payoff;
-                List<double> lastValue = result.HedgingPortfolioValue;
-                double ratioTmp = Math.Abs(payoff[0] - lastValue[0]) / firstValue[0];
-                Console.WriteLine(ratioTmp);
+                double firstValue = optionCompute.HedgingPortfolioValue[0];
+                double lastValue = optionCompute.HedgingPortfolioValue[optionCompute.HedgingPortfolioValue.Count-1];
+                double payoff = optionCompute.Payoff[optionCompute.Payoff.Count-1];
+                
+                double ratioTmp = Math.Abs(payoff - lastValue) / firstValue;
                 ratio += ratioTmp;
                 compteur += 1;
             }

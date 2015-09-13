@@ -23,7 +23,6 @@ namespace ErrorHedging
 
             if (Product is PricingLibrary.FinancialProducts.VanillaCall)
             {
-            
                 return this.pricer.PriceCall((PricingLibrary.FinancialProducts.VanillaCall)Product, date, 365, spot[0], volatility[0]);
             }
             else 
