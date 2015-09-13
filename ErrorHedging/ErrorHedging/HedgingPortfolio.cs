@@ -32,8 +32,6 @@ namespace ErrorHedging
             this._Product = Product;
         }
 
-
-
         // Getter pour le produit
         public PricingLibrary.FinancialProducts.IOption Product
         {
@@ -60,18 +58,25 @@ namespace ErrorHedging
         }
 
         // Methode qui met à jour la valeur du portefeuille
-        public void updatePortfolioValue(double[] tabSpot, System.DateTime date, double[] tabVolatility, double[,] correlationMatrix = null)
+        public void updatePortfolioValue(double[] tabSpot, System.DateTime date, double[] tabVolatility, bool simulated,double[,] correlationMatrix = null)
         {
             // On price notre call à la date et au prix spot donnés
             PricingLibrary.Computations.PricingResults resultPricer = this.computeAttribut.priceProduct(this._Product, date, tabSpot, tabVolatility, correlationMatrix);
 
             // On calcule le nombre de jour entre le dernier rebalancement et le rabalancement actuel, on convertit ce nombre en double
-            System.TimeSpan diff = date.Subtract(this.lastDay);
-
-            int nbDays = diff.Days;
-            double dateDouble = PricingLibrary.Utilities.DayCount.ConvertToDouble(nbDays, 365);
-            
-
+            int nbDays = 0;
+            double dateDouble = 0;
+            if (simulated)
+            {
+                System.TimeSpan diff = date.Subtract(this.lastDay);
+                nbDays = diff.Days;
+                dateDouble = PricingLibrary.Utilities.DayCount.ConvertToDouble(nbDays, 365);
+            } else
+            {
+                nbDays = PricingLibrary.Utilities.DayCount.CountBusinessDays(this.lastDay, date);
+                dateDouble = PricingLibrary.Utilities.DayCount.ConvertToDouble(nbDays, 250);
+            }
+            Console.WriteLine(tabVolatility[0]);
             // On calcule la part d'actif sans risque
             double riskFree = PricingLibrary.Utilities.MarketDataFeed.RiskFreeRateProvider.GetRiskFreeRateAccruedValue(dateDouble);
 
@@ -80,7 +85,6 @@ namespace ErrorHedging
             this._portfolioValue = this.computeAttribut.computeValuePortfolio(tabSpot, this.hedgeRatio, this.formerSpot , riskFree, lastValue);
 
             //Sauvegarde des differents paramètres pour le prochain rebalancement
-
             this.formerSpot = tabSpot;
             this.lastDay = date;
             this.hedgeRatio = resultPricer.Deltas;

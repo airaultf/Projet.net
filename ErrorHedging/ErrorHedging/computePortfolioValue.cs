@@ -47,8 +47,6 @@ namespace ErrorHedging
                 deltaSpot += tabSpot[i] * tabDelta[i];
                 deltaFormerSpot += formerSpot[i] * tabDelta[i];
             }
-           
-            double tmp2 = (lastValue - deltaFormerSpot) * riskFree;
              
             return deltaSpot + (lastValue - deltaFormerSpot) * riskFree;
         }

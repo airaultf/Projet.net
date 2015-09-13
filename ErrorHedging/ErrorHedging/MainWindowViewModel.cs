@@ -41,19 +41,13 @@ namespace ErrorHedging
 
             this.typeDonnees = "Simulées";
             this._typeOption = "Basket Option";
+            this.maturite = new DateTime(2015, 01, 01);
+            this.dateDebut = new DateTime(2014, 01, 01);
 
             var listComp = GetComponents();
             ComponentInfoList = new ObservableCollection<ComponentInfo>(listComp);
             MyModel = new PlotModel();
             SetUpModel(0, 10, new DateTime(2010, 05, 04));
-
-            Console.WriteLine(new DateTime(2010, 05, 04));
-            LineSeries courbe = generateSeries();
-            this.MyModel.Series.Add(courbe);
-            //SetUpModel(0,10);
-            //this.MyModel = newCurve();
-            //MyModel = LineSerieswithcustomTrackerFormatString();
-            //MyModel.InvalidatePlot(true);
             ClickCommand = new DelegateCommand(ExtractComponents);
 
         }
@@ -81,7 +75,7 @@ namespace ErrorHedging
 
         private void ExtractComponents()
         {
-
+            // On test les différents paramètres, si ils ne sont pas bons on fait apparaitre un pop-up
             double sommePoids = 0.0;
             int nbAction = 0;
             foreach (var comp in ComponentInfoList)
@@ -122,6 +116,7 @@ namespace ErrorHedging
                 System.Windows.Forms.MessageBox.Show("ERREUR : Un Vanilla Call ne peut avoir qu'un sous-jacent ");
                 return;
             }
+
             // On utilise maintenant nb action comme index
             nbAction = 0;
             foreach (var comp in ComponentInfoList)
@@ -173,29 +168,31 @@ namespace ErrorHedging
                 option = new PricingLibrary.FinancialProducts.BasketOption("basket", tabShare, tabWeight, maturite, strikePrice);
             }
 
+            ////////////////////////////////////////////////////////////////////////////
 
-
+            // On calcule le portefeuilles de couverture de l'option
             OptionManager optionCompute = new OptionManager(option,dateDebut,maturite,tailleFenetre,simule);
             ComputeResults.computeResults(optionCompute);
 
-            LineSeries courbe = tabToSeries(optionCompute.Payoff, optionCompute.dateTime);
+            // On trace les graphes
+            LineSeries courbe = tabToSeries(optionCompute.OptionPrice, optionCompute.dateTime);
             LineSeries courbe2 = tabToSeries(optionCompute.HedgingPortfolioValue, optionCompute.dateTime);
 
             this.MyModel.Series.Clear();
             this.MyModel.Axes.Clear();
 
-            double min = Math.Min(optionCompute.Payoff.Min(),optionCompute.HedgingPortfolioValue.Min())-0.01;
-            double max = Math.Max(optionCompute.Payoff.Max(), optionCompute.HedgingPortfolioValue.Max())+0.01;
+            double min = Math.Min(optionCompute.OptionPrice.Min(),optionCompute.HedgingPortfolioValue.Min())-0.1;
+            double max = Math.Max(optionCompute.OptionPrice.Max(), optionCompute.HedgingPortfolioValue.Max())+0.1;
             SetUpModel(min, max, optionCompute.dateTime.Min());
-            
 
+            courbe.Title = "Prix de l'option";
+            courbe2.Title = "Valeur Portefeuille de Couverture";
             this.MyModel.Series.Add(courbe);
             this.MyModel.Series.Add(courbe2);
 
+            // On met à jour les graphes
             this.MyModel.InvalidatePlot(true);
             this.MyModel.PlotView.InvalidatePlot(true);
-
-
 
         }
 
@@ -260,18 +257,7 @@ namespace ErrorHedging
             set { SetProperty(ref _typeOption, value); }
         }
 
-        public LineSeries generateSeries()
-        {
-            OxyPlot.Series.LineSeries courbe = new OxyPlot.Series.LineSeries();
-            DataPoint point1 = DateTimeAxis.CreateDataPoint(new DateTime(2010, 05, 05), 3.0);
-            DataPoint point2 = DateTimeAxis.CreateDataPoint(new DateTime(2010, 06, 04), 10.0);
-            DataPoint point3 = DateTimeAxis.CreateDataPoint(new DateTime(2010, 07, 04), 8.0);
-            courbe.Points.Add(point1);
-            courbe.Points.Add(point2);
-            courbe.Points.Add(point3);
-
-            return courbe;
-        }
+        
 
         public LineSeries tabToSeries(List<double> tabValue, List<DateTime> dateTab)
         {

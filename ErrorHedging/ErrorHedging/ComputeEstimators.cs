@@ -10,7 +10,7 @@ namespace ErrorHedging
     static class ComputeEstimators
     {
         // Import the WRE dll for volatility computation
-        [DllImport(@"C:\Users\Pierre\Source\Repos\Projet.net\ErrorHedging\ErrorHedging\wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingCorr", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(@"C:\Users\alexandre\Source\Repos\Projet.net2\ErrorHedging\ErrorHedging\wre-ensimag-c-4.1.dll", EntryPoint = "WREanalysisExpostVolatility", CallingConvention = CallingConvention.Cdecl)]
         public static extern int WREanalysisExpostVolatility(
             ref int nbValues,
             double[] portfolioReturns,
@@ -19,7 +19,7 @@ namespace ErrorHedging
             );
 
         // Import the WRE dll for correlation matrix computation
-        [DllImport(@"C:\Users\Pierre\Source\Repos\Projet.net\ErrorHedging\ErrorHedging\wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingCorr", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(@"C:\Users\alexandre\Source\Repos\Projet.net2\ErrorHedging\ErrorHedging\wre-ensimag-c-4.1.dll", EntryPoint = "WREmodelingCorr", CallingConvention = CallingConvention.Cdecl)]
         public static extern int WREmodelingCorr(
             ref int nbValues,
             ref int nbAssets,
