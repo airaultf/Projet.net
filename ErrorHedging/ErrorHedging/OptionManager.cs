@@ -183,7 +183,7 @@ namespace ErrorHedging
             this.hedgingPortfolioValue.Add(myPortfolio.portfolioValue);
             this.payoff.Add(myPortfolio.Product.GetPayoff(myHisto.Data.Find(data => data.Date == this.startDate).PriceList));
             this._dateTime.Add(this.startDate);
-            this.optionPrice.Add(myPortfolio.ComputeAttribut.priceProduct(this.myPortfolio.Product, this.startDate, firstSpotPrice, initialVol, matriceCorrelation).Price);
+            this.optionPrice.Add(myPortfolio.ComputeAttribut.priceProduct(this.myPortfolio.Product, this.startDate, firstSpotPrice, initialVol, this.Simulated, matriceCorrelation).Price);
         }     
     }
 }
