@@ -76,7 +76,7 @@ namespace ErrorHedging
                 nbDays = PricingLibrary.Utilities.DayCount.CountBusinessDays(this.lastDay, date);
                 dateDouble = PricingLibrary.Utilities.DayCount.ConvertToDouble(nbDays, 250);
             }
-            Console.WriteLine(tabVolatility[0]);
+
             // On calcule la part d'actif sans risque
             double riskFree = PricingLibrary.Utilities.MarketDataFeed.RiskFreeRateProvider.GetRiskFreeRateAccruedValue(dateDouble);
 

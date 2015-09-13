@@ -67,6 +67,10 @@ namespace ErrorHedging
             int nbAssets = assetsReturns.GetLength(1);
             int info = 0;
             int res = 0;
+            if (nbAssets == 1)
+            {
+                return new double[1, 1] { {1} };
+            }
             double[,] corr = new double[nbAssets, nbAssets];
             res = WREmodelingCorr(ref nbValues, ref nbAssets, assetsReturns, corr, ref info);
             if (res != 0)

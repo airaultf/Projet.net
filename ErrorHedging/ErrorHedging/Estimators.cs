@@ -96,8 +96,8 @@ namespace ErrorHedging
                 }
                 temps++;
             }
-            //$$$$$$$$$$$$$$$$$$$$  Debug $$$$$$$$$$$$$$$$$$$$$$$$$
-            return new double[option.NbShare, option.NbShare]; //ComputeEstimators.computeCorrelationMatrix(shareValuesForVolatilityEstimation);
+            //return new double[option.NbShare, option.NbShare];
+            return ComputeEstimators.computeCorrelationMatrix(shareValuesForVolatilityEstimation);
         }
 
     }

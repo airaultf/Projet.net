@@ -19,10 +19,15 @@ namespace ErrorHedging
             option.dateTime.Clear();
             option.OptionPrice.Clear();
 
+            double sumVol = 0;
+            int compteurVol = 0;
             foreach (PricingLibrary.Utilities.MarketDataFeed.DataFeed data in histo)
             {
                 spotPrice = Estimators.getSpotPrices(data.Date, option);
                 volatility = Estimators.getVolatilities(data.Date, option);
+
+                sumVol += volatility[0];
+                compteurVol += 1;
 
                 if (option.MyPortfolio.Product is PricingLibrary.FinancialProducts.VanillaCall)
                 {
@@ -43,6 +48,8 @@ namespace ErrorHedging
                 option.dateTime.Add(data.Date);
                 option.OptionPrice.Add(option.MyPortfolio.ComputeAttribut.priceProduct(option.MyPortfolio.Product, data.Date, spotPrice, volatility, matriceCorrelation).Price);
             }
+            sumVol = sumVol/compteurVol;
+            Console.WriteLine("Vol moyenne " + sumVol);
         }
     }
 }
