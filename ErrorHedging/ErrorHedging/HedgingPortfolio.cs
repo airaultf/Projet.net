@@ -19,13 +19,13 @@ namespace ErrorHedging
         // Attribut qui permet de faire les calculs
         protected computePortfolioValue computeAttribut;
 
-        public HedgingPortfolio(PricingLibrary.FinancialProducts.IOption Product, System.DateTime date, double[] initialSpot, double[] initialVol, double[,] correlationMatrix = null)
+        public HedgingPortfolio(PricingLibrary.FinancialProducts.IOption Product, System.DateTime date, double[] initialSpot, double[] initialVol, bool simulated, double[,] correlationMatrix = null)
         {
             this.formerSpot = initialSpot;
             this.lastDay = date;
             this.computeAttribut = new computePortfolioValue();
 
-            PricingLibrary.Computations.PricingResults result = computeAttribut.priceProduct(Product, date, initialSpot, initialVol,true, correlationMatrix);
+            PricingLibrary.Computations.PricingResults result = computeAttribut.priceProduct(Product, date, initialSpot, initialVol,simulated, correlationMatrix);
 
             this._portfolioValue = result.Price;
             this.hedgeRatio = result.Deltas;
