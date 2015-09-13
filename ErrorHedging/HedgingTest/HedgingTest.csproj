@@ -81,12 +81,10 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="testBasketVolatilitiesAndSpotPricesAndCorrelationMatrix.cs" />
-    <Compile Include="testResults.cs" />
     <Compile Include="testShareHisto.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="testPortfolio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="testResultsBasket.cs" />
+    <Compile Include="testEstimators.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ErrorHedging\ErrorHedging.csproj">
