@@ -261,11 +261,11 @@ namespace ErrorHedging
             if (simulated){
                 myHisto.loadingSimulated();
             }else{
-                myHisto.loadingSQL();
+                myHisto.loadingSQL();  
                 if (myHisto.Data.First().PriceList.Count != this.nbShare)
                 {
                     throw new Exception("Mauvais nom donné à une action");
-                }
+            }
             }
             myHisto.Data.OrderBy(x => x.Date); // on classe les données
 
@@ -273,7 +273,7 @@ namespace ErrorHedging
             double[] firstSpotPrice = null;
             double[] initialVol = null;
             double[,] matriceCorrelation = null;
-
+         
             // La startDate utilisée est la première date avant la startDate pour laquelle ne sont pas vides
             DateTime date = this.startDate;
             while(!myHisto.Data.Where(data => data.Date == date).Any() && date >= this.startDate.AddDays(testWindow)){
@@ -403,16 +403,16 @@ namespace ErrorHedging
             }
             // $$$$$$$$$$$$$$$$$$ Debug  $$$$$$$$$$$$$$$$$$$$$$$$$
             return new double[nbShare];// computeVolatilities(logReturn(shareValuesForVolatilityEstimation), simulated);
-        }
+                }
 
 
         public double[,] getCorrelationMatrix(DateTime date)
-        {
+                {
             System.Collections.Generic.List<PricingLibrary.Utilities.MarketDataFeed.DataFeed> histo = myHisto.Data.Where(data => (data.Date >= date.AddDays(-this.testWindow) && data.Date <= date)).ToList();
             histo.OrderBy(data => data.Date);
             int dimTemps = histo.Count;
 
-            // correlation matrix not symetrical and defined positive 
+            // correlation matrix not symetrical and defined positive   
             if (dimTemps < nbShare)
             {
                 throw new Exception("ERROR : getCorrelationMatrix encountered a problem: Estimation window too small");

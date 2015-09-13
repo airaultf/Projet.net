@@ -10,16 +10,15 @@ namespace ErrorHedging
     {
         public static void computeResults(OptionManager option)
         {
-            double[] spotPrice = null;
-            double[] volatility = null;
-            double[,] matriceCorrelation = null;
-            System.Collections.Generic.List<PricingLibrary.Utilities.MarketDataFeed.DataFeed> histo = option.MyHisto.Data.Where(data => (data.Date >= option.StartDate && data.Date <= option.MaturityDate)).ToList();
-            option.HedgingPortfolioValue.Clear();
-            option.Payoff.Clear();
-            option.dateTime.Clear();
+            double[] spotPrice;
+            double[] volatility;
+            double[,] matriceCorrelation;
+            double _hedgingPortfolioValue = 0; // Valeur intermediaire
+            double _payoff = 0;                // Valeur intermediaire
 
-            foreach (PricingLibrary.Utilities.MarketDataFeed.DataFeed data in histo)
+            foreach (PricingLibrary.Utilities.MarketDataFeed.DataFeed data in option.MyHisto.Data)
             {
+                //for (DateTime date = this.startDate; date <= maturityDate; date=date.AddDays(1)) // can be better done with foreach (faster) 
                 spotPrice = Estimators.getSpotPrices(data.Date, option);
                 volatility = Estimators.getVolatilities(data.Date, option);
 
@@ -29,7 +28,7 @@ namespace ErrorHedging
                 }
                 else if (option.MyPortfolio.Product is PricingLibrary.FinancialProducts.BasketOption)
                 {
-                    matriceCorrelation = Estimators.getCorrelationMatrix(data.Date, option);
+                    matriceCorrelation = Estimators.getCorrelationMatrix(data.Date, option); 
                     option.MyPortfolio.updatePortfolioValue(spotPrice, data.Date, volatility, matriceCorrelation);
                 }
                 else
@@ -37,10 +36,10 @@ namespace ErrorHedging
                     throw new NotImplementedException();
                 }
 
-                option.HedgingPortfolioValue.Add(option.MyPortfolio.portfolioValue);
-                option.Payoff.Add(option.MyPortfolio.Product.GetPayoff(data.PriceList));
-                option.dateTime.Add(data.Date);
-                option.OptionPrice.Add(option.MyPortfolio.ComputeAttribut.priceProduct(option.MyPortfolio.Product, data.Date, spotPrice, volatility, matriceCorrelation).Price);
+                _hedgingPortfolioValue = option.MyPortfolio.portfolioValue;
+                _payoff = option.MyPortfolio.Product.GetPayoff(data.PriceList);
+                option.HedgingPortfolioValue = _hedgingPortfolioValue;
+                option.Payoff = _payoff;
             }
         }
     }
