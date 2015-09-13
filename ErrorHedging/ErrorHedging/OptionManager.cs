@@ -82,6 +82,17 @@ namespace ErrorHedging
             set { payoff = value; }
         }
 
+
+        // option price
+        private List<double> optionPrice;
+
+        public List<double> OptionPrice
+        {
+            get { return optionPrice; }
+            set { optionPrice = value; }
+        }
+
+
         // value of the hedging portfolio
         private List<double> hedgingPortfolioValue;
 
@@ -117,6 +128,7 @@ namespace ErrorHedging
             this.hedgingPortfolioValue = new List<double>();
             this.payoff = new List<double>();
             this._dateTime = new List<DateTime>();
+            this.optionPrice = new List<double>();
 
             // Les données sont chargées
             this.myHisto = new ShareHisto(this.startDate.AddDays(-testWindow), this.maturityDate, option);
@@ -171,6 +183,7 @@ namespace ErrorHedging
             this.hedgingPortfolioValue.Add(myPortfolio.portfolioValue);
             this.payoff.Add(myPortfolio.Product.GetPayoff(myHisto.Data.Find(data => data.Date == this.startDate).PriceList));
             this._dateTime.Add(this.startDate);
-        }
+            this.optionPrice.Add(myPortfolio.ComputeAttribut.priceProduct(this.myPortfolio.Product, this.startDate, firstSpotPrice, initialVol, matriceCorrelation).Price);
+        }     
     }
 }

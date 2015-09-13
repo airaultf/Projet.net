@@ -51,6 +51,13 @@ namespace ErrorHedging
                 return this._portfolioValue;
             }
         }
+        public computePortfolioValue ComputeAttribut
+        {
+            get
+            {
+                return this.computeAttribut;
+            }
+        }
 
         // Methode qui met à jour la valeur du portefeuille
         public void updatePortfolioValue(double[] tabSpot, System.DateTime date, double[] tabVolatility, double[,] correlationMatrix = null)
