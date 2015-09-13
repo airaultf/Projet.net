@@ -105,7 +105,6 @@
     <Compile Include="ComputeResults.cs" />
     <Compile Include="Estimators.cs" />
     <Compile Include="HedgingPortfolio.cs" />
-    <Compile Include="HedgingPortfoliobis.cs" />
     <Compile Include="MainWindowViewModel.cs" />
     <Compile Include="MyLocalDB.designer.cs">
       <AutoGen>True</AutoGen>

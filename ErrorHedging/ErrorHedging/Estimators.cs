@@ -38,6 +38,7 @@ namespace ErrorHedging
         /* Function that computes volatility for a given date
          * with a fixed estimation window 
         /* @date : date at which we want to get volatility
+         * @option : class used for the calcul
          * @Return : volatility at this date
          */
         public static double[] getVolatilities(DateTime date, OptionManager option)
@@ -59,11 +60,17 @@ namespace ErrorHedging
                 }
                 temps++;
             }
-            // $$$$$$$$$$$$$$$$$$ Debug  $$$$$$$$$$$$$$$$$$$$$$$$$
-            //return new double[option.NbShare]; //ComputeEstimators.computeVolatilities(ComputeEstimators.logReturn(shareValuesForVolatilityEstimation), option.Simulated);
-            return new double[1] { 0.4 };
+            return ComputeEstimators.computeVolatilities(ComputeEstimators.logReturn(shareValuesForVolatilityEstimation), option.Simulated);
         }
 
+
+        /*** getCorrelationMatrix ***/
+        /* Function that computes correlation matrix for a given date
+         * with a fixed estimation window 
+        /* @date : date at which we want to get volatility
+         * @option : class used for the calcul
+         * @Return : volatility at this date
+         */
         public static double[,] getCorrelationMatrix(DateTime date, OptionManager option)
         {
             // correlation matrix not symetrical and defined positive   
@@ -95,8 +102,7 @@ namespace ErrorHedging
                 }
                 temps++;
             }
-            //$$$$$$$$$$$$$$$$$$$$  Debug $$$$$$$$$$$$$$$$$$$$$$$$$
-            return new double[option.NbShare, option.NbShare]; //ComputeEstimators.computeCorrelationMatrix(shareValuesForVolatilityEstimation);
+            return ComputeEstimators.computeCorrelationMatrix(shareValuesForVolatilityEstimation);
         }
 
     }
