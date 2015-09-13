@@ -2,6 +2,8 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ErrorHedging;
 using PricingLibrary;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace HedgingTest
 {
@@ -30,6 +32,7 @@ namespace HedgingTest
                 date1 = date1.AddDays(1.0);
             }
         }
+         */
         
         [TestMethod]
         public void TestRebalancementVanillaCall()
@@ -37,27 +40,27 @@ namespace HedgingTest
             double ratio = 0;
             double compteur = 0;
 
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < 200; i++)
             {
                 DateTime date = DateTime.Now;
                 PricingLibrary.FinancialProducts.Share Action = new PricingLibrary.FinancialProducts.Share("test", "01");
                 PricingLibrary.FinancialProducts.Share[] tabAction = { Action };
 
-                PricingLibrary.FinancialProducts.VanillaCall Call = new PricingLibrary.FinancialProducts.VanillaCall("test", tabAction, date, 9.0);
+                PricingLibrary.FinancialProducts.VanillaCall Call = new PricingLibrary.FinancialProducts.VanillaCall("test", tabAction, date, 8.0);
 
 
                 DateTime dateStart = new DateTime(2014, 9, 9, 0, 0, 0);
 
                 ErrorHedging.Results result = new ErrorHedging.Results(Call, dateStart, date, 30, true);
 
-                double firstValue = result.HedgingPortfolioValue;
+                List<double> firstValue = result.HedgingPortfolioValue;
 
                 result.computeResults();
 
-                double payoff = result.Payoff;
-                double lastValue = result.HedgingPortfolioValue;
-                double ratioTmp = Math.Abs(payoff - lastValue) / firstValue;
-
+                List<double> payoff = result.Payoff;
+                List<double> lastValue = result.HedgingPortfolioValue;
+                double ratioTmp = Math.Abs(payoff[0] - lastValue[0]) / firstValue[0];
+                Console.WriteLine(ratioTmp);
                 ratio += ratioTmp;
                 compteur += 1;
             }
@@ -65,7 +68,8 @@ namespace HedgingTest
             ratio = ratio / compteur;
             Console.WriteLine(ratio);
         }
-
+        
+        /*
         [TestMethod]
         public void RebalancementBasket()
         {
