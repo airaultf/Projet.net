@@ -60,8 +60,9 @@ namespace ErrorHedging
                 temps++;
             }
             // $$$$$$$$$$$$$$$$$$ Debug  $$$$$$$$$$$$$$$$$$$$$$$$$
-            //return new double[option.NbShare]; //ComputeEstimators.computeVolatilities(ComputeEstimators.logReturn(shareValuesForVolatilityEstimation), option.Simulated);
-            return new double[1] { 0.4 };
+            //return new double[option.NbShare];
+            return ComputeEstimators.computeVolatilities(ComputeEstimators.logReturn(shareValuesForVolatilityEstimation), option.Simulated);
+            //return new double[1] { 0.4 };
         }
 
         public static double[,] getCorrelationMatrix(DateTime date, OptionManager option)
