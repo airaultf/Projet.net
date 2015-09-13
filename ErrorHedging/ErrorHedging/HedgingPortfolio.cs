@@ -25,7 +25,7 @@ namespace ErrorHedging
             this.lastDay = date;
             this.computeAttribut = new computePortfolioValue();
 
-            PricingLibrary.Computations.PricingResults result = computeAttribut.priceProduct(Product, date, initialSpot, initialVol, correlationMatrix);
+            PricingLibrary.Computations.PricingResults result = computeAttribut.priceProduct(Product, date, initialSpot, initialVol,true, correlationMatrix);
 
             this._portfolioValue = result.Price;
             this.hedgeRatio = result.Deltas;
