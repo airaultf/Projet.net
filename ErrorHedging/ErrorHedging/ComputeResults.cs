@@ -24,6 +24,7 @@ namespace ErrorHedging
                 spotPrice = Estimators.getSpotPrices(data.Date, option);
                 volatility = Estimators.getVolatilities(data.Date, option);
 
+
                 if (option.MyPortfolio.Product is PricingLibrary.FinancialProducts.VanillaCall)
                 {
                     option.MyPortfolio.updatePortfolioValue(spotPrice, data.Date, volatility,option.Simulated);

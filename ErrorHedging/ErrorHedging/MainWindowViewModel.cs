@@ -106,6 +106,12 @@ namespace ErrorHedging
                 return;
             }
 
+            if (maturite.Subtract(dateDebut).Days < tailleFenetre)
+            {
+                System.Windows.Forms.MessageBox.Show("ERREUR : La taille de la fenetre ne doit pas être plus grande que l'écart entre la maturite et la date de début ");
+                return;
+            }
+
             if (tailleFenetre < nbAction)
             {
                 System.Windows.Forms.MessageBox.Show("ERREUR : La taille de la fenetre doit être un entier au minimum égale au nombre de sous jacent ");
@@ -116,6 +122,7 @@ namespace ErrorHedging
                 System.Windows.Forms.MessageBox.Show("ERREUR : Un Vanilla Call ne peut avoir qu'un sous-jacent ");
                 return;
             }
+
 
             // On utilise maintenant nb action comme index
             nbAction = 0;
@@ -196,16 +203,26 @@ namespace ErrorHedging
 
         }
 
+
+
         private List<ComponentInfo> GetComponents()
         {
             return new List<ComponentInfo>()
             {
-                new ComponentInfo() {Name = "Axa", IsSelected = false},
-                new ComponentInfo() {Name = "Accor", IsSelected = false},
-                new ComponentInfo() {Name = "Bnp", IsSelected = false},
-                new ComponentInfo() {Name = "Vivendi", IsSelected = false},
-                new ComponentInfo() {Name = "Dexia", IsSelected = false},
-                new ComponentInfo() {Name = "Carrefour", IsSelected = false}
+                new ComponentInfo() {Name = "ALO FP", IsSelected = false},
+                new ComponentInfo() {Name = "EDF FP", IsSelected = false},
+                new ComponentInfo() {Name = "AIR FP", IsSelected = false},
+                new ComponentInfo() {Name = "AI FP", IsSelected = false},
+                new ComponentInfo() {Name = "CA FP", IsSelected = false},
+                new ComponentInfo() {Name = "EI FP", IsSelected = false},
+                new ComponentInfo() {Name = "BNP FP", IsSelected = false},
+                new ComponentInfo() {Name = "GLE FP", IsSelected = false},
+                new ComponentInfo() {Name = "AC FP", IsSelected = false},
+                new ComponentInfo() {Name = "BN FP", IsSelected = false},
+                new ComponentInfo() {Name = "CS FP", IsSelected = false},
+                new ComponentInfo() {Name = "EN FP", IsSelected = false},
+                new ComponentInfo() {Name = "ACA FP", IsSelected = false},
+                new ComponentInfo() {Name = "CAP FP", IsSelected = false}
             };
         }
 

@@ -133,7 +133,6 @@
     </Compile>
     <Compile Include="OptionManager.cs" />
     <Compile Include="ShareHisto.cs" />
-    <Compile Include="testHedging.cs" />
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
