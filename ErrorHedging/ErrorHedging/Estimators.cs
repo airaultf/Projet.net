@@ -43,6 +43,7 @@ namespace ErrorHedging
          */
         public static double[] getVolatilities(DateTime date, OptionManager option)
         {
+           
             System.Collections.Generic.List<PricingLibrary.Utilities.MarketDataFeed.DataFeed> histo = option.MyHisto.Data.Where(data => (data.Date >= date.AddDays(-option.TestWindow) && data.Date <= date)).ToList();
             histo.OrderBy(data => data.Date);
             int dimTemps = histo.Count;

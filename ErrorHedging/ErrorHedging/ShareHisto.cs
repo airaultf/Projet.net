@@ -67,7 +67,7 @@ namespace ErrorHedging
                     }
                 }
             }
+            Console.WriteLine();
         }
-
     }
 }
