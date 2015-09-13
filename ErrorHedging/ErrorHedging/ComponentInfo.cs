@@ -9,6 +9,10 @@ namespace ErrorHedging
     public class ComponentInfo : BindableBase
     {
         public string Name { get; set; }
+        public double Poids { get; set; }
         public bool IsSelected { get; set; }
+
+
     }
 }
+

@@ -258,7 +258,7 @@ namespace ErrorHedging
             myHisto.Data.OrderBy(x => x.Date); // on classe les données
 
             //Contruction de myPortfolio, et calcul des valeurs initiales de hedgingPortfolioValue et payoff
-             double[] firstSpotPrice = null;
+            double[] firstSpotPrice = null;
             double[] initialVol = null;
             double[,] matriceCorrelation = null;
 
