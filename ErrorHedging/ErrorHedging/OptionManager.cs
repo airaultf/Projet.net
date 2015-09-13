@@ -169,7 +169,6 @@ namespace ErrorHedging
             if (option is PricingLibrary.FinancialProducts.VanillaCall)
             {
                 this.myPortfolio = new HedgingPortfolio((PricingLibrary.FinancialProducts.VanillaCall)option, this.startDate, firstSpotPrice, initialVol); // spot a aller chercher, volatilité à calculer
-               
             }
             else if (option is PricingLibrary.FinancialProducts.BasketOption)
             {
