@@ -117,6 +117,11 @@ namespace ErrorHedging
                 System.Windows.Forms.MessageBox.Show("ERREUR : La taille de la fenetre doit être un entier au minimum égale au nombre de sous jacent ");
                 return;
             }
+            if ((1 < nbAction)&&(typeOption.Equals("Vanilla Call")))
+            {
+                System.Windows.Forms.MessageBox.Show("ERREUR : Un Vanilla Call ne peut avoir qu'un sous-jacent ");
+                return;
+            }
             // On utilise maintenant nb action comme index
             nbAction = 0;
             foreach (var comp in ComponentInfoList)
@@ -151,15 +156,41 @@ namespace ErrorHedging
                 System.Windows.Forms.MessageBox.Show("ERREUR Type de données : Choisir l'une des deux possibilités ");
                 return;
             }
+            bool simule;
+            if (typeDonnees.Equals("Simulées")) {
+                simule = true;
+            } else {
+                simule = false;
+            }
 
+            PricingLibrary.FinancialProducts.IOption option;
+            if (typeOption.Equals("Vanilla Call"))
+            {
+                option = new PricingLibrary.FinancialProducts.VanillaCall("call", tabShare, maturite, strikePrice);
+            }
+            else
+            {
+                option = new PricingLibrary.FinancialProducts.BasketOption("basket", tabShare, tabWeight, maturite, strikePrice);
+            }
+
+
+
+            OptionManager optionCompute = new OptionManager(option,dateDebut,maturite,tailleFenetre,simule);
+            ComputeResults.computeResults(optionCompute);
+
+            LineSeries courbe = tabToSeries(optionCompute.Payoff, optionCompute.dateTime);
+            LineSeries courbe2 = tabToSeries(optionCompute.HedgingPortfolioValue, optionCompute.dateTime);
 
             this.MyModel.Series.Clear();
             this.MyModel.Axes.Clear();
 
-            SetUpModel(0, 10, new DateTime(2010, 05, 04));
-            LineSeries courbe = generateSeries();
+            double min = Math.Min(optionCompute.Payoff.Min(),optionCompute.HedgingPortfolioValue.Min())-0.01;
+            double max = Math.Max(optionCompute.Payoff.Max(), optionCompute.HedgingPortfolioValue.Max())+0.01;
+            SetUpModel(min, max, optionCompute.dateTime.Min());
+            
 
             this.MyModel.Series.Add(courbe);
+            this.MyModel.Series.Add(courbe2);
 
             this.MyModel.InvalidatePlot(true);
             this.MyModel.PlotView.InvalidatePlot(true);

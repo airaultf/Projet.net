@@ -100,7 +100,10 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="ComponentInfo.cs" />
+    <Compile Include="ComputeEstimators.cs" />
     <Compile Include="computePortfolioValue.cs" />
+    <Compile Include="ComputeResults.cs" />
+    <Compile Include="Estimators.cs" />
     <Compile Include="HedgingPortfolio.cs" />
     <Compile Include="HedgingPortfoliobis.cs" />
     <Compile Include="MainWindowViewModel.cs" />
@@ -109,6 +112,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MyLocalDB.dbml</DependentUpon>
     </Compile>
+    <Compile Include="OptionManager.cs" />
     <Compile Include="Results.cs" />
     <Compile Include="ShareHisto.cs" />
     <Compile Include="testHedging.cs" />
